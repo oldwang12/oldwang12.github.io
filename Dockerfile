@@ -6,10 +6,13 @@ WORKDIR /app
 
 COPY . .
 
+RUN rm -rf themes/pure 
+
 RUN \
     npm install -g hexo-cli \
     && apt-get install -y unzip \
-    && unzip themes/pure.zip
+    && unzip themes/pure.zip \
+    && npm install --save gitment
 # && rm folder.zip
 # 将 Hexo 相关文件复制到容器中
 
