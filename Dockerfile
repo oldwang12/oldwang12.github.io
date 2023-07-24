@@ -6,7 +6,7 @@ WORKDIR /app
 
 COPY . .
 
-RUN rm -rf themes/pure 
+RUN rm -rf themes/pure
 
 RUN \
     npm install -g hexo-cli \
