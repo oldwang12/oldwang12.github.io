@@ -3,7 +3,7 @@
 push: ## 上传代码到 Github
 	zip -qr themes/pure.zip themes/pure
 	git add .
-	git commit -m "msg"
+	git commit -m "$(msg)"
 	git push origin master
 
 help: ## 查看帮助
