@@ -74,7 +74,7 @@ func main() {
 		fmt.Printf("%v/%v\n", namespace, name)
 	}
 
-	// 在这里对 crdObj 进行修改，更新需要的字段值
+	// 在这里对 Object 进行修改，更新字段值。这里相当于更新了 spec.externalUrl = http://127.0.0.1:9093
 	result.Object["spec"].(map[string]interface{})["externalUrl"] = "http://127.0.0.1:9093"
 	result, err = crd.Update(dynamicClient, resource, result, namespace, name)
 	if err != nil {
