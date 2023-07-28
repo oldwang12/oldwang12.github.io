@@ -27,16 +27,5 @@ rm ~/Library/Containers/com.docker.docker
 
 #### 启动 x-ui
 ```sh
-docker run -d --net=host --name x-ui -v /etc/x-ui:/etc/x-ui/ uhub.service.ucloud.cn/naturelr/x-ui:latest
-```
-
-#### 修改容器中的时区信息
-```sh
-FROM alpine
-
-ENV TZ=Asia/Shanghai
-RUN apk add --update tzdata \
-    && cp /usr/share/zoneinfo/$TZ /etc/localtime \
-    && echo $TZ > /etc/timezone \
-    && rm -rf /var/cache/apk/*
+docker run -d --net=host --name x-ui -v /etc/x-ui:/etc/x-ui/ xxx/xxx/x-ui:latest
 ```

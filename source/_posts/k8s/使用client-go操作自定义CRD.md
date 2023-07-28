@@ -7,7 +7,7 @@ tags: k8s
 
 #### 介绍
 
-简洁、高效、无需定义CR相关结构体，实现了四种方法： Get、List、Update、Delete 来操作 CR。
+简洁、高效、无需定义 CR 相关结构体，实现了四种方法： Get、List、Update、Delete 来操作 CR。
 
 个人觉得这只适合对 CR 字段更改不是很多的环境，如果参数过多可能会有些繁琐。
 
