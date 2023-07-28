@@ -58,6 +58,13 @@ sudo tar zxvf crictl-$VERSION-linux-amd64.tar.gz -C /usr/local/bin
 rm -f crictl-$VERSION-linux-amd64.tar.gz
 ```
 
+###### ctrctl 测试
+* 不同的部署方式，文件路径可能不同。
+
+```sh
+crictl --runtime-endpoint /var/run/k3s/containerd/containerd.sock ps -a
+```
+
 #### conntrack
 
 ```sh

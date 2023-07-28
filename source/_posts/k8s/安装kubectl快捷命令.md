@@ -10,12 +10,14 @@ tags: k8s
 k8s 的命令不算长，也很好记，但身为一个偷懒者，我想我可以更简洁、高效。
 
 默认快捷命令保存在 ～/.bash_profile 文件。
+
 # 安装
+
 ```sh
 curl -sfL https://raw.githubusercontent.com/oldwang12/oldwang12.github.io/master/source/shells/k8s_alias_install.sh | sh -
 ```
 
-如果你想指定保存文件
+###### 如果你想指定保存文件
 
 ```sh
 curl -sfL https://raw.githubusercontent.com/oldwang12/oldwang12.github.io/master/source/shells/k8s_alias_install.sh | bash -s ~/.zshrc
@@ -59,12 +61,21 @@ alias ep="kubectl get ep"
 ke=kubectl exec -it POD_NAME sh
 ```
 
+#### kubens、kubectx
+
+你可以通过修改环境变量更改 fzf 的背景颜色和字体颜色
+
+```sh
+# 颜色对照表参考: https://github.com/medikoo/cli-color
+export KUBECTX_CURRENT_FGCOLOR=$(tput setaf 6) # blue text
+export KUBECTX_CURRENT_BGCOLOR=$(tput setab 7) # white background
+```
 # 卸载
 ```sh
 curl -sfL https://raw.githubusercontent.com/oldwang12/oldwang12.github.io/master/source/shells/k8s_alias_uninstall.sh | sh -
 ```
 
-如果你的文件不是 ～/.bash_profile，需要替换为对应文件，以 ~/.zshrc 为例
+如果你的文件不是 ～/.bashrc，需要替换为对应文件，以 ~/.zshrc 为例
 
 ```sh
 curl -sfL https://raw.githubusercontent.com/oldwang12/oldwang12.github.io/master/source/shells/k8s_alias_uninstall.sh | bash -s ~/.zshrc
@@ -73,5 +84,5 @@ curl -sfL https://raw.githubusercontent.com/oldwang12/oldwang12.github.io/master
 执行完记得source <～/FILE_NAME>，例如：
 
 ```
-source ～/.bash_profile
+source ～/.bashrc
 ```

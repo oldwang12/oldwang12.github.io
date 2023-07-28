@@ -34,6 +34,9 @@ plugins=(
   zsh-syntax-highlighting
 )
 
+# 更换主题
+ZSH_THEME="ys"
+
 # 重新加载
 source ~/.zshrc
 ```
