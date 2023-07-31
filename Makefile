@@ -1,4 +1,4 @@
-.PHONY: git_push docker_build all help
+.PHONY: push help
 
 #	zip -qr themes/pure.zip themes/pure
 
