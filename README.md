@@ -1,7 +1,7 @@
 #### 本地上传
 
 ```sh
- make msg="xxx"                      
+make msg="xxx"                      
 ```
 
 #### 博客新建文件
