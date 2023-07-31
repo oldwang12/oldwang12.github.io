@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>golang time包用法 | Hexo</title>
+  <meta name="description" content="时间格式123456timelocal, err :&#x3D; time.LoadLocation(&quot;Asia&#x2F;Shanghai&quot;)if err !&#x3D; nil &amp;#123;	panic(err)&amp;#125;time.Local &#x3D; timelocalfmt.Println(time.Now().Local().Format(&quot;2006-01-02 15:04:05&quot;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="golang time包用法">
+<meta property="og:url" content="http://blog.caiplus.pro/2023/07/27/golang/golang-time%E5%8C%85%E7%94%A8%E6%B3%95/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="时间格式123456timelocal, err :&#x3D; time.LoadLocation(&quot;Asia&#x2F;Shanghai&quot;)if err !&#x3D; nil &amp;#123;	panic(err)&amp;#125;time.Local &#x3D; timelocalfmt.Println(time.Now().Local().Format(&quot;2006-01-02 15:04:05&quot;">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2023-07-27T07:33:31.000Z">
+<meta property="article:modified_time" content="2023-07-27T07:33:50.769Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+  <!-- Canonical links -->
+  <link rel="canonical" href="http://blog.caiplus.pro/2023/07/27/golang/golang-time%E5%8C%85%E7%94%A8%E6%B3%95/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body class="main-center theme-green" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">隔壁老王</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">k8s &amp; ?</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> 西安</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">标签</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎交流与分享经验!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget-body">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/" rel="tag">docker</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/golang/" rel="tag">golang</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/k8s/" rel="tag">k8s</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag">工具</a><span class="tag-list-count">6</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/docker/" style="font-size: 13px;">docker</a> <a href="/tags/golang/" style="font-size: 13.67px;">golang</a> <a href="/tags/k8s/" style="font-size: 13.67px;">k8s</a> <a href="/tags/linux/" style="font-size: 13.33px;">linux</a> <a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 14px;">工具</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/07/">July 2023</a><span class="archive-list-count">22</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2023/07/29/golang/golang%E7%BB%86%E8%8A%82/" class="title">golang细节</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2023-07-29T05:20:35.000Z" itemprop="datePublished">2023-07-29</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2023/07/29/golang/viper%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/" class="title">viper配置文件</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2023-07-29T05:08:23.000Z" itemprop="datePublished">2023-07-29</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2023/07/28/%E5%B7%A5%E5%85%B7/xui%E5%AE%A2%E6%88%B7%E7%AB%AF%E9%85%8D%E7%BD%AE/" class="title">xui客户端配置</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2023-07-28T07:46:40.000Z" itemprop="datePublished">2023-07-28</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2023/07/28/%E5%B7%A5%E5%85%B7/chatgpt/" class="title">chatgpt</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2023-07-28T03:00:52.000Z" itemprop="datePublished">2023-07-28</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2023/07/27/%E5%B7%A5%E5%85%B7/oh-my-zsh-%E8%AE%A9%E7%BB%88%E7%AB%AF%E9%A3%9E/" class="title">oh my zsh 让终端飞</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2023-07-27T10:31:40.000Z" itemprop="datePublished">2023-07-27</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="golang-golang/golang-time包用法" class="article article-type-golang" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      golang time包用法
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2023/07/27/golang/golang-time%E5%8C%85%E7%94%A8%E6%B3%95/" class="article-date">
+	  <time datetime="2023-07-27T07:33:31.000Z" itemprop="datePublished">2023-07-27</time>
+	</a>
+</span>
+        
+        
+
+        
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2023/07/27/golang/golang-time%E5%8C%85%E7%94%A8%E6%B3%95/#comments" class="article-comment-link">评论</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 364(字)</span>
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 1(分)</span>
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h4 id="时间格式"><a href="#时间格式" class="headerlink" title="时间格式"></a>时间格式</h4><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">timelocal, err := time.LoadLocation(<span class="string">&quot;Asia/Shanghai&quot;</span>)</span><br><span class="line"><span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">	<span class="built_in">panic</span>(err)</span><br><span class="line">&#125;</span><br><span class="line">time.Local = timelocal</span><br><span class="line">fmt.Println(time.Now().Local().Format(<span class="string">&quot;2006-01-02 15:04:05&quot;</span>))</span><br></pre></td></tr></table></figure>
+
+<h4 id="超时处理"><a href="#超时处理" class="headerlink" title="超时处理"></a>超时处理</h4><ul>
+<li><ol>
+<li>使用select<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">c1 := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="type">string</span>, <span class="number">1</span>)</span><br><span class="line"><span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">    time.Sleep(time.Second * <span class="number">2</span>)</span><br><span class="line">    c1 &lt;- <span class="string">&quot;result 1&quot;</span></span><br><span class="line">&#125;()</span><br><span class="line"></span><br><span class="line"><span class="keyword">select</span> &#123;</span><br><span class="line"><span class="keyword">case</span> res := &lt;-c1:</span><br><span class="line">    fmt.Println(res)</span><br><span class="line"><span class="keyword">case</span> &lt;-time.After(time.Second * <span class="number">1</span>):</span><br><span class="line">    fmt.Println(<span class="string">&quot;timeout 1&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+</li>
+<li><ol start="2">
+<li>使用 time.Since<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">startTime := time.Now()</span><br><span class="line">timeout := <span class="number">5</span> * time.Second</span><br><span class="line"></span><br><span class="line">   time.Sleep(<span class="number">10</span> * time.Second)</span><br><span class="line"></span><br><span class="line">   <span class="keyword">if</span> time.Since(startTime) &gt; timeout &#123;</span><br><span class="line">       <span class="keyword">return</span> fmt.Errorf(<span class="string">&quot;timeout&quot;</span>)</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+</li>
+</ul>
+<h4 id="定时器"><a href="#定时器" class="headerlink" title="定时器"></a>定时器</h4><ul>
+<li><ol>
+<li>timer<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="comment">// NewTimer 创建一个 Timer，它会在最少过去时间段 d 后到期，向其自身的 C 字段发送当时的时间</span></span><br><span class="line">	timer1 := time.NewTimer(<span class="number">5</span> * time.Second)</span><br><span class="line"></span><br><span class="line">	fmt.Println(<span class="string">&quot;开始时间：&quot;</span>, time.Now().Format(<span class="string">&quot;2006-01-02 15:04:05&quot;</span>))</span><br><span class="line">	<span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">(t *time.Timer)</span></span> &#123;</span><br><span class="line">		times := <span class="number">0</span></span><br><span class="line">		<span class="keyword">for</span> &#123;</span><br><span class="line">			&lt;-t.C</span><br><span class="line">			fmt.Println(<span class="string">&quot;timer&quot;</span>, time.Now().Format(<span class="string">&quot;2006-01-02 15:04:05&quot;</span>))</span><br><span class="line"></span><br><span class="line">			times++</span><br><span class="line">			fmt.Println(<span class="string">&quot;调用 reset 重新设置一次timer定时器，并将时间修改为2秒&quot;</span>)</span><br><span class="line">			t.Reset(<span class="number">2</span> * time.Second)</span><br><span class="line">			<span class="keyword">if</span> times &gt; <span class="number">3</span> &#123;</span><br><span class="line">				fmt.Println(<span class="string">&quot;调用 stop 停止定时器&quot;</span>)</span><br><span class="line">				t.Stop()</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;(timer1)</span><br><span class="line"></span><br><span class="line">	time.Sleep(<span class="number">30</span> * time.Second)</span><br><span class="line">	fmt.Println(<span class="string">&quot;结束时间：&quot;</span>, time.Now().Format(<span class="string">&quot;2006-01-02 15:04:05&quot;</span>))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+</li>
+<li><ol start="2">
+<li>ticker</li>
+</ol>
+</li>
+</ul>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	ticker1 := time.NewTicker(<span class="number">5</span> * time.Second)</span><br><span class="line">	<span class="keyword">defer</span> ticker1.Stop() <span class="comment">// 一定要调用Stop()，回收资源</span></span><br><span class="line">	<span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">(t *time.Ticker)</span></span> &#123;</span><br><span class="line">		<span class="keyword">for</span> &#123;</span><br><span class="line">			<span class="comment">// 每5秒中从chan t.C 中读取一次</span></span><br><span class="line">			&lt;-t.C</span><br><span class="line">			fmt.Println(<span class="string">&quot;Ticker:&quot;</span>, time.Now().Format(<span class="string">&quot;2006-01-02 15:04:05&quot;</span>))</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;(ticker1)</span><br><span class="line"></span><br><span class="line">	time.Sleep(<span class="number">30</span> * time.Second)</span><br><span class="line">	fmt.Println(<span class="string">&quot;ok&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="http://blog.caiplus.pro/2023/07/27/golang/golang-time%E5%8C%85%E7%94%A8%E6%B3%95/" title="golang time包用法" target="_blank" rel="external">http://blog.caiplus.pro/2023/07/27/golang/golang-time包用法/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="" target="_blank"><span class="text-dark">隔壁老王</span><small class="ml-1x">k8s &amp; ?</small></a></h3>
+        <div>仅供个人使用。</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2023/07/27/docker/Dockerfile%E4%BD%BF%E7%94%A8/" title="Dockerfile使用"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2023/07/27/k8s/flannel%E3%80%81calico/" title="flannel、calico"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>赏</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>感谢您的支持，我会继续努力的!</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/donate/alipayimg.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开支付宝扫一扫，即可进行扫码打赏哦</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/donate/wechatpayimg.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开微信扫一扫，即可进行扫码打赏哦</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> 支付宝</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> 微信支付</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+    
+        <div class="copyright">
+            
+                            <div class="publishby">
+                                Theme by <a href="https://github.com/cofess" target="_blank">
+                                        cofess </a>
+                                    base on <a href="https://github.com/cofess/hexo-theme-pure"
+                                            target="_blank">pure</a>.
+                            </div>
+                            
+        </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+<script src="/js/plugin.min.js"></script>
+
+
+<script src="/js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+
+
+
+
+   
+
+
+
+
+   
+
+
+
+
+
+
+  
+    <style>
+      .copy-btn {
+        display: inline-block;
+        padding: 6px 12px;
+        font-size: 13px;
+        font-weight: 700;
+        line-height: 20px;
+        color: #333;
+        white-space: nowrap;
+        vertical-align: middle;
+        cursor: pointer;
+        background-color: #eee;
+        background-image: linear-gradient(#fcfcfc, #eee);
+        border: 1px solid #d5d5d5;
+        border-radius: 3px;
+        user-select: none;
+        outline: 0;
+      }
+  
+      .highlight-wrap .copy-btn {
+        transition: opacity .3s ease-in-out;
+        opacity: 0;
+        padding: 2px 6px;
+        position: absolute;
+        right: 4px;
+        top: 8px;
+        z-index: 2;
+      }
+  
+      .highlight-wrap:hover .copy-btn,
+          .highlight-wrap .copy-btn:focus {
+        opacity: 1
+      }
+  
+      .highlight-wrap {
+        position: relative;
+      }
+    </style>
+    
+    <script>
+      addLoadEvent(()=>{
+        $('.highlight').each(function (i, e) {
+          var $wrap = $('<div>').addClass('highlight-wrap')
+          $(e).after($wrap)
+          $wrap.append($('<button>').addClass('copy-btn').append('复制').on('click', function (e) {
+            var code = $(this).parent().find(".code")[0].innerText
+            
+                code += ""
+            
+            var ta = document.createElement('textarea')
+            document.body.appendChild(ta)
+            ta.style.position = 'absolute'
+            ta.style.top = '0px'
+            ta.style.left = '0px'
+            ta.value = code
+            ta.select()
+            ta.focus()
+            var result = document.execCommand('copy')
+            document.body.removeChild(ta)
+            
+              if(result)$(this).text('复制成功')
+              else $(this).text('复制失败')
+            
+            $(this).blur()
+          })).on('mouseleave', function (e) {
+            var $b = $(this).find('.copy-btn')
+            setTimeout(function () {
+              $b.text('复制')
+            }, 300)
+          }).append(e)
+        })
+      })
+    </script>
+  
+</body>
+</html>
