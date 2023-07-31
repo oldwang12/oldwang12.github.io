@@ -27,3 +27,28 @@ Git History
 ```
 markmap
 ```
+
+#### 远程开发
+```
+Remote - SSH
+```
+
+#### html 预览
+```
+HTML Preview
+```
+
+#### 生成脑图
+```
+MarkMap
+```
+
+#### 粘贴图片
+```
+Pasts Image
+```
+
+#### 坤坤鼓励师
+```
+坤坤鼓励师
+```
