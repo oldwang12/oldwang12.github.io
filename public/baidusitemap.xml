@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://blog.caiplus.pro/2023/08/01/linux/linux%E5%91%BD%E4%BB%A4/</loc>
+    <lastmod>2023-08-01</lastmod>
+  </url>
+  <url>
+    <loc>http://blog.caiplus.pro/2023/07/23/docker/docker%E8%AE%B0%E4%B8%8D%E4%BD%8F%E7%9A%84%E5%91%BD%E4%BB%A4/</loc>
+    <lastmod>2023-08-01</lastmod>
+  </url>
+  <url>
     <loc>http://blog.caiplus.pro/2023/07/23/%E5%B7%A5%E5%85%B7/vscode%E5%BF%85%E5%A4%87%E6%8F%92%E4%BB%B6/</loc>
     <lastmod>2023-07-31</lastmod>
   </url>
@@ -38,10 +46,6 @@
   </url>
   <url>
     <loc>http://blog.caiplus.pro/2023/07/25/k8s/%E4%BD%BF%E7%94%A8client-go%E6%93%8D%E4%BD%9C%E8%87%AA%E5%AE%9A%E4%B9%89CRD/</loc>
-    <lastmod>2023-07-28</lastmod>
-  </url>
-  <url>
-    <loc>http://blog.caiplus.pro/2023/07/23/docker/docker%E8%AE%B0%E4%B8%8D%E4%BD%8F%E7%9A%84%E5%91%BD%E4%BB%A4/</loc>
     <lastmod>2023-07-28</lastmod>
   </url>
   <url>

@@ -29,3 +29,23 @@ rm ~/Library/Containers/com.docker.docker
 ```sh
 docker run -d --net=host --name x-ui -v /etc/x-ui:/etc/x-ui/ xxx/xxx/x-ui:latest
 ```
+
+#### 安装最新版 docker
+```sh
+# 删除旧版本的Docker
+sudo yum remove docker docker-client docker-client-latest docker-common docker-latest docker-latest-logrotate docker-logrotate docker-engine
+# 安装依赖软件包
+sudo yum install -y yum-utils device-mapper-persistent-data lvm2
+# 添加Docker软件源
+sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+# 更新yum缓存
+sudo yum makecache fast
+# 安装最新版Docker
+sudo yum install -y docker-ce
+# 启动Docker服务并设置开机自启动
+sudo systemctl start docker
+sudo systemctl enable docker
+# 确认Docker已安装并正在运行
+docker --version
+sudo docker info
+```

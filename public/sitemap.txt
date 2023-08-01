@@ -1,3 +1,5 @@
+http://blog.caiplus.pro/2023/08/01/linux/linux%E5%91%BD%E4%BB%A4/
+http://blog.caiplus.pro/2023/07/23/docker/docker%E8%AE%B0%E4%B8%8D%E4%BD%8F%E7%9A%84%E5%91%BD%E4%BB%A4/
 http://blog.caiplus.pro/2023/07/23/%E5%B7%A5%E5%85%B7/vscode%E5%BF%85%E5%A4%87%E6%8F%92%E4%BB%B6/
 http://blog.caiplus.pro/2023/07/31/golang/grpc%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8/
 http://blog.caiplus.pro/2023/07/29/golang/golang%E7%BB%86%E8%8A%82/
@@ -8,7 +10,6 @@ http://blog.caiplus.pro/2023/07/27/%E5%B7%A5%E5%85%B7/oh-my-zsh-%E8%AE%A9%E7%BB%
 http://blog.caiplus.pro/2023/07/23/k8s/%E5%AE%89%E8%A3%85kubectl%E5%BF%AB%E6%8D%B7%E5%91%BD%E4%BB%A4/
 http://blog.caiplus.pro/2023/07/28/%E5%B7%A5%E5%85%B7/chatgpt/
 http://blog.caiplus.pro/2023/07/25/k8s/%E4%BD%BF%E7%94%A8client-go%E6%93%8D%E4%BD%9C%E8%87%AA%E5%AE%9A%E4%B9%89CRD/
-http://blog.caiplus.pro/2023/07/23/docker/docker%E8%AE%B0%E4%B8%8D%E4%BD%8F%E7%9A%84%E5%91%BD%E4%BB%A4/
 http://blog.caiplus.pro/2023/07/27/docker/Dockerfile%E4%BD%BF%E7%94%A8/
 http://blog.caiplus.pro/2023/07/27/golang/golang-time%E5%8C%85%E7%94%A8%E6%B3%95/
 http://blog.caiplus.pro/2023/07/27/k8s/flannel%E3%80%81calico/
