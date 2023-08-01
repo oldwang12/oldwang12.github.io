@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://blog.caiplus.pro/2023/07/23/%E5%B7%A5%E5%85%B7/vscode%E5%BF%85%E5%A4%87%E6%8F%92%E4%BB%B6/</loc>
+    <lastmod>2023-07-31</lastmod>
+  </url>
+  <url>
+    <loc>http://blog.caiplus.pro/2023/07/31/golang/grpc%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8/</loc>
+    <lastmod>2023-07-31</lastmod>
+  </url>
+  <url>
     <loc>http://blog.caiplus.pro/2023/07/29/golang/golang%E7%BB%86%E8%8A%82/</loc>
     <lastmod>2023-07-29</lastmod>
   </url>
@@ -74,10 +82,6 @@
   </url>
   <url>
     <loc>http://blog.caiplus.pro/2023/07/23/%E5%B7%A5%E5%85%B7/Macos-%E5%A5%BD%E7%94%A8%E5%B7%A5%E5%85%B7%E6%8E%A8%E8%8D%90/</loc>
-    <lastmod>2023-07-22</lastmod>
-  </url>
-  <url>
-    <loc>http://blog.caiplus.pro/2023/07/23/%E5%B7%A5%E5%85%B7/vscode%E5%BF%85%E5%A4%87%E6%8F%92%E4%BB%B6/</loc>
     <lastmod>2023-07-22</lastmod>
   </url>
   <url>

@@ -3,6 +3,8 @@
 #	zip -qr themes/pure.zip themes/pure
 
 push: ## 上传代码到 Github
+	hexo generate
+	hexo deploy
 	git add .
 	git commit -m "$(msg)"
 	git push origin master
