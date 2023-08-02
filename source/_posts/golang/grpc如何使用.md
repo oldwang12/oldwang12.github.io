@@ -207,7 +207,7 @@ func main() {
 }
 ```
 
-#### 项目目录
+#### 代码结构
 ```
 http_client
 ├── go.mod
@@ -222,5 +222,5 @@ http_client
 ## 结果
 ```sh
 $ go run main.go -name=李四
-2023/07/31 17:17:47 Greeting: Hello 李四
+Greeting: Hello 李四
 ```

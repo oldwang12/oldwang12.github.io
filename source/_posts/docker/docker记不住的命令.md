@@ -49,3 +49,12 @@ sudo systemctl enable docker
 docker --version
 sudo docker info
 ```
+
+#### 查看容器资源占用
+```sh
+# 持续监控
+docker stats
+
+# 输出当前
+docker stats --no-stream
+```
