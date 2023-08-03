@@ -17,21 +17,21 @@
   <meta http-equiv="window-target" content="_top" />
   
   
-  <title>使用client-go操作自定义CRD | Hexo</title>
-  <meta name="description" content="介绍简洁、高效、无需定义 CR 相关结构体，实现了四种方法： Get、List、Update、Delete 来操作 CR。 个人觉得这只适合对 CR 字段更改不是很多的环境，如果参数过多可能会有些繁琐。 代码实现1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515">
+  <title>进入pod网络命名空间 | Hexo</title>
+  <meta name="description" content="1. 找到 pod 所在节点123k get po -owidessh root@xx.xx.xx.xx  2. 获取容器 pid12345# dockerdocker inspect --format &amp;#x27;&amp;#123;&amp;#123; .State.Pid &amp;#125;&amp;#125;&amp;#x27; 容器名&#x2F;ID# containerdcrictl inspect 容器ID | grep pid">
 <meta property="og:type" content="article">
-<meta property="og:title" content="使用client-go操作自定义CRD">
-<meta property="og:url" content="http://blog.caiplus.pro/2023/07/25/k8s/%E4%BD%BF%E7%94%A8client-go%E6%93%8D%E4%BD%9C%E8%87%AA%E5%AE%9A%E4%B9%89CRD/index.html">
+<meta property="og:title" content="进入pod网络命名空间">
+<meta property="og:url" content="http://blog.caiplus.pro/2023/08/03/k8s/%E8%BF%9B%E5%85%A5pod%E7%BD%91%E7%BB%9C%E5%91%BD%E5%90%8D%E7%A9%BA%E9%97%B4/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="介绍简洁、高效、无需定义 CR 相关结构体，实现了四种方法： Get、List、Update、Delete 来操作 CR。 个人觉得这只适合对 CR 字段更改不是很多的环境，如果参数过多可能会有些繁琐。 代码实现1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515">
+<meta property="og:description" content="1. 找到 pod 所在节点123k get po -owidessh root@xx.xx.xx.xx  2. 获取容器 pid12345# dockerdocker inspect --format &amp;#x27;&amp;#123;&amp;#123; .State.Pid &amp;#125;&amp;#125;&amp;#x27; 容器名&#x2F;ID# containerdcrictl inspect 容器ID | grep pid">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2023-07-25T09:18:17.000Z">
-<meta property="article:modified_time" content="2023-07-28T03:26:12.458Z">
+<meta property="article:published_time" content="2023-08-03T08:35:39.000Z">
+<meta property="article:modified_time" content="2023-08-03T09:01:02.876Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="k8s">
 <meta name="twitter:card" content="summary">
   <!-- Canonical links -->
-  <link rel="canonical" href="http://blog.caiplus.pro/2023/07/25/k8s/%E4%BD%BF%E7%94%A8client-go%E6%93%8D%E4%BD%9C%E8%87%AA%E5%AE%9A%E4%B9%89CRD/index.html">
+  <link rel="canonical" href="http://blog.caiplus.pro/2023/08/03/k8s/%E8%BF%9B%E5%85%A5pod%E7%BD%91%E7%BB%9C%E5%91%BD%E5%90%8D%E7%A9%BA%E9%97%B4/index.html">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -276,14 +276,14 @@
   
 <main class="main" role="main">
   <div class="content">
-  <article id="k8s-k8s/使用client-go操作自定义CRD" class="article article-type-k8s" itemscope itemtype="http://schema.org/BlogPosting">
+  <article id="k8s-k8s/进入pod网络命名空间" class="article article-type-k8s" itemscope itemtype="http://schema.org/BlogPosting">
     
     <div class="article-header">
       
         
   
     <h1 class="article-title" itemprop="name">
-      使用client-go操作自定义CRD
+      进入pod网络命名空间
     </h1>
   
 
@@ -291,8 +291,8 @@
       <div class="article-meta">
         <span class="article-date">
     <i class="icon icon-calendar-check"></i>
-	<a href="/2023/07/25/k8s/%E4%BD%BF%E7%94%A8client-go%E6%93%8D%E4%BD%9C%E8%87%AA%E5%AE%9A%E4%B9%89CRD/" class="article-date">
-	  <time datetime="2023-07-25T09:18:17.000Z" itemprop="datePublished">2023-07-25</time>
+	<a href="/2023/08/03/k8s/%E8%BF%9B%E5%85%A5pod%E7%BD%91%E7%BB%9C%E5%91%BD%E5%90%8D%E7%A9%BA%E9%97%B4/" class="article-date">
+	  <time datetime="2023-08-03T08:35:39.000Z" itemprop="datePublished">2023-08-03</time>
 	</a>
 </span>
         
@@ -305,22 +305,24 @@
 
         
 
-        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2023/07/25/k8s/%E4%BD%BF%E7%94%A8client-go%E6%93%8D%E4%BD%9C%E8%87%AA%E5%AE%9A%E4%B9%89CRD/#comments" class="article-comment-link">评论</a></span>
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2023/08/03/k8s/%E8%BF%9B%E5%85%A5pod%E7%BD%91%E7%BB%9C%E5%91%BD%E5%90%8D%E7%A9%BA%E9%97%B4/#comments" class="article-comment-link">评论</a></span>
         
 	
-		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 583(字)</span>
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 56(字)</span>
 	
 	
-		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 3(分)</span>
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 1(分)</span>
 	
 
       </div>
     </div>
     <div class="article-entry marked-body" itemprop="articleBody">
       
-        <h4 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h4><p>简洁、高效、无需定义 CR 相关结构体，实现了四种方法： Get、List、Update、Delete 来操作 CR。</p>
-<p>个人觉得这只适合对 CR 字段更改不是很多的环境，如果参数过多可能会有些繁琐。</p>
-<h4 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h4><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;context&quot;</span></span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">	<span class="string">&quot;path/filepath&quot;</span></span><br><span class="line"></span><br><span class="line">	metav1 <span class="string">&quot;k8s.io/apimachinery/pkg/apis/meta/v1&quot;</span></span><br><span class="line">	<span class="string">&quot;k8s.io/apimachinery/pkg/apis/meta/v1/unstructured&quot;</span></span><br><span class="line">	<span class="string">&quot;k8s.io/apimachinery/pkg/runtime/schema&quot;</span></span><br><span class="line">	<span class="string">&quot;k8s.io/client-go/dynamic&quot;</span></span><br><span class="line">	<span class="string">&quot;k8s.io/client-go/tools/clientcmd&quot;</span></span><br><span class="line">	<span class="string">&quot;k8s.io/client-go/util/homedir&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> KubernetesCrdExec <span class="keyword">interface</span> &#123;</span><br><span class="line">	Get(dynamicClient dynamic.Interface, resource schema.GroupVersionResource, namespace, name <span class="type">string</span>) (*unstructured.Unstructured, <span class="type">error</span>)</span><br><span class="line">	List(dynamicClient dynamic.Interface, resource schema.GroupVersionResource, namespace <span class="type">string</span>) (*unstructured.UnstructuredList, <span class="type">error</span>)</span><br><span class="line">	Update(dynamicClient dynamic.Interface, resource schema.GroupVersionResource, result *unstructured.Unstructured, namespace, name <span class="type">string</span>) (*unstructured.Unstructured, <span class="type">error</span>)</span><br><span class="line">	Delete(dynamicClient dynamic.Interface, resource schema.GroupVersionResource, namespace, name <span class="type">string</span>) <span class="type">error</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> Alertmanager <span class="keyword">struct</span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	resource := schema.GroupVersionResource&#123;</span><br><span class="line">		Group:    <span class="string">&quot;monitoring.coreos.com&quot;</span>,</span><br><span class="line">		Version:  <span class="string">&quot;v1&quot;</span>,</span><br><span class="line">		Resource: <span class="string">&quot;alertmanagers&quot;</span>, <span class="comment">// 这里必须是复数形式</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	namespace := <span class="string">&quot;default&quot;</span></span><br><span class="line">	name := <span class="string">&quot;my-alertmanager&quot;</span></span><br><span class="line"></span><br><span class="line">	dynamicClient, err := getClient()</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="built_in">panic</span>(err.Error())</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">var</span> crd KubernetesCrdExec</span><br><span class="line">	crd = Alertmanager&#123;&#125;</span><br><span class="line"></span><br><span class="line">	result, err := crd.Get(dynamicClient, resource, namespace, name)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="built_in">panic</span>(err)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	fmt.Println(result.Object[<span class="string">&quot;spec&quot;</span>].(<span class="keyword">map</span>[<span class="type">string</span>]<span class="keyword">interface</span>&#123;&#125;)[<span class="string">&quot;externalUrl&quot;</span>])</span><br><span class="line"></span><br><span class="line">	resultLists, err := crd.List(dynamicClient, resource, namespace)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="built_in">panic</span>(err)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> _, item := <span class="keyword">range</span> resultLists.Items &#123;</span><br><span class="line">		name := item.Object[<span class="string">&quot;metadata&quot;</span>].(<span class="keyword">map</span>[<span class="type">string</span>]<span class="keyword">interface</span>&#123;&#125;)[<span class="string">&quot;name&quot;</span>]</span><br><span class="line">		namespace := item.Object[<span class="string">&quot;metadata&quot;</span>].(<span class="keyword">map</span>[<span class="type">string</span>]<span class="keyword">interface</span>&#123;&#125;)[<span class="string">&quot;namespace&quot;</span>]</span><br><span class="line">		fmt.Printf(<span class="string">&quot;%v/%v\n&quot;</span>, namespace, name)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 在这里对 Object 进行修改，更新字段值。这里相当于更新了 spec.externalUrl = http://127.0.0.1:9093</span></span><br><span class="line">	result.Object[<span class="string">&quot;spec&quot;</span>].(<span class="keyword">map</span>[<span class="type">string</span>]<span class="keyword">interface</span>&#123;&#125;)[<span class="string">&quot;externalUrl&quot;</span>] = <span class="string">&quot;http://127.0.0.1:9093&quot;</span></span><br><span class="line">	result, err = crd.Update(dynamicClient, resource, result, namespace, name)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="built_in">panic</span>(err)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	err = crd.Delete(dynamicClient, resource, namespace, name)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="built_in">panic</span>(err)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(Alertmanager)</span></span> Get(dynamicClient dynamic.Interface, resource schema.GroupVersionResource, namespace, name <span class="type">string</span>) (*unstructured.Unstructured, <span class="type">error</span>) &#123;</span><br><span class="line">	<span class="keyword">return</span> dynamicClient.Resource(resource).Namespace(namespace).Get(context.TODO(), name, metav1.GetOptions&#123;&#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(Alertmanager)</span></span> List(dynamicClient dynamic.Interface, resource schema.GroupVersionResource, namespace <span class="type">string</span>) (*unstructured.UnstructuredList, <span class="type">error</span>) &#123;</span><br><span class="line">	<span class="keyword">return</span> dynamicClient.Resource(resource).Namespace(namespace).List(context.TODO(), metav1.ListOptions&#123;&#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(Alertmanager)</span></span> Update(dynamicClient dynamic.Interface, resource schema.GroupVersionResource, result *unstructured.Unstructured, namespace, name <span class="type">string</span>) (*unstructured.Unstructured, <span class="type">error</span>) &#123;</span><br><span class="line">	<span class="keyword">return</span> dynamicClient.Resource(resource).Namespace(namespace).Update(context.TODO(), result, metav1.UpdateOptions&#123;&#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(Alertmanager)</span></span> Delete(dynamicClient dynamic.Interface, resource schema.GroupVersionResource, namespace, name <span class="type">string</span>) <span class="type">error</span> &#123;</span><br><span class="line">	<span class="keyword">return</span> dynamicClient.Resource(resource).Namespace(namespace).Delete(context.TODO(), name, metav1.DeleteOptions&#123;&#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">getClient</span><span class="params">()</span></span> (dynamic.Interface, <span class="type">error</span>) &#123;</span><br><span class="line">	kubeconfig := filepath.Join(homedir.HomeDir(), <span class="string">&quot;.kube&quot;</span>, <span class="string">&quot;config&quot;</span>)</span><br><span class="line">	config, err := clientcmd.BuildConfigFromFlags(<span class="string">&quot;&quot;</span>, kubeconfig)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">nil</span>, err</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> dynamic.NewForConfig(config)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        <h4 id="1-找到-pod-所在节点"><a href="#1-找到-pod-所在节点" class="headerlink" title="1. 找到 pod 所在节点"></a>1. 找到 pod 所在节点</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">k get po -owide</span><br><span class="line"></span><br><span class="line">ssh root@xx.xx.xx.xx</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-获取容器-pid"><a href="#2-获取容器-pid" class="headerlink" title="2. 获取容器 pid"></a>2. 获取容器 pid</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># docker</span></span><br><span class="line">docker inspect --format <span class="string">&#x27;&#123;&#123; .State.Pid &#125;&#125;&#x27;</span> 容器名/ID</span><br><span class="line"></span><br><span class="line"><span class="comment"># containerd</span></span><br><span class="line">crictl inspect 容器ID | grep pid</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-进入容器网络"><a href="#3-进入容器网络" class="headerlink" title="3. 进入容器网络"></a>3. 进入容器网络</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nsenter -t <span class="variable">$PID</span> -n</span><br></pre></td></tr></table></figure>
       
     </div>
     <div class="article-footer">
@@ -329,7 +331,7 @@
     
     <li class="post-copyright-link hidden-xs">
       <strong>本文链接：</strong>
-      <a href="http://blog.caiplus.pro/2023/07/25/k8s/%E4%BD%BF%E7%94%A8client-go%E6%93%8D%E4%BD%9C%E8%87%AA%E5%AE%9A%E4%B9%89CRD/" title="使用client-go操作自定义CRD" target="_blank" rel="external">http://blog.caiplus.pro/2023/07/25/k8s/使用client-go操作自定义CRD/</a>
+      <a href="http://blog.caiplus.pro/2023/08/03/k8s/%E8%BF%9B%E5%85%A5pod%E7%BD%91%E7%BB%9C%E5%91%BD%E5%90%8D%E7%A9%BA%E9%97%B4/" title="进入pod网络命名空间" target="_blank" rel="external">http://blog.caiplus.pro/2023/08/03/k8s/进入pod网络命名空间/</a>
     </li>
     
     <li class="post-copyright-license">
@@ -373,13 +375,9 @@
   
   <ul class="pager pull-left">
     
-    <li class="prev">
-      <a href="/2023/07/26/k8s/%E4%BD%BF%E7%94%A8kubeadm%E5%AE%89%E8%A3%85%E9%9B%86%E7%BE%A4/" title="使用kubeadm安装集群"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
-    </li>
-    
     
     <li class="next">
-      <a href="/2023/07/25/linux/%E6%96%87%E4%BB%B6%E3%80%81%E7%A3%81%E7%9B%98%E7%9B%B8%E5%85%B3%E5%91%BD%E4%BB%A4/" title="文件、磁盘相关命令"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+      <a href="/2023/08/03/linux/%E8%A7%A3%E5%8E%8B%E3%80%81%E5%8E%8B%E7%BC%A9/" title="解压、压缩"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
     </li>
     
     

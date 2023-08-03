@@ -1,4 +1,5 @@
 http://blog.caiplus.pro/2023/07/26/k8s/%E4%BD%BF%E7%94%A8kubeadm%E5%AE%89%E8%A3%85%E9%9B%86%E7%BE%A4/
+http://blog.caiplus.pro/2023/08/03/k8s/%E8%BF%9B%E5%85%A5pod%E7%BD%91%E7%BB%9C%E5%91%BD%E5%90%8D%E7%A9%BA%E9%97%B4/
 http://blog.caiplus.pro/2023/08/03/linux/%E8%A7%A3%E5%8E%8B%E3%80%81%E5%8E%8B%E7%BC%A9/
 http://blog.caiplus.pro/2023/08/01/linux/cronjob%20%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1/
 http://blog.caiplus.pro/2023/08/03/docker/buildx%E6%9E%84%E5%BB%BA%E5%A4%9A%E7%89%88%E6%9C%AC%E9%95%9C%E5%83%8F/

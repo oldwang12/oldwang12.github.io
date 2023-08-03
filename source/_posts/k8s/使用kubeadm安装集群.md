@@ -59,15 +59,15 @@ sudo tar zxvf crictl-$VERSION-linux-amd64.tar.gz -C /usr/local/bin
 rm -f crictl-$VERSION-linux-amd64.tar.gz
 ```
 
-###### ctrctl 测试
+###### ctrctl 报错文件找不到
 * 不同的部署方式，文件路径可能不同。
 
 ```sh
-# 指定 .sock 文件
+# 以 k3s 为例，指定 .sock 文件
 crictl --runtime-endpoint /var/run/k3s/containerd/containerd.sock ps -a
 ```
 
-###### 默认配置
+###### 查看配置
 ```sh
 cat /etc/crictl.yaml
 ```
