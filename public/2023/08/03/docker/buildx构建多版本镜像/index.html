@@ -17,16 +17,20 @@
   <meta http-equiv="window-target" content="_top" />
   
   
-  <title>归档: 2023/7 | Hexo</title>
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://blog.caiplus.pro/archives/2023/07/page/3/index.html">
+  <title>buildx构建多版本镜像 | Hexo</title>
+  <meta name="description" content="参考资料 目前大部分使用docker的场景中不单单只是 amd64 平台了有时我们需要再 arm 和 adm64 上都能运行">
+<meta property="og:type" content="article">
+<meta property="og:title" content="buildx构建多版本镜像">
+<meta property="og:url" content="http://blog.caiplus.pro/2023/08/03/docker/buildx%E6%9E%84%E5%BB%BA%E5%A4%9A%E7%89%88%E6%9C%AC%E9%95%9C%E5%83%8F/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="参考资料 目前大部分使用docker的场景中不单单只是 amd64 平台了有时我们需要再 arm 和 adm64 上都能运行">
 <meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2023-08-03T07:23:18.000Z">
+<meta property="article:modified_time" content="2023-08-03T07:33:16.937Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
   <!-- Canonical links -->
-  <link rel="canonical" href="http://blog.caiplus.pro/archives/2023/07/page/3/index.html">
+  <link rel="canonical" href="http://blog.caiplus.pro/2023/08/03/docker/buildx%E6%9E%84%E5%BB%BA%E5%A4%9A%E7%89%88%E6%9C%AC%E9%95%9C%E5%83%8F/index.html">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -270,94 +274,192 @@
   
   
 <main class="main" role="main">
-  	<article class="content article article-archives article-type-list" itemscope="">
-	    <header class="article-header">
-	      <h1 itemprop="title">归档: 2023/7</h1>
-	      <p class="text-muted">共 25 篇文章</p>
-	    </header>
-	    <div class="article-body">
-	      
-  
-  
+  <div class="content">
+  <article id="docker-docker/buildx构建多版本镜像" class="article article-type-docker" itemscope itemtype="http://schema.org/BlogPosting">
     
-    
+    <div class="article-header">
       
+        
+  
+    <h1 class="article-title" itemprop="name">
+      buildx构建多版本镜像
+    </h1>
+  
+
       
-      <section class="panel panel-default b-no">
-        <div class="panel-heading" role="tab">
-          <h3 class="panel-title">
-            <a data-toggle="collapse" href="#collapse2023" aria-expanded="true">
-              <i class="icon icon-calendar-plus text-active"></i><i class="icon icon-calendar-minus text"></i>
-              2023
-            </a>
-            <!-- <a href="/archives/2023" class="archive-year">2023</a> -->
-          </h3>
-        </div>
-        <div id="collapse2023" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading2023">
-        <div class="panel-body">
-          <div class="collection">
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2023/08/03/docker/buildx%E6%9E%84%E5%BB%BA%E5%A4%9A%E7%89%88%E6%9C%AC%E9%95%9C%E5%83%8F/" class="article-date">
+	  <time datetime="2023-08-03T07:23:18.000Z" itemprop="datePublished">2023-08-03</time>
+	</a>
+</span>
+        
+        
+
+        
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2023/08/03/docker/buildx%E6%9E%84%E5%BB%BA%E5%A4%9A%E7%89%88%E6%9C%AC%E9%95%9C%E5%83%8F/#comments" class="article-comment-link">评论</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 323(字)</span>
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 1(分)</span>
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <p><a target="_blank" rel="noopener" href="http://blog.naturelr.cc/2023/06/16/%E4%BD%BF%E7%94%A8buildx%E7%BC%96%E8%AF%91%E5%A4%9A%E5%B9%B3%E5%8F%B0%E9%95%9C%E5%83%8F/">参考资料</a></p>
+<p>目前大部分使用docker的场景中不单单只是 amd64 平台了有时我们需要再 arm 和 adm64 上都能运行</p>
+<span id="more"></span>
+
+<p>新版本的docker默认自带</p>
+<h4 id="创建buildx"><a href="#创建buildx" class="headerlink" title="创建buildx"></a>创建buildx</h4><ul>
+<li>查看当前buildx实例</li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ docker buildx <span class="built_in">ls</span></span><br><span class="line">NAME/NODE DRIVER/ENDPOINT STATUS  BUILDKIT PLATFORMS</span><br><span class="line">default * docker</span><br><span class="line">  default default         running 23.0.5   linux/amd64, linux/amd64/v2, linux/amd64/v3, linux/386</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>默认会有个实例叫default，default实例下有一个default的node，一个实例下可以有多个node,星号是默认使用的实例,node有很多种类型</p>
+</blockquote>
+<ul>
+<li>创建buildx</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker buildx create --name all --node local --driver docker-container --platform linux/amd64,linux/arm64,linux/arm/v8 --use</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>使用这个实例</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker buildx use all</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>当我们执行编译的时候会先下载buildx镜像并运行起来，然后使用这个容器运行的buildx来编译镜像</li>
+</ul>
+<h4 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h4><ul>
+<li>–platform执行要编译的平台，其他的参数和普通的build差不多</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">直接上传到仓库</span></span><br><span class="line">docker buildx build --platform linux/amd64,linux/arm64,linux/arm -t bearking0425/m3u8-downloader -o type=registry .</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">输出本地</span></span><br><span class="line">docker buildx build --platform linux/amd64,linux/arm64,linux/arm -t bearking0425/m3u8-downloader -o type=local,dest=./output .</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">tar包</span></span><br><span class="line">docker buildx build --platform linux/amd64,linux/arm64,linux/arm -t bearking0425/m3u8-downloader --output type=tar,dest=./output.tar .</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">直接导入到本地 docker 中，只支持单平台架构</span></span><br><span class="line">docker buildx build --platform linux/arm64 -t bearking0425/m3u8-downloader --load . </span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
     
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="http://blog.caiplus.pro/2023/08/03/docker/buildx%E6%9E%84%E5%BB%BA%E5%A4%9A%E7%89%88%E6%9C%AC%E9%95%9C%E5%83%8F/" title="buildx构建多版本镜像" target="_blank" rel="external">http://blog.caiplus.pro/2023/08/03/docker/buildx构建多版本镜像/</a>
+    </li>
     
-<a href="/2023/07/23/linux/Makefile%E6%A8%A1%E7%89%88/" class="collection-item"   itemprop="url">
-  <time datetime="2023-07-22T16:15:50.000Z" itemprop="datePublished">2023-07-23</time>
-  <span>&nbsp;&nbsp;&nbsp;</span> Makefile模版
-</a>
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
 
 
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="" target="_blank"><span class="text-dark">隔壁老王</span><small class="ml-1x">k8s &amp; ?</small></a></h3>
+        <div>仅供个人使用。</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
   
     
-    
-    
-<a href="/2023/07/23/docker/gin%E8%B7%A8%E5%9F%9F%E9%97%AE%E9%A2%98/" class="collection-item"   itemprop="url">
-  <time datetime="2023-07-22T16:14:35.000Z" itemprop="datePublished">2023-07-23</time>
-  <span>&nbsp;&nbsp;&nbsp;</span> gin跨域问题
-</a>
-
-
-  
-    
-    
-    
-<a href="/2023/07/23/golang/%E6%97%A0%E6%B3%95%E4%B8%8B%E8%BD%BDkubernetes%E5%8C%85/" class="collection-item"   itemprop="url">
-  <time datetime="2023-07-22T16:11:45.000Z" itemprop="datePublished">2023-07-23</time>
-  <span>&nbsp;&nbsp;&nbsp;</span> Golang 无法下载kubernetes包
-</a>
-
-
-  
-  
-    </div></div></div></section>
-  
-
-	    </div>
-  	</article>
+  <section id="comments">
   	
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
     
-    <nav class="bar bar-footer clearfix" data-stick-bottom>
-        <div class="bar-inner">
-        <ul class="pager pull-left">
-            
-            <li class="prev">
-                <a href="/archives/2023/07/page/2/">
-                    <i class="icon icon-angle-left"></i>
-                    上一页
-                </a>
-            </li>
-            
-            
-            <li class="next disabled">
-                <a href="javascript:;">
-                    下一页
-                    <i class="icon icon-angle-right"></i>                    
-                </a>
-            </li>
-            
-        </ul>
-            <div class="total-article bar-right">Page 3 of 3</div>
+    
+    <li class="next">
+      <a href="/2023/08/01/linux/linux%E5%91%BD%E4%BB%A4/" title="linux命令"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>赏</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>感谢您的支持，我会继续努力的!</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/donate/alipayimg.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开支付宝扫一扫，即可进行扫码打赏哦</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/donate/wechatpayimg.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开微信扫一扫，即可进行扫码打赏哦</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> 支付宝</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> 微信支付</a>
+              </li>
+            </ul>
+          </div>
         </div>
-    </nav>
-    
- 	
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
 </main>
 
   <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
@@ -408,6 +510,12 @@ window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
 
 
 
+   
+
+
+
+
+   
 
 
 

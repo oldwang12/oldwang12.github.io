@@ -34,9 +34,14 @@ docker rm $(docker ps -aq)
 docker rmi $(docker images -q)
 ```
 #### 删除所有未使用的镜像
-```yaml
+```sh
  docker system prune -a
- ```
+```
+
+#### 删除 none 相关镜像
+```sh
+docker rmi $(docker images | grep none | awk '{print $3}')     
+```
 
 #### mac 清理镜像层
 ```sh
