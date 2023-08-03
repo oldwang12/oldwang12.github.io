@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://blog.caiplus.pro/2023/07/26/k8s/%E4%BD%BF%E7%94%A8kubeadm%E5%AE%89%E8%A3%85%E9%9B%86%E7%BE%A4/</loc>
+    <lastmod>2023-08-03</lastmod>
+  </url>
+  <url>
     <loc>http://blog.caiplus.pro/2023/08/03/linux/%E8%A7%A3%E5%8E%8B%E3%80%81%E5%8E%8B%E7%BC%A9/</loc>
     <lastmod>2023-08-03</lastmod>
   </url>
@@ -46,10 +50,6 @@
   </url>
   <url>
     <loc>http://blog.caiplus.pro/2023/07/29/golang/viper%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/</loc>
-    <lastmod>2023-07-29</lastmod>
-  </url>
-  <url>
-    <loc>http://blog.caiplus.pro/2023/07/26/k8s/%E4%BD%BF%E7%94%A8kubeadm%E5%AE%89%E8%A3%85%E9%9B%86%E7%BE%A4/</loc>
     <lastmod>2023-07-29</lastmod>
   </url>
   <url>

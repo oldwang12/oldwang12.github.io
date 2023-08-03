@@ -52,6 +52,7 @@ systemctl enable --now kubelet
 [下载地址](https://github.com/kubernetes-sigs/cri-tools/releases)
 
 ```sh
+# 注意: 下载对应的集群版本，crictl版本列表：https://github.com/kubernetes-sigs/cri-tools/tags
 VERSION="v1.26.0" # check latest version in /releases page
 curl -L https://github.com/kubernetes-sigs/cri-tools/releases/download/$VERSION/crictl-${VERSION}-linux-amd64.tar.gz --output crictl-${VERSION}-linux-amd64.tar.gz
 sudo tar zxvf crictl-$VERSION-linux-amd64.tar.gz -C /usr/local/bin
@@ -62,7 +63,13 @@ rm -f crictl-$VERSION-linux-amd64.tar.gz
 * 不同的部署方式，文件路径可能不同。
 
 ```sh
+# 指定 .sock 文件
 crictl --runtime-endpoint /var/run/k3s/containerd/containerd.sock ps -a
+```
+
+###### 默认配置
+```sh
+cat /etc/crictl.yaml
 ```
 
 #### conntrack
