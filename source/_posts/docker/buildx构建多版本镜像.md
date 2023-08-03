@@ -2,14 +2,14 @@
 layout: docker
 title: buildx构建多版本镜像
 date: 2023-08-03 15:23:18
-tags:
+tags: "docker"
 ---
+
+<!--more-->
 
 [参考资料](http://blog.naturelr.cc/2023/06/16/%E4%BD%BF%E7%94%A8buildx%E7%BC%96%E8%AF%91%E5%A4%9A%E5%B9%B3%E5%8F%B0%E9%95%9C%E5%83%8F/)
 
 目前大部分使用docker的场景中不单单只是 amd64 平台了有时我们需要再 arm 和 adm64 上都能运行
-
-<!--more-->
 
 新版本的docker默认自带
 
