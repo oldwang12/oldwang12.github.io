@@ -17,20 +17,20 @@
   <meta http-equiv="window-target" content="_top" />
   
   
-  <title>Dockerfile使用 | Hexo</title>
+  <title>Dockerfile模版 | Hexo</title>
   <meta name="description" content="1. 一个适用于我自己的模板1234567891011121314151617181920212223242526FROM golang:1.20 as builderWORKDIR &#x2F;root&#x2F;COPY . .RUN GOOS&#x3D;linux GOARCH&#x3D;amd64 CGO_ENABLED&#x3D;0 GOFLAGS&#x3D;-mod&#x3D;vendor go build -o hamster main.go# &#x3D;&#x3D;&#x3D;">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Dockerfile使用">
-<meta property="og:url" content="http://blog.caiplus.pro/2023/07/27/docker/Dockerfile%E4%BD%BF%E7%94%A8/index.html">
+<meta property="og:title" content="Dockerfile模版">
+<meta property="og:url" content="http://blog.caiplus.pro/2023/07/27/docker/Dockerfile%E6%A8%A1%E7%89%88/index.html">
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="1. 一个适用于我自己的模板1234567891011121314151617181920212223242526FROM golang:1.20 as builderWORKDIR &#x2F;root&#x2F;COPY . .RUN GOOS&#x3D;linux GOARCH&#x3D;amd64 CGO_ENABLED&#x3D;0 GOFLAGS&#x3D;-mod&#x3D;vendor go build -o hamster main.go# &#x3D;&#x3D;&#x3D;">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2023-07-27T07:34:10.000Z">
-<meta property="article:modified_time" content="2023-07-27T09:53:04.474Z">
+<meta property="article:modified_time" content="2023-08-03T06:54:22.347Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
   <!-- Canonical links -->
-  <link rel="canonical" href="http://blog.caiplus.pro/2023/07/27/docker/Dockerfile%E4%BD%BF%E7%94%A8/index.html">
+  <link rel="canonical" href="http://blog.caiplus.pro/2023/07/27/docker/Dockerfile%E6%A8%A1%E7%89%88/index.html">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -275,14 +275,14 @@
   
 <main class="main" role="main">
   <div class="content">
-  <article id="docker-docker/Dockerfile使用" class="article article-type-docker" itemscope itemtype="http://schema.org/BlogPosting">
+  <article id="docker-docker/Dockerfile模版" class="article article-type-docker" itemscope itemtype="http://schema.org/BlogPosting">
     
     <div class="article-header">
       
         
   
     <h1 class="article-title" itemprop="name">
-      Dockerfile使用
+      Dockerfile模版
     </h1>
   
 
@@ -290,7 +290,7 @@
       <div class="article-meta">
         <span class="article-date">
     <i class="icon icon-calendar-check"></i>
-	<a href="/2023/07/27/docker/Dockerfile%E4%BD%BF%E7%94%A8/" class="article-date">
+	<a href="/2023/07/27/docker/Dockerfile%E6%A8%A1%E7%89%88/" class="article-date">
 	  <time datetime="2023-07-27T07:34:10.000Z" itemprop="datePublished">2023-07-27</time>
 	</a>
 </span>
@@ -299,10 +299,10 @@
 
         
 
-        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2023/07/27/docker/Dockerfile%E4%BD%BF%E7%94%A8/#comments" class="article-comment-link">评论</a></span>
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2023/07/27/docker/Dockerfile%E6%A8%A1%E7%89%88/#comments" class="article-comment-link">评论</a></span>
         
 	
-		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 244(字)</span>
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 238(字)</span>
 	
 	
 		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 1(分)</span>
@@ -312,7 +312,7 @@
     </div>
     <div class="article-entry marked-body" itemprop="articleBody">
       
-        <h4 id="1-一个适用于我自己的模板"><a href="#1-一个适用于我自己的模板" class="headerlink" title="1. 一个适用于我自己的模板"></a>1. 一个适用于我自己的模板</h4><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> golang:<span class="number">1.20</span> as builder</span><br><span class="line"><span class="keyword">WORKDIR</span><span class="language-bash"> /root/</span></span><br><span class="line"><span class="keyword">COPY</span><span class="language-bash"> . .</span></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> GOOS=linux GOARCH=amd64 CGO_ENABLED=0 GOFLAGS=-mod=vendor go build -o hamster main.go</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># =================================== 分层编译 ==============================================</span></span><br><span class="line"><span class="keyword">FROM</span> hub.ucloudadmin.com/uaek/alpine:<span class="number">3.9</span> AS final</span><br><span class="line"></span><br><span class="line"><span class="comment"># 国内使用的goproxy</span></span><br><span class="line"><span class="keyword">ENV</span> GOPROXY=https://goproxy.cn</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置时区</span></span><br><span class="line"><span class="keyword">ENV</span> TZ=Asia/Shanghai</span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> apk add --update tzdata \</span></span><br><span class="line"><span class="language-bash">    &amp;&amp; <span class="built_in">cp</span> /usr/share/zoneinfo/<span class="variable">$TZ</span> /etc/localtime \</span></span><br><span class="line"><span class="language-bash">    &amp;&amp; <span class="built_in">echo</span> <span class="variable">$TZ</span> &gt; /etc/timezone \</span></span><br><span class="line"><span class="language-bash">    &amp;&amp; <span class="built_in">rm</span> -rf /var/cache/apk/*</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">WORKDIR</span><span class="language-bash"> /root/</span></span><br><span class="line"><span class="keyword">COPY</span><span class="language-bash"> --from=builder /root/app .</span></span><br><span class="line"><span class="keyword">COPY</span><span class="language-bash"> ./mydir/  ./mydir/</span></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> <span class="built_in">chmod</span> +x app \</span></span><br><span class="line"><span class="language-bash">    &amp;&amp; wget  https://storage.googleapis.com/kubernetes-release/release/v1.14.7/bin/linux/amd64/kubectl \</span></span><br><span class="line"><span class="language-bash">    &amp;&amp; <span class="built_in">chmod</span> +x kubectl</span></span><br><span class="line"><span class="keyword">EXPOSE</span> <span class="number">8080</span></span><br><span class="line"><span class="keyword">ENTRYPOINT</span><span class="language-bash"> [<span class="string">&quot;/root/app&quot;</span>]</span></span><br></pre></td></tr></table></figure>
+        <h4 id="1-一个适用于我自己的模板"><a href="#1-一个适用于我自己的模板" class="headerlink" title="1. 一个适用于我自己的模板"></a>1. 一个适用于我自己的模板</h4><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> golang:<span class="number">1.20</span> as builder</span><br><span class="line"><span class="keyword">WORKDIR</span><span class="language-bash"> /root/</span></span><br><span class="line"><span class="keyword">COPY</span><span class="language-bash"> . .</span></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> GOOS=linux GOARCH=amd64 CGO_ENABLED=0 GOFLAGS=-mod=vendor go build -o hamster main.go</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># =================================== 分层编译 ==============================================</span></span><br><span class="line"><span class="keyword">FROM</span> alpine AS final</span><br><span class="line"></span><br><span class="line"><span class="comment"># 国内使用的goproxy</span></span><br><span class="line"><span class="keyword">ENV</span> GOPROXY=https://goproxy.cn</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置时区</span></span><br><span class="line"><span class="keyword">ENV</span> TZ=Asia/Shanghai</span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> apk add --update tzdata \</span></span><br><span class="line"><span class="language-bash">    &amp;&amp; <span class="built_in">cp</span> /usr/share/zoneinfo/<span class="variable">$TZ</span> /etc/localtime \</span></span><br><span class="line"><span class="language-bash">    &amp;&amp; <span class="built_in">echo</span> <span class="variable">$TZ</span> &gt; /etc/timezone \</span></span><br><span class="line"><span class="language-bash">    &amp;&amp; <span class="built_in">rm</span> -rf /var/cache/apk/*</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">WORKDIR</span><span class="language-bash"> /root/</span></span><br><span class="line"><span class="keyword">COPY</span><span class="language-bash"> --from=builder /root/app .</span></span><br><span class="line"><span class="keyword">COPY</span><span class="language-bash"> ./mydir/  ./mydir/</span></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> <span class="built_in">chmod</span> +x app \</span></span><br><span class="line"><span class="language-bash">    &amp;&amp; wget  https://storage.googleapis.com/kubernetes-release/release/v1.14.7/bin/linux/amd64/kubectl \</span></span><br><span class="line"><span class="language-bash">    &amp;&amp; <span class="built_in">chmod</span> +x kubectl</span></span><br><span class="line"><span class="keyword">EXPOSE</span> <span class="number">8080</span></span><br><span class="line"><span class="keyword">ENTRYPOINT</span><span class="language-bash"> [<span class="string">&quot;/root/app&quot;</span>]</span></span><br></pre></td></tr></table></figure>
 
 <h4 id="2-COPY-vs-ADD"><a href="#2-COPY-vs-ADD" class="headerlink" title="2. COPY vs ADD"></a>2. COPY vs ADD</h4><p>没有特殊需求情况下，建议使用COPY</p>
 <h6 id="1-ADD-会自动解压压缩文件。"><a href="#1-ADD-会自动解压压缩文件。" class="headerlink" title="1. ADD 会自动解压压缩文件。"></a>1. ADD 会自动解压压缩文件。</h6><h6 id="2-ADD-支持源文件URL形式。"><a href="#2-ADD-支持源文件URL形式。" class="headerlink" title="2. ADD 支持源文件URL形式。"></a>2. ADD 支持源文件URL形式。</h6><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ADD</span><span class="language-bash"> http://example.com/example.txt /app/</span></span><br></pre></td></tr></table></figure>
@@ -330,7 +330,7 @@
     
     <li class="post-copyright-link hidden-xs">
       <strong>本文链接：</strong>
-      <a href="http://blog.caiplus.pro/2023/07/27/docker/Dockerfile%E4%BD%BF%E7%94%A8/" title="Dockerfile使用" target="_blank" rel="external">http://blog.caiplus.pro/2023/07/27/docker/Dockerfile使用/</a>
+      <a href="http://blog.caiplus.pro/2023/07/27/docker/Dockerfile%E6%A8%A1%E7%89%88/" title="Dockerfile模版" target="_blank" rel="external">http://blog.caiplus.pro/2023/07/27/docker/Dockerfile模版/</a>
     </li>
     
     <li class="post-copyright-license">

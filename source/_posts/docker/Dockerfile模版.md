@@ -1,6 +1,6 @@
 ---
 layout: docker
-title: Dockerfile使用
+title: Dockerfile模版
 date: 2023-07-27 15:34:10
 tags:
 ---
@@ -14,7 +14,7 @@ COPY . .
 RUN GOOS=linux GOARCH=amd64 CGO_ENABLED=0 GOFLAGS=-mod=vendor go build -o hamster main.go
 
 # =================================== 分层编译 ==============================================
-FROM hub.ucloudadmin.com/uaek/alpine:3.9 AS final
+FROM alpine AS final
 
 # 国内使用的goproxy
 ENV GOPROXY=https://goproxy.cn

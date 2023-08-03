@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://blog.caiplus.pro/2023/07/27/docker/Dockerfile%E6%A8%A1%E7%89%88/</loc>
+    <lastmod>2023-08-03</lastmod>
+  </url>
+  <url>
     <loc>http://blog.caiplus.pro/2023/07/23/linux/Makefile%E6%A8%A1%E7%89%88/</loc>
     <lastmod>2023-08-03</lastmod>
   </url>
@@ -51,10 +55,6 @@
   <url>
     <loc>http://blog.caiplus.pro/2023/07/25/k8s/%E4%BD%BF%E7%94%A8client-go%E6%93%8D%E4%BD%9C%E8%87%AA%E5%AE%9A%E4%B9%89CRD/</loc>
     <lastmod>2023-07-28</lastmod>
-  </url>
-  <url>
-    <loc>http://blog.caiplus.pro/2023/07/27/docker/Dockerfile%E4%BD%BF%E7%94%A8/</loc>
-    <lastmod>2023-07-27</lastmod>
   </url>
   <url>
     <loc>http://blog.caiplus.pro/2023/07/27/golang/golang-time%E5%8C%85%E7%94%A8%E6%B3%95/</loc>
