@@ -6,7 +6,7 @@
   <link href="http://blog.caiplus.pro/atom.xml" rel="self"/>
   
   <link href="http://blog.caiplus.pro/"/>
-  <updated>2023-08-03T07:37:35.288Z</updated>
+  <updated>2023-08-03T07:53:51.599Z</updated>
   <id>http://blog.caiplus.pro/</id>
   
   <author>
@@ -15,6 +15,28 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>解压、压缩</title>
+    <link href="http://blog.caiplus.pro/2023/08/03/linux/%E8%A7%A3%E5%8E%8B%E3%80%81%E5%8E%8B%E7%BC%A9/"/>
+    <id>http://blog.caiplus.pro/2023/08/03/linux/%E8%A7%A3%E5%8E%8B%E3%80%81%E5%8E%8B%E7%BC%A9/</id>
+    <published>2023-08-03T07:43:09.000Z</published>
+    <updated>2023-08-03T07:53:51.599Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="tar"><a href="#tar" class="headerlink" title="tar"></a>tar</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 压缩</span></span><br><span class="line">tar -czvf test.tar.gz README.md</span><br><span class="line"></span><br><span class="line"><span class="comment"># 解压</span></span><br><span class="line">tar -xzvf test.tar.gz</span><br><span class="line"></span><br><span class="line"><span class="comment"># 列出压缩文件内容</span></span><br><span class="line">tar -tzvf test.tar.gz </span><br></pre></td></tr></table></figure><h4 id="参数说明"><a href="#参数说明" class="headerlink" title="参数说明"></a>参数说明</h4><ul><li>-v 显示指令执行过程。</li><li>-c 建立新的备份文件。</li><li>-f 指定备份文件。</li><li>-z 通过gzip指令处理备份文件。</li><li>-x 从备份文件中还原文件。</li></ul><h4 id="加密压缩"><a href="#加密压缩" class="headerlink" title="加密压缩"></a>加密压缩</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 将当前目录下的files文件夹打包压缩，密码为password</span></span><br><span class="line">tar -czvf - files | openssl des3 -salt -k password -out files.tar.gz</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将当前目录下的files.tar.gz进行解密解压</span></span><br><span class="line">openssl des3 -d -k password -salt -<span class="keyword">in</span> files.tar.gz | tar xzvf -</span><br></pre></td></tr></table></figure>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h2 id=&quot;tar&quot;&gt;&lt;a href=&quot;#tar&quot; class=&quot;headerlink&quot; title=&quot;tar&quot;&gt;&lt;/a&gt;tar&lt;/h2&gt;&lt;figure class=&quot;highlight sh&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span</summary>
+      
+    
+    
+    
+    
+    <category term="linux" scheme="http://blog.caiplus.pro/tags/linux/"/>
+    
+  </entry>
   
   <entry>
     <title>buildx构建多版本镜像</title>
@@ -41,21 +63,18 @@
   </entry>
   
   <entry>
-    <title>linux命令</title>
-    <link href="http://blog.caiplus.pro/2023/08/01/linux/linux%E5%91%BD%E4%BB%A4/"/>
-    <id>http://blog.caiplus.pro/2023/08/01/linux/linux%E5%91%BD%E4%BB%A4/</id>
+    <title>cronjob 定时任务</title>
+    <link href="http://blog.caiplus.pro/2023/08/01/linux/cronjob%20%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1/"/>
+    <id>http://blog.caiplus.pro/2023/08/01/linux/cronjob%20%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1/</id>
     <published>2023-08-01T07:49:05.000Z</published>
-    <updated>2023-08-01T07:56:25.306Z</updated>
+    <updated>2023-08-03T07:43:02.604Z</updated>
     
-    <content type="html"><![CDATA[<p><a href="#1">1. cronjob 定时任务</a></p><p id="1"></p><h4 id="cronjob-定时任务"><a href="#cronjob-定时任务" class="headerlink" title="cronjob 定时任务"></a>cronjob 定时任务</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># crontab -e 命令以编辑当前用户的cron表。</span></span><br><span class="line">crontab -e</span><br><span class="line"></span><br><span class="line"><span class="comment"># 每分钟执行一次 ls</span></span><br><span class="line">*/1 * * * * <span class="built_in">ls</span></span><br></pre></td></tr></table></figure>]]></content>
+    <content type="html"><![CDATA[<h4 id="cronjob-定时任务"><a href="#cronjob-定时任务" class="headerlink" title="cronjob 定时任务"></a>cronjob 定时任务</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># crontab -e 命令以编辑当前用户的cron表。</span></span><br><span class="line">crontab -e</span><br><span class="line"></span><br><span class="line"><span class="comment"># 每分钟执行一次 ls</span></span><br><span class="line">*/1 * * * * <span class="built_in">ls</span></span><br></pre></td></tr></table></figure>]]></content>
     
     
       
       
-    <summary type="html">&lt;p&gt;&lt;a href=&quot;#1&quot;&gt;1. cronjob 定时任务&lt;/a&gt;&lt;/p&gt;
-&lt;p id=&quot;1&quot;&gt;&lt;/p&gt;
-
-&lt;h4 id=&quot;cronjob-定时任务&quot;&gt;&lt;a href=&quot;#cronjob-定时任务&quot; class=&quot;headerlink&quot; title=&quot;cronjob 定时任务</summary>
+    <summary type="html">&lt;h4 id=&quot;cronjob-定时任务&quot;&gt;&lt;a href=&quot;#cronjob-定时任务&quot; class=&quot;headerlink&quot; title=&quot;cronjob 定时任务&quot;&gt;&lt;/a&gt;cronjob 定时任务&lt;/h4&gt;&lt;figure class=&quot;highlight sh&quot;&gt;&lt;tab</summary>
       
     
     
@@ -442,28 +461,6 @@
     
     
     <category term="docker" scheme="http://blog.caiplus.pro/tags/docker/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>chrome浏览器如何屏蔽无效请求</title>
-    <link href="http://blog.caiplus.pro/2023/07/23/%E5%B7%A5%E5%85%B7/chrome%E6%B5%8F%E8%A7%88%E5%99%A8%E5%A6%82%E4%BD%95%E5%B1%8F%E8%94%BD%E6%97%A0%E6%95%88%E8%AF%B7%E6%B1%82/"/>
-    <id>http://blog.caiplus.pro/2023/07/23/%E5%B7%A5%E5%85%B7/chrome%E6%B5%8F%E8%A7%88%E5%99%A8%E5%A6%82%E4%BD%95%E5%B1%8F%E8%94%BD%E6%97%A0%E6%95%88%E8%AF%B7%E6%B1%82/</id>
-    <published>2023-07-22T16:19:00.000Z</published>
-    <updated>2023-07-22T16:41:52.841Z</updated>
-    
-    <content type="html"><![CDATA[<h4 id="如何屏蔽掉无用的网络请求"><a href="#如何屏蔽掉无用的网络请求" class="headerlink" title="如何屏蔽掉无用的网络请求"></a>如何屏蔽掉无用的网络请求</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-/.*.js|.*.php|.*.png|.*.ico|.*.css|.*.gif/</span><br></pre></td></tr></table></figure>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;h4 id=&quot;如何屏蔽掉无用的网络请求&quot;&gt;&lt;a href=&quot;#如何屏蔽掉无用的网络请求&quot; class=&quot;headerlink&quot; title=&quot;如何屏蔽掉无用的网络请求&quot;&gt;&lt;/a&gt;如何屏蔽掉无用的网络请求&lt;/h4&gt;&lt;figure class=&quot;highlight plaintex</summary>
-      
-    
-    
-    
-    
-    <category term="工具" scheme="http://blog.caiplus.pro/tags/%E5%B7%A5%E5%85%B7/"/>
     
   </entry>
   

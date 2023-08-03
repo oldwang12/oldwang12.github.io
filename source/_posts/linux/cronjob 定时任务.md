@@ -1,13 +1,9 @@
 ---
 layout: linux
-title: linux命令
+title: cronjob 定时任务
 date: 2023-08-01 15:49:05
 tags: linux
 ---
-[1. cronjob 定时任务](#1)
-
-<p id="1"></p>
-
 #### cronjob 定时任务
 ```sh
 # crontab -e 命令以编辑当前用户的cron表。
