@@ -6,7 +6,7 @@ push: ## 上传代码到 Github
 	hexo generate
 	hexo deploy
 	git add .
-	git commit -m "$(msg)"
+	git commit -m "`date '+%Y/%m/%d %H:%M:%S'`"
 	git push origin master
 
 help: ## 查看帮助

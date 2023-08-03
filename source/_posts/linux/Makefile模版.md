@@ -29,6 +29,6 @@ commit:
 
 使用如下
 
-```
+```sh
 make commit msg="makefile 测试"              
 ```

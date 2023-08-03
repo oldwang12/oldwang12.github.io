@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://blog.caiplus.pro/2023/07/23/linux/Makefile%E6%A8%A1%E7%89%88/</loc>
+    <lastmod>2023-08-03</lastmod>
+  </url>
+  <url>
     <loc>http://blog.caiplus.pro/2023/07/23/docker/docker%E8%AE%B0%E4%B8%8D%E4%BD%8F%E7%9A%84%E5%91%BD%E4%BB%A4/</loc>
-    <lastmod>2023-08-02</lastmod>
+    <lastmod>2023-08-03</lastmod>
   </url>
   <url>
     <loc>http://blog.caiplus.pro/2023/07/31/golang/grpc%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8/</loc>
@@ -59,10 +63,6 @@
   <url>
     <loc>http://blog.caiplus.pro/2023/07/27/k8s/flannel%E3%80%81calico/</loc>
     <lastmod>2023-07-27</lastmod>
-  </url>
-  <url>
-    <loc>http://blog.caiplus.pro/2023/07/23/linux/Makefile%E6%A8%A1%E7%89%88/</loc>
-    <lastmod>2023-07-25</lastmod>
   </url>
   <url>
     <loc>http://blog.caiplus.pro/2023/07/25/linux/%E6%96%87%E4%BB%B6%E3%80%81%E7%A3%81%E7%9B%98%E7%9B%B8%E5%85%B3%E5%91%BD%E4%BB%A4/</loc>
