@@ -2,6 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://blog.caiplus.pro/2023/07/23/docker/docker%E8%AE%B0%E4%B8%8D%E4%BD%8F%E7%9A%84%E5%91%BD%E4%BB%A4/</loc>
+    
+    <lastmod>2023-08-07</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>http://blog.caiplus.pro/2023/07/26/k8s/%E4%BD%BF%E7%94%A8kubeadm%E5%AE%89%E8%A3%85%E9%9B%86%E7%BE%A4/</loc>
     
     <lastmod>2023-08-03</lastmod>
@@ -57,15 +66,6 @@
   
   <url>
     <loc>http://blog.caiplus.pro/2023/07/23/golang/gin%E8%B7%A8%E5%9F%9F%E9%97%AE%E9%A2%98/</loc>
-    
-    <lastmod>2023-08-03</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://blog.caiplus.pro/2023/07/23/docker/docker%E8%AE%B0%E4%B8%8D%E4%BD%8F%E7%9A%84%E5%91%BD%E4%BB%A4/</loc>
     
     <lastmod>2023-08-03</lastmod>
     
@@ -256,7 +256,7 @@
 
   <url>
     <loc>http://blog.caiplus.pro/</loc>
-    <lastmod>2023-08-03</lastmod>
+    <lastmod>2023-08-07</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -264,35 +264,35 @@
   
   <url>
     <loc>http://blog.caiplus.pro/tags/k8s/</loc>
-    <lastmod>2023-08-03</lastmod>
+    <lastmod>2023-08-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://blog.caiplus.pro/tags/golang/</loc>
-    <lastmod>2023-08-03</lastmod>
+    <lastmod>2023-08-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://blog.caiplus.pro/tags/docker/</loc>
-    <lastmod>2023-08-03</lastmod>
+    <lastmod>2023-08-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://blog.caiplus.pro/tags/linux/</loc>
-    <lastmod>2023-08-03</lastmod>
+    <lastmod>2023-08-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://blog.caiplus.pro/tags/%E5%B7%A5%E5%85%B7/</loc>
-    <lastmod>2023-08-03</lastmod>
+    <lastmod>2023-08-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>

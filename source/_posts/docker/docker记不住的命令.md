@@ -37,10 +37,14 @@ docker rmi $(docker images -q)
 ```sh
  docker system prune -a
 ```
-
 #### 删除 none 相关镜像
 ```sh
 docker rmi $(docker images | grep none | awk '{print $3}')     
+```
+
+#### 拉取指定版本镜像
+```sh
+docker pull tickstep/aliyunpan-sync:v0.2.7 --platform=linux/arm/v7
 ```
 
 #### mac 清理镜像层
