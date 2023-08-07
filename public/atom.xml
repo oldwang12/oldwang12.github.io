@@ -6,7 +6,7 @@
   <link href="http://blog.caiplus.pro/atom.xml" rel="self"/>
   
   <link href="http://blog.caiplus.pro/"/>
-  <updated>2023-08-03T09:01:02.876Z</updated>
+  <updated>2023-08-07T09:23:38.137Z</updated>
   <id>http://blog.caiplus.pro/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>快速开启http服务</title>
+    <link href="http://blog.caiplus.pro/2023/08/07/linux/%E5%BF%AB%E9%80%9F%E5%BC%80%E5%90%AFhttp%E6%9C%8D%E5%8A%A1/"/>
+    <id>http://blog.caiplus.pro/2023/08/07/linux/%E5%BF%AB%E9%80%9F%E5%BC%80%E5%90%AFhttp%E6%9C%8D%E5%8A%A1/</id>
+    <published>2023-08-07T09:22:35.000Z</published>
+    <updated>2023-08-07T09:23:38.137Z</updated>
+    
+    <content type="html"><![CDATA[<h4 id="快速开启http服务"><a href="#快速开启http服务" class="headerlink" title="快速开启http服务"></a>快速开启http服务</h4><p>这将监听本地 80 端口，响应 OK</p><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> -e <span class="string">&#x27;HTTP/1.1 200 OK\r\n\r\nOK&#x27;</span> | sudo socat - TCP-LISTEN:80</span><br></pre></td></tr></table></figure>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h4 id=&quot;快速开启http服务&quot;&gt;&lt;a href=&quot;#快速开启http服务&quot; class=&quot;headerlink&quot; title=&quot;快速开启http服务&quot;&gt;&lt;/a&gt;快速开启http服务&lt;/h4&gt;&lt;p&gt;这将监听本地 80 端口，响应 OK&lt;/p&gt;
+&lt;figure class=&quot;</summary>
+      
+    
+    
+    
+    
+    <category term="linux" scheme="http://blog.caiplus.pro/tags/linux/"/>
+    
+  </entry>
   
   <entry>
     <title>进入pod网络命名空间</title>
@@ -439,28 +462,6 @@
     
     
     <category term="linux" scheme="http://blog.caiplus.pro/tags/linux/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>k8s记不住的命令</title>
-    <link href="http://blog.caiplus.pro/2023/07/23/k8s/k8s%E8%AE%B0%E4%B8%8D%E4%BD%8F%E7%9A%84%E5%91%BD%E4%BB%A4/"/>
-    <id>http://blog.caiplus.pro/2023/07/23/k8s/k8s%E8%AE%B0%E4%B8%8D%E4%BD%8F%E7%9A%84%E5%91%BD%E4%BB%A4/</id>
-    <published>2023-07-22T16:29:39.000Z</published>
-    <updated>2023-07-22T16:29:51.639Z</updated>
-    
-    <content type="html"><![CDATA[<h4 id="替换镜像"><a href="#替换镜像" class="headerlink" title="替换镜像"></a>替换镜像</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl <span class="built_in">set</span> image deployment/provider provider=provider:latest</span><br></pre></td></tr></table></figure><h4 id="给-node-pod-打标签"><a href="#给-node-pod-打标签" class="headerlink" title="给 node&#x2F;pod 打标签"></a>给 node&#x2F;pod 打标签</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl label nodes kube-node node=kube-node</span><br></pre></td></tr></table></figure><h4 id="通过标签过滤"><a href="#通过标签过滤" class="headerlink" title="通过标签过滤"></a>通过标签过滤</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl get node -l <span class="string">&quot;node=kube-node&quot;</span></span><br></pre></td></tr></table></figure><h4 id="kubectl-cp"><a href="#kubectl-cp" class="headerlink" title="kubectl cp"></a>kubectl cp</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 拷贝pod数据到本地</span></span><br><span class="line">kubectl <span class="built_in">cp</span> &lt;some-namespace&gt;/&lt;some-pod&gt;:/tmp/foo /tmp/foo</span><br><span class="line"></span><br><span class="line"><span class="comment"># 拷贝本地数据到pod之中</span></span><br><span class="line">kubectl <span class="built_in">cp</span> /tmp/foo &lt;some-namespace&gt;/&lt;some-pod&gt;:/tmp/foo</span><br></pre></td></tr></table></figure><h4 id="回滚版本"><a href="#回滚版本" class="headerlink" title="回滚版本"></a>回滚版本</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看历史版本</span></span><br><span class="line">kubectl rollout <span class="built_in">history</span> deployment provider</span><br><span class="line"></span><br><span class="line"><span class="comment"># 回滚到上一个版本</span></span><br><span class="line">kubectl rollout undo deployment provider</span><br><span class="line"></span><br><span class="line"><span class="comment"># 回滚到指定版本</span></span><br><span class="line">kubectl rollout undo deployment provider --to-revision=2</span><br></pre></td></tr></table></figure><h4 id="污点"><a href="#污点" class="headerlink" title="污点"></a>污点</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># &lt;node-name&gt; 是要添加污点的节点的名称。</span></span><br><span class="line"><span class="comment"># &lt;taint-key&gt; 是污点的键。</span></span><br><span class="line"><span class="comment"># &lt;taint-value&gt; 是污点的值，可以留空。</span></span><br><span class="line"><span class="comment"># &lt;taint-effect&gt; 是污点的影响效果，可以是以下选项之一：</span></span><br><span class="line"><span class="comment"># NoSchedule：表示不将新的Pod调度到有这个污点的节点上。</span></span><br><span class="line"><span class="comment"># PreferNoSchedule：表示尽量不将新的Pod调度到有这个污点的节点上。</span></span><br><span class="line"><span class="comment"># NoExecute：表示不将新的Pod调度到有这个污点的节点上，并且将已经运行在节点上的Pod驱逐出节点（如果它们不匹配Pod的容忍度）。</span></span><br><span class="line">kubectl taint nodes &lt;node-name&gt; &lt;taint-key&gt;=&lt;taint-value&gt;:&lt;taint-effect&gt;</span><br></pre></td></tr></table></figure><h4 id="探测"><a href="#探测" class="headerlink" title="探测"></a>探测</h4><ul><li>livenessProbe: 存活探测<ul><li>failureThreshold: 表示连续失败探测的次数，认为容器已经死亡，默认为3次</li><li>initialDelaySeconds: 表示在容器启动后多少秒开始进行探测，默认值为10秒。</li><li>periodSeconds: 表示多长时间重试一次探测，默认值为10秒</li><li>successThreshold: 表示连续成功探测的次数，认为容器仍处于健康状态，默认为1次</li><li>timeoutSeconds: 表示探测请求的超时时间，默认为1秒。</li></ul></li><li>readinessProbe: 就绪探测<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">livenessProbe:</span></span><br><span class="line">  <span class="attr">failureThreshold:</span> <span class="number">10</span></span><br><span class="line">  <span class="attr">initialDelaySeconds:</span> <span class="number">300</span></span><br><span class="line">  <span class="attr">httpGet:</span></span><br><span class="line">    <span class="attr">path:</span> <span class="string">/-/healthy</span></span><br><span class="line">    <span class="attr">port:</span> <span class="string">web</span></span><br><span class="line">    <span class="attr">scheme:</span> <span class="string">HTTP</span></span><br><span class="line">  <span class="attr">periodSeconds:</span> <span class="number">5</span></span><br><span class="line">  <span class="attr">successThreshold:</span> <span class="number">1</span></span><br><span class="line">  <span class="attr">timeoutSeconds:</span> <span class="number">3</span></span><br><span class="line"><span class="attr">readinessProbe:</span></span><br><span class="line">  <span class="attr">initialDelaySeconds:</span> <span class="number">300</span></span><br><span class="line">  <span class="attr">failureThreshold:</span> <span class="number">20</span></span><br><span class="line">  <span class="attr">httpGet:</span></span><br><span class="line">    <span class="attr">path:</span> <span class="string">/-/ready</span></span><br><span class="line">    <span class="attr">port:</span> <span class="string">web</span></span><br><span class="line">    <span class="attr">scheme:</span> <span class="string">HTTP</span></span><br><span class="line">  <span class="attr">periodSeconds:</span> <span class="number">5</span></span><br><span class="line">  <span class="attr">successThreshold:</span> <span class="number">1</span></span><br><span class="line">  <span class="attr">timeoutSeconds:</span> <span class="number">3</span></span><br></pre></td></tr></table></figure></li></ul>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;h4 id=&quot;替换镜像&quot;&gt;&lt;a href=&quot;#替换镜像&quot; class=&quot;headerlink&quot; title=&quot;替换镜像&quot;&gt;&lt;/a&gt;替换镜像&lt;/h4&gt;&lt;figure class=&quot;highlight sh&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;</summary>
-      
-    
-    
-    
-    
-    <category term="k8s" scheme="http://blog.caiplus.pro/tags/k8s/"/>
     
   </entry>
   
