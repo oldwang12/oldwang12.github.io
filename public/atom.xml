@@ -6,7 +6,7 @@
   <link href="http://blog.caiplus.pro/atom.xml" rel="self"/>
   
   <link href="http://blog.caiplus.pro/"/>
-  <updated>2023-08-07T09:23:38.137Z</updated>
+  <updated>2023-08-08T08:29:17.603Z</updated>
   <id>http://blog.caiplus.pro/</id>
   
   <author>
@@ -15,6 +15,28 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>重命名文件</title>
+    <link href="http://blog.caiplus.pro/2023/08/08/linux/%E9%87%8D%E5%91%BD%E5%90%8D%E6%96%87%E4%BB%B6/"/>
+    <id>http://blog.caiplus.pro/2023/08/08/linux/%E9%87%8D%E5%91%BD%E5%90%8D%E6%96%87%E4%BB%B6/</id>
+    <published>2023-08-08T08:29:04.000Z</published>
+    <updated>2023-08-08T08:29:17.603Z</updated>
+    
+    <content type="html"><![CDATA[<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">dir</span>=<span class="variable">$1</span>  <span class="comment"># 指定目录路径</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 进入目录</span></span><br><span class="line"><span class="built_in">cd</span> <span class="string">&quot;<span class="variable">$dir</span>&quot;</span> || <span class="built_in">exit</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 替换文件名中的abcd1至abcd9为abcd01至abcd09</span></span><br><span class="line"><span class="keyword">for</span> file <span class="keyword">in</span> *S01E[1-9].*; <span class="keyword">do</span></span><br><span class="line">  new_file=$(<span class="built_in">echo</span> <span class="string">&quot;<span class="variable">$file</span>&quot;</span> | sed <span class="string">&#x27;s/S01E\([1-9]\)/S01E0\1/&#x27;</span>)</span><br><span class="line">  <span class="built_in">echo</span> <span class="variable">$new_file</span></span><br><span class="line">  <span class="built_in">mv</span> <span class="string">&quot;<span class="variable">$file</span>&quot;</span> <span class="string">&quot;<span class="variable">$new_file</span>&quot;</span></span><br><span class="line"><span class="keyword">done</span></span><br></pre></td></tr></table></figure>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;figure class=&quot;highlight sh&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;l</summary>
+      
+    
+    
+    
+    
+    <category term="linux" scheme="http://blog.caiplus.pro/tags/linux/"/>
+    
+  </entry>
   
   <entry>
     <title>快速开启http服务</title>
@@ -440,28 +462,6 @@
     
     
     <category term="k8s" scheme="http://blog.caiplus.pro/tags/k8s/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>网络</title>
-    <link href="http://blog.caiplus.pro/2023/07/23/linux/%E7%BD%91%E7%BB%9C/"/>
-    <id>http://blog.caiplus.pro/2023/07/23/linux/%E7%BD%91%E7%BB%9C/</id>
-    <published>2023-07-23T07:06:00.000Z</published>
-    <updated>2023-07-23T07:06:53.912Z</updated>
-    
-    <content type="html"><![CDATA[<h4 id="查看网络连接信息"><a href="#查看网络连接信息" class="headerlink" title="查看网络连接信息"></a>查看网络连接信息</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netstat -nplt</span><br></pre></td></tr></table></figure><p>-n 将字母转化为数字</p><p>-p 显示进程相关信息</p><p>-l 列出状态为监听</p><p>-t 只查看tcp协议</p><p>-a 查看全部协议(netstat -an)</p><h4 id="路由追踪"><a href="#路由追踪" class="headerlink" title="路由追踪"></a>路由追踪</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">traceroute 8.8.8.8</span><br></pre></td></tr></table></figure><h4 id="查看路由表"><a href="#查看路由表" class="headerlink" title="查看路由表"></a>查看路由表</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ip rule</span><br><span class="line">ip -6 rule </span><br><span class="line">ip rule list</span><br></pre></td></tr></table></figure><h4 id="查看默认路由表信息"><a href="#查看默认路由表信息" class="headerlink" title="查看默认路由表信息"></a>查看默认路由表信息</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ip r</span><br><span class="line">ip -6 r</span><br><span class="line">route</span><br></pre></td></tr></table></figure>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;h4 id=&quot;查看网络连接信息&quot;&gt;&lt;a href=&quot;#查看网络连接信息&quot; class=&quot;headerlink&quot; title=&quot;查看网络连接信息&quot;&gt;&lt;/a&gt;查看网络连接信息&lt;/h4&gt;&lt;figure class=&quot;highlight plaintext&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;t</summary>
-      
-    
-    
-    
-    
-    <category term="linux" scheme="http://blog.caiplus.pro/tags/linux/"/>
     
   </entry>
   
