@@ -18,15 +18,15 @@
   
   
   <title>k8s记不住的命令 | Hexo</title>
-  <meta name="description" content="替换镜像1kubectl set image deployment&#x2F;provider provider&#x3D;provider:latest  给 node&#x2F;pod 打标签1kubectl label nodes kube-node node&#x3D;kube-node  通过标签过滤1kubectl get node -l &quot;node&#x3D;kube-node&quot;  kubectl cp">
+  <meta name="description" content="创建pod1kubectl run my-pod --image&#x3D;nginx:latest 更新镜像1kubectl set image deployment&#x2F;provider provider&#x3D;provider:latest  给 node&#x2F;pod 打标签1kubectl label nodes kube-node node&#x3D;kube-node  通过标签过滤1kubectl get">
 <meta property="og:type" content="article">
 <meta property="og:title" content="k8s记不住的命令">
 <meta property="og:url" content="http://blog.caiplus.pro/2023/07/23/k8s/k8s%E8%AE%B0%E4%B8%8D%E4%BD%8F%E7%9A%84%E5%91%BD%E4%BB%A4/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="替换镜像1kubectl set image deployment&#x2F;provider provider&#x3D;provider:latest  给 node&#x2F;pod 打标签1kubectl label nodes kube-node node&#x3D;kube-node  通过标签过滤1kubectl get node -l &quot;node&#x3D;kube-node&quot;  kubectl cp">
+<meta property="og:description" content="创建pod1kubectl run my-pod --image&#x3D;nginx:latest 更新镜像1kubectl set image deployment&#x2F;provider provider&#x3D;provider:latest  给 node&#x2F;pod 打标签1kubectl label nodes kube-node node&#x3D;kube-node  通过标签过滤1kubectl get">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2023-07-22T16:29:39.000Z">
-<meta property="article:modified_time" content="2023-07-22T16:29:51.639Z">
+<meta property="article:modified_time" content="2023-08-10T07:55:20.901Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="k8s">
 <meta name="twitter:card" content="summary">
@@ -43,6 +43,8 @@
 
   
   
+  
+    <link href="//cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.3.5/dist/jquery.fancybox.min.css" rel="stylesheet">
   
   
 <meta name="generator" content="Hexo 6.3.0"></head>
@@ -292,8 +294,17 @@
         <span class="article-date">
     <i class="icon icon-calendar-check"></i>
 	<a href="/2023/07/23/k8s/k8s%E8%AE%B0%E4%B8%8D%E4%BD%8F%E7%9A%84%E5%91%BD%E4%BB%A4/" class="article-date">
-	  <time datetime="2023-07-22T16:29:39.000Z" itemprop="datePublished">2023-07-23</time>
+	  发布日期：<time datetime="2023-07-22T16:29:39.000Z" itemprop="datePublished">2023-07-23</time>
 	</a>
+</span>
+
+<span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+    <a href="/2023/07/23/k8s/k8s%E8%AE%B0%E4%B8%8D%E4%BD%8F%E7%9A%84%E5%91%BD%E4%BB%A4/" class="article-date">
+        最后更新：<time datetime="2023-08-10T07:55:20.901Z" itemprop="dateUpdated">
+            2023-08-10
+        </time>
+    </a>
 </span>
         
         
@@ -308,7 +319,7 @@
         <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2023/07/23/k8s/k8s%E8%AE%B0%E4%B8%8D%E4%BD%8F%E7%9A%84%E5%91%BD%E4%BB%A4/#comments" class="article-comment-link">评论</a></span>
         
 	
-		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 465(字)</span>
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 474(字)</span>
 	
 	
 		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 2(分)</span>
@@ -318,7 +329,8 @@
     </div>
     <div class="article-entry marked-body" itemprop="articleBody">
       
-        <h4 id="替换镜像"><a href="#替换镜像" class="headerlink" title="替换镜像"></a>替换镜像</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl <span class="built_in">set</span> image deployment/provider provider=provider:latest</span><br></pre></td></tr></table></figure>
+        <h4 id="创建pod"><a href="#创建pod" class="headerlink" title="创建pod"></a>创建pod</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl run my-pod --image=nginx:latest</span><br></pre></td></tr></table></figure>
+<h4 id="更新镜像"><a href="#更新镜像" class="headerlink" title="更新镜像"></a>更新镜像</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl <span class="built_in">set</span> image deployment/provider provider=provider:latest</span><br></pre></td></tr></table></figure>
 
 <h4 id="给-node-pod-打标签"><a href="#给-node-pod-打标签" class="headerlink" title="给 node&#x2F;pod 打标签"></a>给 node&#x2F;pod 打标签</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl label nodes kube-node node=kube-node</span><br></pre></td></tr></table></figure>
 
@@ -522,10 +534,72 @@ window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
    
 
 
+  <script src="//cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.3.5/dist/jquery.fancybox.min.js"></script>
+  <script>
+  //利用 FancyBox 实现点击图片放大
+  $(document).ready(function() {
+    $('article img').not('[hidden]').not('.panel-body img').each(function() {
+      var $image = $(this);
+      var imageCaption = $image.attr('alt');
+      var $imageWrapLink = $image.parent('a');
+      if ($imageWrapLink.length < 1) {
+        var src = this.getAttribute('src');
+        var idx = src.lastIndexOf('?');
+        if (idx != -1) {
+          src = src.substring(0, idx);
+        }
+        $imageWrapLink = $image.wrap('<a href="' + src + '"></a>').parent('a');
+      }
+      $imageWrapLink.attr('data-fancybox', 'images');
+      if (imageCaption) {
+        $imageWrapLink.attr('data-caption', imageCaption);
+      }
+    });
+    $().fancybox({
+      selector: '[data-fancybox="images"]',
+      hash: false,
+      loop: false,
+    });
+  });
+  </script>
 
 
 
 
+
+<div id="go-top"></div>
+<style type="text/css">
+   #go-top {
+    width:40px;height:36px;
+    background-color:#777;
+    position:relative;
+    border-radius:2px;
+    position:fixed;right:10px;bottom:60px;
+    cursor:pointer;display:none;
+   }
+   #go-top:after {
+    content:" ";
+    position:absolute;left:14px;top:14px;
+    border-top:2px solid #fff;border-right:2px solid #fff;
+    width:12px;height:12px;
+    transform:rotate(-45deg);
+   }
+   #go-top:hover {
+    background-color:#333;
+   }
+</style>
+<script>
+   $(function () {
+     var top=$("#go-top");
+     $(window).scroll(function () {
+       ($(window).scrollTop() > 300) ? top.show(300) : top.hide(200);
+       $("#go-top").click(function () {
+         $('body,html').animate({scrollTop:0});
+         return false();
+       })
+     });
+   });
+</script>
   
     <style>
       .copy-btn {

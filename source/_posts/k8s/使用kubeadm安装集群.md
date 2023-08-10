@@ -5,8 +5,9 @@ date: 2023-07-26 10:09:12
 tags: k8s
 ---
 
-#### containerd
-
+#### 图解k8s
+![master-worker](master-worker.png)
+### 1 安装containerd
 [下载地址](https://github.com/opencontainers/runc/releases)
 
 ```sh
@@ -19,35 +20,16 @@ systemctl daemon-reload
 systemctl enable --now containerd
 ```
 
-#### runc
+### 2 安装runc
 
 [下载地址](https://github.com/opencontainers/runc/releases)
 
 ```sh
-https://github.com/opencontainers/runc/releases/download/v1.1.8/runc.amd64
+wget https://github.com/opencontainers/runc/releases/download/v1.1.8/runc.amd64
 install -m 755 runc.amd64 /usr/local/sbin/runc
 ```
 
-#### kubeadm、kubelet、kubectl
-```sh
-RELEASE="$(curl -sSL https://dl.k8s.io/release/stable.txt)"
-ARCH="amd64"
-cd $DOWNLOAD_DIR
-sudo curl -L --remote-name-all https://dl.k8s.io/release/${RELEASE}/bin/linux/${ARCH}/{kubeadm,kubelet}
-sudo chmod +x {kubeadm,kubelet}
-
-RELEASE_VERSION="v0.15.1"
-curl -sSL "https://raw.githubusercontent.com/kubernetes/release/${RELEASE_VERSION}/cmd/kubepkg/templates/latest/deb/kubelet/lib/systemd/system/kubelet.service" | sed "s:/usr/bin:${DOWNLOAD_DIR}:g" | sudo tee /etc/systemd/system/kubelet.service
-sudo mkdir -p /etc/systemd/system/kubelet.service.d
-curl -sSL "https://raw.githubusercontent.com/kubernetes/release/${RELEASE_VERSION}/cmd/kubepkg/templates/latest/deb/kubeadm/10-kubeadm.conf" | sed "s:/usr/bin:${DOWNLOAD_DIR}:g" | sudo tee /etc/systemd/system/kubelet.service.d/10-kubeadm.conf
-```
-
-激活并启动 kubelet
-```sh
-systemctl enable --now kubelet
-```
-
-#### ctrctl
+### 3 安装ctrctl
 
 [下载地址](https://github.com/kubernetes-sigs/cri-tools/releases)
 
@@ -59,7 +41,7 @@ sudo tar zxvf crictl-$VERSION-linux-amd64.tar.gz -C /usr/local/bin
 rm -f crictl-$VERSION-linux-amd64.tar.gz
 ```
 
-###### ctrctl 报错文件找不到
+#### 3.1 ctrctl 报错文件找不到
 * 不同的部署方式，文件路径可能不同。
 
 ```sh
@@ -67,23 +49,42 @@ rm -f crictl-$VERSION-linux-amd64.tar.gz
 crictl --runtime-endpoint /var/run/k3s/containerd/containerd.sock ps -a
 ```
 
-###### 查看配置
+#### 3.2 查看 ctrctl 配置
 ```sh
 cat /etc/crictl.yaml
 ```
 
-#### conntrack
+### 4 安装kubeadm、kubelet、kubectl
+```sh
+DOWNLOAD_DIR="/usr/local/bin"
+sudo mkdir -p "$DOWNLOAD_DIR"
 
+RELEASE="$(curl -sSL https://dl.k8s.io/release/stable.txt)"
+ARCH="amd64"
+cd $DOWNLOAD_DIR
+sudo curl -L --remote-name-all https://dl.k8s.io/release/${RELEASE}/bin/linux/${ARCH}/{kubeadm,kubelet,kubectl}
+sudo chmod +x {kubeadm,kubelet,kubectl}
+
+RELEASE_VERSION="v0.15.1"
+curl -sSL "https://raw.githubusercontent.com/kubernetes/release/${RELEASE_VERSION}/cmd/kubepkg/templates/latest/deb/kubelet/lib/systemd/system/kubelet.service" | sed "s:/usr/bin:${DOWNLOAD_DIR}:g" | sudo tee /etc/systemd/system/kubelet.service
+sudo mkdir -p /etc/systemd/system/kubelet.service.d
+curl -sSL "https://raw.githubusercontent.com/kubernetes/release/${RELEASE_VERSION}/cmd/kubepkg/templates/latest/deb/kubeadm/10-kubeadm.conf" | sed "s:/usr/bin:${DOWNLOAD_DIR}:g" | sudo tee /etc/systemd/system/kubelet.service.d/10-kubeadm.conf
+
+# 激活并启动 kubelet
+systemctl enable --now kubelet
+```
+
+### 5 安装conntrack
 ```sh
 yum install conntrack-tools -y
 ```
 
-测试
+#### 5.1 测试
 ```sh
 conntrack -L
 ```
 
-#### 内核参数
+### 6 设置内核参数
 
 如果不设置参数，使用 kubeadm join 时可能会导致报错
 ```log
@@ -97,31 +98,114 @@ error execution phase preflight: [preflight] Some fatal errors occurred:
 [preflight] If you know what you are doing, you can make a check non-fatal with `--ignore-preflight-errors=...`
 ```
 
-1. 启用 IP 转发
+#### 6.1 加载 bridge 内核模块
+
+查看是否加载 br_netfilter 模块
 ```sh
-echo "net.ipv4.ip_forward = 1" >> /etc/sysctl.conf
-sysctl -p
+lsmod | grep br_netfilter
 ```
 
-2. 打开 /etc/sysctl.conf 文件，更改内核参数
-   
+如果没加载执行
+```sh
+sudo modprobe br_netfilter
 ```
+
+#### 6.2 更改内核参数
+
+打开 /etc/sysctl.conf 文件
+
+```sh
+net.ipv4.ip_forward = 1
 net.bridge.bridge-nf-call-iptables = 1
 net.bridge.bridge-nf-call-ip6tables = 1
 ```
 
-3. 加载 bridge 内核模块
-```sh
-lsmod | grep br_netfilter
-sudo modprobe br_netfilter
-sysctl -p
-```
-
-4. 重新加载 sysctl 配置
-
+#### 6.3 重新加载 sysctl 配置
 ```sh
 sysctl -p
 ```
 
+### 7 kubeadm部署集群
 
-# 未完。。。
+#### 7.1 Master
+```sh
+kubeadm init --v=5
+```
+
+
+此时，正常情况下你应该看到master安装成功提示
+```log
+kubeadm join 10.7.130.29:6443 --token kqi9ve.dvcyddrn9527rvnu \
+	--discovery-token-ca-cert-hash sha256:67c19abd79fhjkl1cc5a04e2192bf3bc335d41f2f4a76084adcc4cda3d48804
+```
+#### 7.2 Node
+```sh
+kubeadm join 10.7.130.29:6443 --token kqi9ve.dvcyddrn9527rvnu \
+	--discovery-token-ca-cert-hash sha256:67c19abd79fhjkl1cc5a04e2192bf3bc335d41f2f4a76084adcc4cda3d48804
+```
+#### 7.3 参数说明
+```sh
+# 指定版本
+--kubernetes-version=v1.26.7
+
+# 指定镜像源为阿里
+--image-repository registry.cn-hangzhou.aliyuncs.com/google_containers
+
+# 指定pod网段
+--pod-network-cidr=10.244.0.0/16
+```
+
+#### 7.4 重新生成 token
+
+当忘记kubeadm join命令时，可以重新生成token。以此来获得 kubeadm join 命令。
+
+```sh
+sudo kubeadm token create --print-join-command
+```
+#### 7.5 查看 token
+```sh
+sudo kubeadm token list
+```
+
+#### 8 kubeconfig 配置文件
+默认生成的 kubeconfig 文件在 /etc/kubernetes/admin.conf
+
+```sh
+mkdir $HOME/.kube
+cp /etc/kubernetes/admin.conf $HOME/.kube/config
+kubectl get no
+```
+
+#### 9. 安装网络插件
+
+##### 9.1 先安装官方插件
+[下载地址](https://github.com/containernetworking/plugins/releases)
+```sh
+wget https://github.com/containernetworking/plugins/releases/download/v1.3.0/cni-plugins-linux-amd64-v1.3.0.tgz
+tar -zxvf cni-plugins-linux-amd64-v1.3.0.tgz -C /opt/cni/bin
+rm -f cni-plugins-linux-amd64-v1.3.0.tgz
+```
+#### 9.2 安装 flannel 或 calico
+```sh
+# flannel
+kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
+```
+```sh
+# calico
+kubectl apply -f https://docs.projectcalico.org/manifests/calico.yaml
+```
+
+安装完`cni`后，此时`coredns`应该为`running`
+
+#### 9.2.1 查看flannel模式
+
+`flannel` 默认的模式为 `vxlan`，如果需要修改，可以修改`configmap` `kube-flannel-cfg`
+
+```sh
+kubectl -n kube-flannel get configmap kube-flannel-cfg -oyaml
+```
+
+#### 9.2.2 创建测试pod
+```sh
+kubectl run my-pod --image=nginx:latest
+```

@@ -2,6 +2,42 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://blog.caiplus.pro/2023/07/27/k8s/%E5%AE%B9%E5%99%A8%E7%BD%91%E7%BB%9C%E6%8E%A5%E5%8F%A3%EF%BC%88CNI%EF%BC%89/</loc>
+    
+    <lastmod>2023-08-10</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://blog.caiplus.pro/2023/07/23/k8s/k8s%E8%AE%B0%E4%B8%8D%E4%BD%8F%E7%9A%84%E5%91%BD%E4%BB%A4/</loc>
+    
+    <lastmod>2023-08-10</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://blog.caiplus.pro/2023/07/26/k8s/%E4%BD%BF%E7%94%A8kubeadm%E5%AE%89%E8%A3%85%E9%9B%86%E7%BE%A4/</loc>
+    
+    <lastmod>2023-08-10</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://blog.caiplus.pro/2023/08/03/linux/%E8%A7%A3%E5%8E%8B%E3%80%81%E5%8E%8B%E7%BC%A9/</loc>
+    
+    <lastmod>2023-08-10</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>http://blog.caiplus.pro/2023/08/08/linux/%E9%87%8D%E5%91%BD%E5%90%8D%E6%96%87%E4%BB%B6/</loc>
     
     <lastmod>2023-08-08</lastmod>
@@ -29,25 +65,7 @@
   </url>
   
   <url>
-    <loc>http://blog.caiplus.pro/2023/07/26/k8s/%E4%BD%BF%E7%94%A8kubeadm%E5%AE%89%E8%A3%85%E9%9B%86%E7%BE%A4/</loc>
-    
-    <lastmod>2023-08-03</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>http://blog.caiplus.pro/2023/08/03/k8s/%E8%BF%9B%E5%85%A5pod%E7%BD%91%E7%BB%9C%E5%91%BD%E5%90%8D%E7%A9%BA%E9%97%B4/</loc>
-    
-    <lastmod>2023-08-03</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://blog.caiplus.pro/2023/08/03/linux/%E8%A7%A3%E5%8E%8B%E3%80%81%E5%8E%8B%E7%BC%A9/</loc>
     
     <lastmod>2023-08-03</lastmod>
     
@@ -191,15 +209,6 @@
   </url>
   
   <url>
-    <loc>http://blog.caiplus.pro/2023/07/27/k8s/flannel%E3%80%81calico/</loc>
-    
-    <lastmod>2023-07-27</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>http://blog.caiplus.pro/2023/07/25/linux/%E6%96%87%E4%BB%B6%E3%80%81%E7%A3%81%E7%9B%98%E7%9B%B8%E5%85%B3%E5%91%BD%E4%BB%A4/</loc>
     
     <lastmod>2023-07-25</lastmod>
@@ -254,15 +263,6 @@
   </url>
   
   <url>
-    <loc>http://blog.caiplus.pro/2023/07/23/k8s/k8s%E8%AE%B0%E4%B8%8D%E4%BD%8F%E7%9A%84%E5%91%BD%E4%BB%A4/</loc>
-    
-    <lastmod>2023-07-22</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>http://blog.caiplus.pro/2023/07/23/golang/%E6%97%A0%E6%B3%95%E4%B8%8B%E8%BD%BDkubernetes%E5%8C%85/</loc>
     
     <lastmod>2023-07-22</lastmod>
@@ -274,7 +274,7 @@
 
   <url>
     <loc>http://blog.caiplus.pro/</loc>
-    <lastmod>2023-08-08</lastmod>
+    <lastmod>2023-08-10</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -282,35 +282,35 @@
   
   <url>
     <loc>http://blog.caiplus.pro/tags/k8s/</loc>
-    <lastmod>2023-08-08</lastmod>
+    <lastmod>2023-08-10</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://blog.caiplus.pro/tags/golang/</loc>
-    <lastmod>2023-08-08</lastmod>
+    <lastmod>2023-08-10</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://blog.caiplus.pro/tags/docker/</loc>
-    <lastmod>2023-08-08</lastmod>
+    <lastmod>2023-08-10</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://blog.caiplus.pro/tags/linux/</loc>
-    <lastmod>2023-08-08</lastmod>
+    <lastmod>2023-08-10</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://blog.caiplus.pro/tags/%E5%B7%A5%E5%85%B7/</loc>
-    <lastmod>2023-08-08</lastmod>
+    <lastmod>2023-08-10</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>

@@ -43,6 +43,8 @@
   
   
   
+    <link href="//cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.3.5/dist/jquery.fancybox.min.css" rel="stylesheet">
+  
   
 <meta name="generator" content="Hexo 6.3.0"></head>
 
@@ -291,8 +293,17 @@
         <span class="article-date">
     <i class="icon icon-calendar-check"></i>
 	<a href="/2023/07/27/golang/golang-time%E5%8C%85%E7%94%A8%E6%B3%95/" class="article-date">
-	  <time datetime="2023-07-27T07:33:31.000Z" itemprop="datePublished">2023-07-27</time>
+	  发布日期：<time datetime="2023-07-27T07:33:31.000Z" itemprop="datePublished">2023-07-27</time>
 	</a>
+</span>
+
+<span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+    <a href="/2023/07/27/golang/golang-time%E5%8C%85%E7%94%A8%E6%B3%95/" class="article-date">
+        最后更新：<time datetime="2023-07-27T07:33:50.769Z" itemprop="dateUpdated">
+            2023-07-27
+        </time>
+    </a>
 </span>
         
         
@@ -393,7 +404,7 @@
     
     
     <li class="next">
-      <a href="/2023/07/27/k8s/flannel%E3%80%81calico/" title="flannel、calico"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+      <a href="/2023/07/27/k8s/%E5%AE%B9%E5%99%A8%E7%BD%91%E7%BB%9C%E6%8E%A5%E5%8F%A3%EF%BC%88CNI%EF%BC%89/" title="容器网络接口（CNI）"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
     </li>
     
     
@@ -515,10 +526,72 @@ window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
    
 
 
+  <script src="//cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.3.5/dist/jquery.fancybox.min.js"></script>
+  <script>
+  //利用 FancyBox 实现点击图片放大
+  $(document).ready(function() {
+    $('article img').not('[hidden]').not('.panel-body img').each(function() {
+      var $image = $(this);
+      var imageCaption = $image.attr('alt');
+      var $imageWrapLink = $image.parent('a');
+      if ($imageWrapLink.length < 1) {
+        var src = this.getAttribute('src');
+        var idx = src.lastIndexOf('?');
+        if (idx != -1) {
+          src = src.substring(0, idx);
+        }
+        $imageWrapLink = $image.wrap('<a href="' + src + '"></a>').parent('a');
+      }
+      $imageWrapLink.attr('data-fancybox', 'images');
+      if (imageCaption) {
+        $imageWrapLink.attr('data-caption', imageCaption);
+      }
+    });
+    $().fancybox({
+      selector: '[data-fancybox="images"]',
+      hash: false,
+      loop: false,
+    });
+  });
+  </script>
 
 
 
 
+
+<div id="go-top"></div>
+<style type="text/css">
+   #go-top {
+    width:40px;height:36px;
+    background-color:#777;
+    position:relative;
+    border-radius:2px;
+    position:fixed;right:10px;bottom:60px;
+    cursor:pointer;display:none;
+   }
+   #go-top:after {
+    content:" ";
+    position:absolute;left:14px;top:14px;
+    border-top:2px solid #fff;border-right:2px solid #fff;
+    width:12px;height:12px;
+    transform:rotate(-45deg);
+   }
+   #go-top:hover {
+    background-color:#333;
+   }
+</style>
+<script>
+   $(function () {
+     var top=$("#go-top");
+     $(window).scroll(function () {
+       ($(window).scrollTop() > 300) ? top.show(300) : top.hide(200);
+       $("#go-top").click(function () {
+         $('body,html').animate({scrollTop:0});
+         return false();
+       })
+     });
+   });
+</script>
   
     <style>
       .copy-btn {

@@ -5,7 +5,11 @@ date: 2023-07-23 00:29:39
 tags: k8s
 ---
 
-#### 替换镜像
+#### 创建pod
+```sh
+kubectl run my-pod --image=nginx:latest
+```
+#### 更新镜像
 ```sh
 kubectl set image deployment/provider provider=provider:latest
 ```

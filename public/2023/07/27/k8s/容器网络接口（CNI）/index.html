@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>容器网络接口（CNI） | Hexo</title>
+  <meta name="description" content="CNI1. 交互逻辑1.1 Pod IP地址分配机制 1.2 CRI插件与CNI插件的交互 1.3 CNI插件间的交互 2. flannel 3种模式 UDP、VXLAN模式基于三层网络，host-gateway需要在二层网络同一个交换机下才能实现。 2.1 vxlan模式VXLAN是Flannel默认和推荐的模式。当我们使用默认配置安装Flannel时，它会为每个节点分配一个24位子网，并在每个">
+<meta property="og:type" content="article">
+<meta property="og:title" content="容器网络接口（CNI）">
+<meta property="og:url" content="http://blog.caiplus.pro/2023/07/27/k8s/%E5%AE%B9%E5%99%A8%E7%BD%91%E7%BB%9C%E6%8E%A5%E5%8F%A3%EF%BC%88CNI%EF%BC%89/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="CNI1. 交互逻辑1.1 Pod IP地址分配机制 1.2 CRI插件与CNI插件的交互 1.3 CNI插件间的交互 2. flannel 3种模式 UDP、VXLAN模式基于三层网络，host-gateway需要在二层网络同一个交换机下才能实现。 2.1 vxlan模式VXLAN是Flannel默认和推荐的模式。当我们使用默认配置安装Flannel时，它会为每个节点分配一个24位子网，并在每个">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://blog.caiplus.pro/2023/07/27/k8s/%E5%AE%B9%E5%99%A8%E7%BD%91%E7%BB%9C%E6%8E%A5%E5%8F%A3%EF%BC%88CNI%EF%BC%89/pod-allow-ip.png">
+<meta property="og:image" content="http://blog.caiplus.pro/2023/07/27/k8s/%E5%AE%B9%E5%99%A8%E7%BD%91%E7%BB%9C%E6%8E%A5%E5%8F%A3%EF%BC%88CNI%EF%BC%89/cri-cni.png">
+<meta property="og:image" content="http://blog.caiplus.pro/2023/07/27/k8s/%E5%AE%B9%E5%99%A8%E7%BD%91%E7%BB%9C%E6%8E%A5%E5%8F%A3%EF%BC%88CNI%EF%BC%89/cni-plugins.png">
+<meta property="og:image" content="http://blog.caiplus.pro/2023/07/27/k8s/%E5%AE%B9%E5%99%A8%E7%BD%91%E7%BB%9C%E6%8E%A5%E5%8F%A3%EF%BC%88CNI%EF%BC%89/flannel-modes.jpg">
+<meta property="og:image" content="http://blog.caiplus.pro/2023/07/27/k8s/%E5%AE%B9%E5%99%A8%E7%BD%91%E7%BB%9C%E6%8E%A5%E5%8F%A3%EF%BC%88CNI%EF%BC%89/flannel-vxlan-1.png">
+<meta property="og:image" content="http://blog.caiplus.pro/2023/07/27/k8s/%E5%AE%B9%E5%99%A8%E7%BD%91%E7%BB%9C%E6%8E%A5%E5%8F%A3%EF%BC%88CNI%EF%BC%89/flannel-vxlan-2.png">
+<meta property="og:image" content="http://blog.caiplus.pro/2023/07/27/k8s/%E5%AE%B9%E5%99%A8%E7%BD%91%E7%BB%9C%E6%8E%A5%E5%8F%A3%EF%BC%88CNI%EF%BC%89/flannel-vxlan-3.png">
+<meta property="og:image" content="http://blog.caiplus.pro/2023/07/27/k8s/%E5%AE%B9%E5%99%A8%E7%BD%91%E7%BB%9C%E6%8E%A5%E5%8F%A3%EF%BC%88CNI%EF%BC%89/flannel-host-gw-1.png">
+<meta property="og:image" content="http://blog.caiplus.pro/2023/07/27/k8s/%E5%AE%B9%E5%99%A8%E7%BD%91%E7%BB%9C%E6%8E%A5%E5%8F%A3%EF%BC%88CNI%EF%BC%89/calico-ipip-1.png">
+<meta property="og:image" content="http://blog.caiplus.pro/2023/07/27/k8s/%E5%AE%B9%E5%99%A8%E7%BD%91%E7%BB%9C%E6%8E%A5%E5%8F%A3%EF%BC%88CNI%EF%BC%89/calico-ipip-2.png">
+<meta property="og:image" content="http://blog.caiplus.pro/2023/07/27/k8s/%E5%AE%B9%E5%99%A8%E7%BD%91%E7%BB%9C%E6%8E%A5%E5%8F%A3%EF%BC%88CNI%EF%BC%89/calico-bgp-1.png">
+<meta property="article:published_time" content="2023-07-27T06:31:00.000Z">
+<meta property="article:modified_time" content="2023-08-10T08:45:01.120Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="k8s">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://blog.caiplus.pro/2023/07/27/k8s/%E5%AE%B9%E5%99%A8%E7%BD%91%E7%BB%9C%E6%8E%A5%E5%8F%A3%EF%BC%88CNI%EF%BC%89/pod-allow-ip.png">
+  <!-- Canonical links -->
+  <link rel="canonical" href="http://blog.caiplus.pro/2023/07/27/k8s/%E5%AE%B9%E5%99%A8%E7%BD%91%E7%BB%9C%E6%8E%A5%E5%8F%A3%EF%BC%88CNI%EF%BC%89/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+    <link href="//cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.3.5/dist/jquery.fancybox.min.css" rel="stylesheet">
+  
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body class="main-center theme-green" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">隔壁老王</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">k8s &amp; ?</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> 西安</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">标签</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎交流与分享经验!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget-body">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/" rel="tag">docker</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/golang/" rel="tag">golang</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/k8s/" rel="tag">k8s</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag">工具</a><span class="tag-list-count">6</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/docker/" style="font-size: 13px;">docker</a> <a href="/tags/golang/" style="font-size: 13.5px;">golang</a> <a href="/tags/k8s/" style="font-size: 13.5px;">k8s</a> <a href="/tags/linux/" style="font-size: 14px;">linux</a> <a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 13.5px;">工具</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/08/">August 2023</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/07/">July 2023</a><span class="archive-list-count">23</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2023/08/08/linux/%E9%87%8D%E5%91%BD%E5%90%8D%E6%96%87%E4%BB%B6/" class="title">重命名文件</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2023-08-08T08:29:04.000Z" itemprop="datePublished">2023-08-08</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2023/08/07/linux/%E5%BF%AB%E9%80%9F%E5%BC%80%E5%90%AFhttp%E6%9C%8D%E5%8A%A1/" class="title">快速开启http服务</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2023-08-07T09:22:35.000Z" itemprop="datePublished">2023-08-07</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2023/08/03/k8s/%E8%BF%9B%E5%85%A5pod%E7%BD%91%E7%BB%9C%E5%91%BD%E5%90%8D%E7%A9%BA%E9%97%B4/" class="title">进入pod网络命名空间</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2023-08-03T08:35:39.000Z" itemprop="datePublished">2023-08-03</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2023/08/03/linux/%E8%A7%A3%E5%8E%8B%E3%80%81%E5%8E%8B%E7%BC%A9/" class="title">解压、压缩</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2023-08-03T07:43:09.000Z" itemprop="datePublished">2023-08-03</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2023/08/03/docker/buildx%E6%9E%84%E5%BB%BA%E5%A4%9A%E7%89%88%E6%9C%AC%E9%95%9C%E5%83%8F/" class="title">buildx构建多版本镜像</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2023-08-03T07:23:18.000Z" itemprop="datePublished">2023-08-03</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="k8s-k8s/容器网络接口（CNI）" class="article article-type-k8s" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      容器网络接口（CNI）
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2023/07/27/k8s/%E5%AE%B9%E5%99%A8%E7%BD%91%E7%BB%9C%E6%8E%A5%E5%8F%A3%EF%BC%88CNI%EF%BC%89/" class="article-date">
+	  发布日期：<time datetime="2023-07-27T06:31:00.000Z" itemprop="datePublished">2023-07-27</time>
+	</a>
+</span>
+
+<span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+    <a href="/2023/07/27/k8s/%E5%AE%B9%E5%99%A8%E7%BD%91%E7%BB%9C%E6%8E%A5%E5%8F%A3%EF%BC%88CNI%EF%BC%89/" class="article-date">
+        最后更新：<time datetime="2023-08-10T08:45:01.120Z" itemprop="dateUpdated">
+            2023-08-10
+        </time>
+    </a>
+</span>
+        
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link-link" href="/tags/k8s/" rel="tag">k8s</a>
+  </span>
+
+
+        
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2023/07/27/k8s/%E5%AE%B9%E5%99%A8%E7%BD%91%E7%BB%9C%E6%8E%A5%E5%8F%A3%EF%BC%88CNI%EF%BC%89/#comments" class="article-comment-link">评论</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 2k(字)</span>
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 8(分)</span>
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h1 id="CNI"><a href="#CNI" class="headerlink" title="CNI"></a>CNI</h1><h2 id="1-交互逻辑"><a href="#1-交互逻辑" class="headerlink" title="1. 交互逻辑"></a>1. 交互逻辑</h2><h4 id="1-1-Pod-IP地址分配机制"><a href="#1-1-Pod-IP地址分配机制" class="headerlink" title="1.1 Pod IP地址分配机制"></a>1.1 Pod IP地址分配机制</h4><p><img src="pod-allow-ip.png" alt="image"></p>
+<h4 id="1-2-CRI插件与CNI插件的交互"><a href="#1-2-CRI插件与CNI插件的交互" class="headerlink" title="1.2 CRI插件与CNI插件的交互"></a>1.2 CRI插件与CNI插件的交互</h4><p><img src="cri-cni.png" alt="cri-cni"></p>
+<h4 id="1-3-CNI插件间的交互"><a href="#1-3-CNI插件间的交互" class="headerlink" title="1.3 CNI插件间的交互"></a>1.3 CNI插件间的交互</h4><p><img src="cni-plugins.png" alt="cni"></p>
+<h1 id="2-flannel-3种模式"><a href="#2-flannel-3种模式" class="headerlink" title="2. flannel 3种模式"></a>2. flannel 3种模式</h1><p><img src="flannel-modes.jpg" alt="flannel"></p>
+<p>UDP、VXLAN模式基于三层网络，host-gateway需要在二层网络同一个交换机下才能实现。</p>
+<h2 id="2-1-vxlan模式"><a href="#2-1-vxlan模式" class="headerlink" title="2.1 vxlan模式"></a>2.1 vxlan模式</h2><p>VXLAN是Flannel默认和推荐的模式。当我们使用默认配置安装Flannel时，它会为每个节点分配一个24位子网，并在每个节点上创建两张虚机网卡： cni0 和 flannel.1 。 cni0 是一个网桥设备，类似于 docker0 ，节点上所有的Pod都通过veth pair的形式与 cni0 相连。 flannel.1 则是一个VXLAN类型的设备，充当VTEP的角色，实现对VXLAN报文的封包解包。</p>
+<h3 id="2-1-1-节点内通信"><a href="#2-1-1-节点内通信" class="headerlink" title="2.1.1 节点内通信"></a>2.1.1 节点内通信</h3><p><img src="flannel-vxlan-1.png" alt="flannel-vxlan-1"></p>
+<h3 id="2-1-2-跨节点通信"><a href="#2-1-2-跨节点通信" class="headerlink" title="2.1.2 跨节点通信"></a>2.1.2 跨节点通信</h3><p><img src="flannel-vxlan-2.png" alt="flannel-vxlan-2"></p>
+<h4 id="大致过程："><a href="#大致过程：" class="headerlink" title="大致过程："></a>大致过程：</h4><ul>
+<li>发送端：在PodA中发起 ping 10.244.1.21 ，ICMP 报文经过 cni0 网桥后交由 flannel.1 设备处理。 flannel.1 设备是一个VXLAN类型的设备，负责VXLAN封包解包。 因此，在发送端，flannel.1 将原始L2报文封装成VXLAN UDP报文，然后从 eth0 发送。</li>
+<li>接收端：Node2收到UDP报文，发现是一个VXLAN类型报文，交由 flannel.1 进行解包。根据解包后得到的原始报文中的目的IP，将原始报文经由 cni0 网桥发送给PodB。</li>
+</ul>
+<h4 id="哪些IP要交由-flannel-1-处理"><a href="#哪些IP要交由-flannel-1-处理" class="headerlink" title="哪些IP要交由 flannel.1 处理?"></a>哪些IP要交由 flannel.1 处理?</h4><p>flanneld 从 etcd 中可以获取所有节点的子网情况，以此为依据为各节点配置路由，将属于非本节点的子网IP都路由到 flannel.1 处理，本节点的子网路由到 cni0 网桥处理。</p>
+<h4 id="flannel-封包过程"><a href="#flannel-封包过程" class="headerlink" title="flannel 封包过程"></a>flannel 封包过程</h4><p>VXLAN的封包是将二层以太网帧封装到四层UDP报文中的过程。</p>
+<h4 id="原始L2帧"><a href="#原始L2帧" class="headerlink" title="原始L2帧"></a>原始L2帧</h4><p>要生成原始的L2帧， flannel.1 需要得知：</p>
+<ul>
+<li>内层源&#x2F;目的IP地址</li>
+<li>内层源&#x2F;目的MAC地址</li>
+</ul>
+<p>内层的源&#x2F;目的IP地址是已知的，即为PodA&#x2F;PodB的PodIP，在图例中，分别为10.224.0.20和10.224.1.20。<br>内层源&#x2F;目的MAC地址要结合路由表和ARP表来获取。根据路由表①得知：</p>
+<p>下一跳地址是10.224.1.0，关联ARP表②，得到下一跳的MAC地址，也就是目的MAC地址：Node2_flannel.1_MAC；<br>报文要从 flannel.1 虚拟网卡发出，因此源MAC地址为 flannel.1 的MAC地址。</p>
+<p>要注意的是，这里ARP表的表项②并不是通过ARP学习得到的，而是 flanneld 预先为每个节点设置好的，由 flanneld负责维护，没有过期时间。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看ARP表</span></span><br><span class="line">[root@Node1 ~]<span class="comment"># ip n | grep flannel.1</span></span><br><span class="line">10.244.1.0 dev flannel.1 lladdr ba:74:f9:db:69:c1 PERMANENT <span class="comment"># PERMANENT 表示永不过期</span></span><br></pre></td></tr></table></figure>
+<p>有了上面的信息， flannel.1 就可以构造出内层的2层以太网帧：</p>
+<p><img src="flannel-vxlan-3.png" alt="flannel_packet_1.png"></p>
+<h4 id="外层VXLAN-UDP报文"><a href="#外层VXLAN-UDP报文" class="headerlink" title="外层VXLAN UDP报文"></a>外层VXLAN UDP报文</h4><p>要将原始L2帧封装成VXLAN UDP报文， flannel.1 还需要填充源&#x2F;目的IP地址。前面提到，VTEP是VXLAN隧道的起点或终点。因此，目的IP地址即为对端VTEP的IP地址，通过FDB表获取。在FDB表③中，dst字段表示的即为VXLAN隧道目的端点（对端VTEP）的IP地址，也就是VXLAN DUP报文的目的IP地址。FDB表也是由 flanneld 在每个节点上预设并负责维护的。</p>
+<p>FDB表（Forwarding database）用于保存二层设备中MAC地址和端口的关联关系，就像交换机中的MAC地址表一样。在二层设备转发二层以太网帧时，根据FDB表项来找到对应的端口。例如cni0网桥上连接了很多veth pair网卡，当网桥要将以太网帧转发给Pod时，FDB表根据Pod网卡的MAC地址查询FDB表，就能找到其对应的veth网卡，从而实现联通。</p>
+<p>可以使用 bridge fdb show 查看FDB表：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@Node1 ~]<span class="comment"># bridge fdb show | grep flannel.1</span></span><br><span class="line">ba:74:f9:db:69:c1 dev flannel.1 dst 192.168.50.3 self permanent</span><br></pre></td></tr></table></figure>
+<p>源IP地址信息来自于 flannel.1 网卡设置本身，根据 local 192.168.50.2 可以得知源IP地址为192.168.50.2。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[root@Node1 ~]<span class="comment"># ip -d a show flannel.1</span></span><br><span class="line">6: flannel.1: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1450 qdisc noqueue state UNKNOWN group default</span><br><span class="line">    <span class="built_in">link</span>/ether 32:02:78:2f:02:cb brd ff:ff:ff:ff:ff:ff promiscuity 0</span><br><span class="line">    vxlan <span class="built_in">id</span> 1 <span class="built_in">local</span> 192.168.50.2 dev eth0 srcport 0 0 dstport 8472 nolearning ageing 300 noudpcsum noudp6zerocsumtx noudp6zerocsumrx numtxqueues 1 numrxqueues 1 gso_max_size 65536 gso_max_segs 65535</span><br><span class="line">    inet 10.244.0.0/32 brd 10.244.0.0 scope global flannel.1</span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line">    inet6 fe80::3002:78ff:fe2f:2cb/64 scope <span class="built_in">link</span></span><br><span class="line">       valid_lft forever preferred_lft forever</span><br></pre></td></tr></table></figure>
+<p>至此， flannel.1 已经得到了所有完成VXLAN封包所需的信息，最终通过 eth0 发送一个VXLAN UDP报文：</p>
+<p>Flannel的VXLAN模式通过静态配置路由表，ARP表和FDB表的信息，结合VXLAN虚拟网卡 flannel.1 ，实现了一个所有Pod同属一个大二层网络的VXLAN网络模型。</p>
+<h2 id="2-1-host-gw模式"><a href="#2-1-host-gw模式" class="headerlink" title="2.1 host-gw模式"></a>2.1 host-gw模式</h2><p><img src="flannel-host-gw-1.png" alt="host-gw模式"></p>
+<p>在host-gw模式下，由于不涉及VXLAN的封包解包，不再需要<code>flannel.1</code>虚机网卡。 <code>flanneld</code> 负责为各节点设置路由 ，将对应节点Pod子网的下一跳地址指向对应的节点的IP，如图中<code>路由表①</code>所示。</p>
+<p>要使用<code>host-gw</code>模式，需要修改 ConfigMap <code>kube-flannel-cfg</code> ，将 <code>Backend.Type</code> 从 <code>vxlan</code>改为<code>host-gw</code>，然后重启所有<code>kube-flannel Pod</code>即可：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">kubectl -n kube-flannel edit configmap kube-flannel-cfg</span><br><span class="line"></span><br><span class="line">...</span><br><span class="line">  net-conf.json: |</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="string">&quot;Network&quot;</span>: <span class="string">&quot;10.244.0.0/16&quot;</span>,</span><br><span class="line">      <span class="string">&quot;Backend&quot;</span>: &#123;</span><br><span class="line">        <span class="string">&quot;Type&quot;</span>: <span class="string">&quot;host-gw&quot;</span> // &lt;- 改成host-gw</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<h1 id="3-calico-两种网络模式"><a href="#3-calico-两种网络模式" class="headerlink" title="3. calico 两种网络模式"></a>3. calico 两种网络模式</h1><h2 id="3-1-IPIP-模式"><a href="#3-1-IPIP-模式" class="headerlink" title="3.1 IPIP 模式"></a>3.1 IPIP 模式</h2><h4 id="3-1-1-概要"><a href="#3-1-1-概要" class="headerlink" title="3.1.1 概要"></a>3.1.1 概要</h4><p>IPIP模式是calico的默认网络架构，calico中用环境变量<code>CALICO_IPV4POOL_IPIP</code>来标识是否开启<code>IPIP Mode</code>， 如果该变量的值为<code>Always</code>那么就是开启<code>IPIP</code>，如果关闭需要设置为<code>Never</code>(大小写不敏感，代码里有strings.ToLower操作)。</p>
+<ul>
+<li>从字面来理解，就是把一个IP数据包又套在一个IP包里，即把 IP 层封装到 IP 层的一个 tunnel，看起来似乎是浪费，实则不然。</li>
+<li>它的作用其实基本上就相当于一个基于IP层的网桥！</li>
+<li>一般来说，普通的网桥是基于mac层的，根本不需 IP，而这个 ipip 则是通过两端的路由做一个 tunnel，把两个本来不通的网络通过点对点连接起来。</li>
+<li>ipip 的源代码在内核 net&#x2F;ipv4&#x2F;ipip.c 中可以找到。</li>
+</ul>
+<h4 id="3-1-2-工作原理"><a href="#3-1-2-工作原理" class="headerlink" title="3.1.2 工作原理"></a>3.1.2 工作原理</h4><p><img src="calico-ipip-1.png" alt="ipip"></p>
+<p>Calico使用的这个tunl0设备，是一个IP隧道（IP tunnel）设备</p>
+<p>在上面的例子中，IP包进入IP隧道设备之后，就会被Linux内核的IPIP驱动接管。IPIP驱动会将这个IP包直接封装在一个宿主机网络的IP包中，如下所示：</p>
+<p><img src="calico-ipip-2.png" alt="ipip"></p>
+<h2 id="3-2-BGP-模式"><a href="#3-2-BGP-模式" class="headerlink" title="3.2 BGP 模式"></a>3.2 BGP 模式</h2><h4 id="3-2-1-概要"><a href="#3-2-1-概要" class="headerlink" title="3.2.1 概要"></a>3.2.1 概要</h4><ul>
+<li>边界网关协议（Border Gateway Protocol, BGP）是互联网上一个核心的去中心化自治路由协议。</li>
+<li>它通过维护IP路由表或‘前缀’表来实现自治系统（AS）之间的可达性，属于矢量路由协议。</li>
+<li>BGP不使用传统的内部网关协议（IGP）的指标，而使用基于路径、网络策略或规则集来决定路由。因此，它更适合被称为矢量性协议，而不是路由协议。</li>
+<li>BGP，通俗的讲就是讲接入到机房的多条线路（如电信、联通、移动等）融合为一体，实现多线单IP，BGP 机房的优点：服务器只需要设置一个IP地址，最佳访问路由是由网络上的骨干路由器根据路由跳数与其它技术指标来确定的，不会占用服务器的任何系统。</li>
+<li>BGP网络相比较IPIP网络，最大的不同之处就是没有了隧道设备 tunl0。前面介绍过<code>IPIP</code>网络pod之间的流量发送tunl0，然后tunl0发送对端设备。BGP网络中，pod之间的流量直接从网卡发送目的地，减少了<code>tunl0</code>这个环节。</li>
+</ul>
+<h4 id="3-2-2-工作原理"><a href="#3-2-2-工作原理" class="headerlink" title="3.2.2 工作原理"></a>3.2.2 工作原理</h4><p><img src="calico-bgp-1.png" alt="bgp"></p>
+<h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><p><a target="_blank" rel="noopener" href="https://ost.51cto.com/posts/15845">https://ost.51cto.com/posts/15845</a><br><a target="_blank" rel="noopener" href="https://juejin.cn/post/6994825163757846565">https://juejin.cn/post/6994825163757846565</a></p>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="http://blog.caiplus.pro/2023/07/27/k8s/%E5%AE%B9%E5%99%A8%E7%BD%91%E7%BB%9C%E6%8E%A5%E5%8F%A3%EF%BC%88CNI%EF%BC%89/" title="容器网络接口（CNI）" target="_blank" rel="external">http://blog.caiplus.pro/2023/07/27/k8s/容器网络接口（CNI）/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="" target="_blank"><span class="text-dark">隔壁老王</span><small class="ml-1x">k8s &amp; ?</small></a></h3>
+        <div>仅供个人使用。</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2023/07/27/golang/golang-time%E5%8C%85%E7%94%A8%E6%B3%95/" title="golang time包用法"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2023/07/26/k8s/%E4%BD%BF%E7%94%A8kubeadm%E5%AE%89%E8%A3%85%E9%9B%86%E7%BE%A4/" title="使用kubeadm安装集群"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>赏</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>感谢您的支持，我会继续努力的!</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/donate/alipayimg.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开支付宝扫一扫，即可进行扫码打赏哦</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/donate/wechatpayimg.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开微信扫一扫，即可进行扫码打赏哦</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> 支付宝</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> 微信支付</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+    
+        <div class="copyright">
+            
+                            <div class="publishby">
+                                Theme by <a href="https://github.com/cofess" target="_blank">
+                                        cofess </a>
+                                    base on <a href="https://github.com/cofess/hexo-theme-pure"
+                                            target="_blank">pure</a>.
+                            </div>
+                            
+        </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+<script src="/js/plugin.min.js"></script>
+
+
+<script src="/js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+
+
+
+
+   
+
+
+
+
+   
+
+
+  <script src="//cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.3.5/dist/jquery.fancybox.min.js"></script>
+  <script>
+  //利用 FancyBox 实现点击图片放大
+  $(document).ready(function() {
+    $('article img').not('[hidden]').not('.panel-body img').each(function() {
+      var $image = $(this);
+      var imageCaption = $image.attr('alt');
+      var $imageWrapLink = $image.parent('a');
+      if ($imageWrapLink.length < 1) {
+        var src = this.getAttribute('src');
+        var idx = src.lastIndexOf('?');
+        if (idx != -1) {
+          src = src.substring(0, idx);
+        }
+        $imageWrapLink = $image.wrap('<a href="' + src + '"></a>').parent('a');
+      }
+      $imageWrapLink.attr('data-fancybox', 'images');
+      if (imageCaption) {
+        $imageWrapLink.attr('data-caption', imageCaption);
+      }
+    });
+    $().fancybox({
+      selector: '[data-fancybox="images"]',
+      hash: false,
+      loop: false,
+    });
+  });
+  </script>
+
+
+
+
+
+<div id="go-top"></div>
+<style type="text/css">
+   #go-top {
+    width:40px;height:36px;
+    background-color:#777;
+    position:relative;
+    border-radius:2px;
+    position:fixed;right:10px;bottom:60px;
+    cursor:pointer;display:none;
+   }
+   #go-top:after {
+    content:" ";
+    position:absolute;left:14px;top:14px;
+    border-top:2px solid #fff;border-right:2px solid #fff;
+    width:12px;height:12px;
+    transform:rotate(-45deg);
+   }
+   #go-top:hover {
+    background-color:#333;
+   }
+</style>
+<script>
+   $(function () {
+     var top=$("#go-top");
+     $(window).scroll(function () {
+       ($(window).scrollTop() > 300) ? top.show(300) : top.hide(200);
+       $("#go-top").click(function () {
+         $('body,html').animate({scrollTop:0});
+         return false();
+       })
+     });
+   });
+</script>
+  
+    <style>
+      .copy-btn {
+        display: inline-block;
+        padding: 6px 12px;
+        font-size: 13px;
+        font-weight: 700;
+        line-height: 20px;
+        color: #333;
+        white-space: nowrap;
+        vertical-align: middle;
+        cursor: pointer;
+        background-color: #eee;
+        background-image: linear-gradient(#fcfcfc, #eee);
+        border: 1px solid #d5d5d5;
+        border-radius: 3px;
+        user-select: none;
+        outline: 0;
+      }
+  
+      .highlight-wrap .copy-btn {
+        transition: opacity .3s ease-in-out;
+        opacity: 0;
+        padding: 2px 6px;
+        position: absolute;
+        right: 4px;
+        top: 8px;
+        z-index: 2;
+      }
+  
+      .highlight-wrap:hover .copy-btn,
+          .highlight-wrap .copy-btn:focus {
+        opacity: 1
+      }
+  
+      .highlight-wrap {
+        position: relative;
+      }
+    </style>
+    
+    <script>
+      addLoadEvent(()=>{
+        $('.highlight').each(function (i, e) {
+          var $wrap = $('<div>').addClass('highlight-wrap')
+          $(e).after($wrap)
+          $wrap.append($('<button>').addClass('copy-btn').append('复制').on('click', function (e) {
+            var code = $(this).parent().find(".code")[0].innerText
+            
+                code += ""
+            
+            var ta = document.createElement('textarea')
+            document.body.appendChild(ta)
+            ta.style.position = 'absolute'
+            ta.style.top = '0px'
+            ta.style.left = '0px'
+            ta.value = code
+            ta.select()
+            ta.focus()
+            var result = document.execCommand('copy')
+            document.body.removeChild(ta)
+            
+              if(result)$(this).text('复制成功')
+              else $(this).text('复制失败')
+            
+            $(this).blur()
+          })).on('mouseleave', function (e) {
+            var $b = $(this).find('.copy-btn')
+            setTimeout(function () {
+              $b.text('复制')
+            }, 300)
+          }).append(e)
+        })
+      })
+    </script>
+  
+</body>
+</html>

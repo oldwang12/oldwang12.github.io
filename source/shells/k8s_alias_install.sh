@@ -44,7 +44,7 @@ add_alias "ep" "kubectl get ep"
 add_alias "cm" "kubectl get configmap"
 add_alias "secret" "kubectl get secret"
 add_alias "d" "kubectl delete po"
-add_alias "dd" "kubectl --force delete po"
+add_alias "dd" "kubectl delete po --force"
 
 shell_dir=$HOME/.shell
 mkdir -p $shell_dir
