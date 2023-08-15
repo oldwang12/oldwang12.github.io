@@ -8,7 +8,7 @@ tags: k8s
 #### 图解k8s
 ![master-worker](master-worker.png)
 ### 1 安装containerd
-[下载地址](https://github.com/opencontainers/runc/releases)
+[下载地址](https://github.com/containerd/containerd/releases)
 
 ```sh
 wget https://github.com/containerd/containerd/releases/download/v1.7.2/containerd-1.7.2-linux-amd64.tar.gz
@@ -59,7 +59,12 @@ cat /etc/crictl.yaml
 DOWNLOAD_DIR="/usr/local/bin"
 sudo mkdir -p "$DOWNLOAD_DIR"
 
+# 安装最新版
 RELEASE="$(curl -sSL https://dl.k8s.io/release/stable.txt)"
+
+# 安装指定版本
+# RELEASE="v1.26.7"
+
 ARCH="amd64"
 cd $DOWNLOAD_DIR
 sudo curl -L --remote-name-all https://dl.k8s.io/release/${RELEASE}/bin/linux/${ARCH}/{kubeadm,kubelet,kubectl}
