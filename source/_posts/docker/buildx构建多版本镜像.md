@@ -3,6 +3,7 @@ layout: docker
 title: buildx构建多版本镜像
 date: 2023-08-03 15:23:18
 tags: "docker"
+categories: docker
 ---
 
 <!--more-->

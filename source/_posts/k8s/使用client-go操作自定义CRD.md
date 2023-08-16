@@ -3,6 +3,7 @@ layout: k8s
 title: 使用client-go操作自定义CRD
 date: 2023-07-25 17:18:17
 tags: k8s
+categories: k8s
 ---
 
 #### 介绍

@@ -3,6 +3,7 @@ layout: 工具
 title: chatgpt
 date: 2023-07-28 11:00:52
 tags: 工具
+categories: 工具
 ---
 
 #### 测试 key

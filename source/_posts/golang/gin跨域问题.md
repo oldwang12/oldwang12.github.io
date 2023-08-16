@@ -3,6 +3,7 @@ layout: golang
 title: gin跨域问题
 date: 2023-07-23 00:14:35
 tags: "golang"
+categories: golang
 ---
 
 #### 解决跨域问题

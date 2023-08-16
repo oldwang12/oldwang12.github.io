@@ -3,6 +3,7 @@ layout: linux
 title: cronjob 定时任务
 date: 2023-08-01 15:49:05
 tags: linux
+categories: linux
 ---
 #### cronjob 定时任务
 ```sh

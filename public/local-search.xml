@@ -1,0 +1,832 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  
+  
+  
+  <entry>
+    <title>golang垃圾回收</title>
+    <link href="/2023/08/16/golang/golang%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6/"/>
+    <url>/2023/08/16/golang/golang%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6/</url>
+    
+    <content type="html"><![CDATA[<h1 id="垃圾回收"><a href="#垃圾回收" class="headerlink" title="垃圾回收"></a>垃圾回收</h1><h2 id="1-三色标记法"><a href="#1-三色标记法" class="headerlink" title="1. 三色标记法"></a>1. 三色标记法</h2><h3 id="1-1-标记过程"><a href="#1-1-标记过程" class="headerlink" title="1.1 标记过程"></a>1.1 标记过程</h3><p><img src="1.png" alt="image"></p><ul><li><ol><li>初始状态下所有对象都是白色的。</li></ol></li><li><ol start="2"><li>从根节点开始遍历所有对象，把遍历到的对象变成灰色对象</li></ol></li><li><ol start="3"><li>遍历灰色对象，将灰色对象引用的对象也变成灰色对象，然后将遍历过的灰色对象变成黑色对象。</li></ol></li><li><ol start="4"><li>循环步骤3，直到灰色对象全部变黑色。</li></ol></li><li><ol start="5"><li>通过写屏障(write-barrier)检测对象有变化，重复以上操作</li></ol></li><li><ol start="6"><li>回收所有白色对象（垃圾）。</li></ol></li></ul><h3 id="1-2-根对象是什么？"><a href="#1-2-根对象是什么？" class="headerlink" title="1.2 根对象是什么？"></a>1.2 根对象是什么？</h3><p>根对象在垃圾回收的术语中又叫做根集合，它是垃圾回收器在标记过程时最先检查的对象，包括：</p><ul><li><ol><li>全局变量：程序在编译期就能确定的那些存在于程序整个生命周期的变量。</li></ol></li><li><ol start="2"><li>执行栈：每个 goroutine 都包含自己的执行栈，这些执行栈上包含栈上的变量及指向分配的堆内存区块的指针。</li></ol></li><li><ol start="3"><li>寄存器：寄存器的值可能表示一个指针，参与计算的这些指针可能指向某些赋值器分配的堆内存区块。</li></ol></li></ul><h3 id="1-3-STW（Stop-The-World）"><a href="#1-3-STW（Stop-The-World）" class="headerlink" title="1.3 STW（Stop The World）"></a>1.3 STW（Stop The World）</h3><ul><li><ol><li>为了避免在 GC 的过程中，对象之间的引用关系发生新的变更，使得GC的结果发生错误（如GC过程中新增了一个引用，但是由于未扫描到该引用导致将被引用的对象清除了），停止所有正在运行的协程。</li></ol></li><li><ol start="2"><li>STW对性能有一些影响，Golang目前已经可以做到1ms以下的STW。</li></ol></li></ul><h3 id="1-4-写屏障-Write-Barrier"><a href="#1-4-写屏障-Write-Barrier" class="headerlink" title="1.4 写屏障(Write Barrier)"></a>1.4 写屏障(Write Barrier)</h3><p>为了避免GC的过程中新修改的引用关系到GC的结果发生错误，我们需要进行STW。但是STW会影响程序的性能，所以我们要<span style="color: red;">通过写屏障技术尽可能地缩短STW的时间。</span></p><h4 id="1-4-1-写屏障的原理"><a href="#1-4-1-写屏障的原理" class="headerlink" title="1.4.1 写屏障的原理"></a>1.4.1 写屏障的原理</h4><p>造成引用对象丢失的条件:</p><ul><li><ol><li>一个黑色A新增了指向白色C的引用，</li></ol></li><li><ol start="2"><li>白色C没有其他灰色的引用(除A之外)。</li></ol></li></ul><p>以上两个条件需要同时满足：满足条件1时说明A已扫描完毕，A指向C的引用无法再被扫描到；满足条件2时说明C无其他灰色的引用了，即扫描结束后会被忽略 。</p><p><span style="color: red;">写屏障破坏两个条件其一即可</span></p><h4 id="1-4-2-如何破坏？"><a href="#1-4-2-如何破坏？" class="headerlink" title="1.4.2 如何破坏？"></a>1.4.2 如何破坏？</h4><ol><li>Dijistra写屏障</li></ol><p>满足强三色不变性：黑色节点不允许引用白色节点，当黑色节点新增了白色节点的引用时，将对应的白色节点改为灰色</p><ol start="2"><li>Yuasa写屏障</li></ol><p>满足弱三色不变性：黑色节点允许引用白色节点，但是该白色节点有其他灰色节点间接的引用（确保不会被遗漏），当白色节点被删除了一个引用时，悲观地认为它一定会被一个黑色节点新增引用，所以将它置为灰色</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>golang</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>golang</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>markdown使用</title>
+    <link href="/2023/08/16/%E5%B7%A5%E5%85%B7/markdown%E4%BD%BF%E7%94%A8/"/>
+    <url>/2023/08/16/%E5%B7%A5%E5%85%B7/markdown%E4%BD%BF%E7%94%A8/</url>
+    
+    <content type="html"><![CDATA[<h4 id="文本颜色"><a href="#文本颜色" class="headerlink" title="文本颜色"></a>文本颜色</h4><figure class="highlight md"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs md"><span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;color: green;&quot;</span>&gt;</span></span>green<span class="language-xml"><span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span></span><br><span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;color: red;&quot;</span>&gt;</span></span>red<span class="language-xml"><span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span></span><br></code></pre></td></tr></table></figure><h4 id="页面内实现目录"><a href="#页面内实现目录" class="headerlink" title="页面内实现目录"></a>页面内实现目录</h4><figure class="highlight md"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs md"><span class="hljs-section">### 目录</span><br>[<span class="hljs-string">1. 章节1</span>](<span class="hljs-link">#1</span>)<br><br>&lt;!-- 这里 p 标签必须和下面一行隔开 --&gt;<br><span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;1&quot;</span>&gt;</span></span><span class="language-xml"><span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span></span><br><br><span class="hljs-section">#### 章节1</span><br></code></pre></td></tr></table></figure><p>!!! tip<br>    程序员务必多喝芝麻，这样头发才会茂密。</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>工具</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>markdown</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>linux 命令大全</title>
+    <link href="/2023/08/16/linux/linux-%E5%91%BD%E4%BB%A4%E5%A4%A7%E5%85%A8/"/>
+    <url>/2023/08/16/linux/linux-%E5%91%BD%E4%BB%A4%E5%A4%A7%E5%85%A8/</url>
+    
+    <content type="html"><![CDATA[<h4 id="1-查看文件权限"><a href="#1-查看文件权限" class="headerlink" title="1. 查看文件权限"></a>1. 查看文件权限</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># 以数字形式输出文件权限，0644</span><br><span class="hljs-built_in">stat</span> -c <span class="hljs-string">&#x27;%a&#x27;</span> example.txt<br></code></pre></td></tr></table></figure><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-built_in">ls</span> -l example.txt<br><br><span class="hljs-comment"># 输出将类似于以下内容：</span><br>-rw-r--r-- 1 user group 12345 Jan 1 10:00 example.txt<br><br><span class="hljs-comment"># 在这个示例中，-rw-r--r--表示文件的权限。</span><br><span class="hljs-comment"># 第一个字符表示文件类型，- 表示普通文件。剩余的九个字符分为三组，每组三个字符表示所有者、所属组和其他人的权限。</span><br><span class="hljs-comment"># 每组中的三个字符表示读（r）、写（w）和执行（x）权限。如果对应位置有权限，字符表示对应的权限，否则用 - 来表示缺少权限。</span><br><span class="hljs-comment"># 在这个例子中，-rw-r--r-- 表示文件所有者有读、写权限，所属组和其他人只有读权限。</span><br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>linux</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>linux</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>git使用指南</title>
+    <link href="/2023/08/16/%E5%B7%A5%E5%85%B7/git%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/"/>
+    <url>/2023/08/16/%E5%B7%A5%E5%85%B7/git%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/</url>
+    
+    <content type="html"><![CDATA[<h4 id="一键提交当前分支"><a href="#一键提交当前分支" class="headerlink" title="一键提交当前分支"></a>一键提交当前分支</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">git add .;git commit -m <span class="hljs-string">&quot;test&quot;</span>;git push origin $(git symbolic-ref --short HEAD)<br></code></pre></td></tr></table></figure><h4 id="开发分支落后时，如何同步-master-分支。"><a href="#开发分支落后时，如何同步-master-分支。" class="headerlink" title="开发分支落后时，如何同步 master 分支。"></a>开发分支落后时，如何同步 master 分支。</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># 1. 获取master分支的最新变更。可以使用以下命令来更新您本地的master分支</span><br>git checkout master<br>git pull origin master<br><br><span class="hljs-comment"># 2. 切换回开发分支，并将master分支的变更合并到开发分支上：</span><br>git checkout feature/test<br>git merge master<br><br><span class="hljs-comment"># 3. 如果有冲突出现，您需要解决这些冲突后再提交变更。</span><br><br><span class="hljs-comment"># 4. 推送开发分支到远程仓库</span><br>git push origin feature/test<br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>工具</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>工具</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>nas中重命名文件</title>
+    <link href="/2023/08/08/linux/nas%E4%B8%AD%E9%87%8D%E5%91%BD%E5%90%8D%E6%96%87%E4%BB%B6/"/>
+    <url>/2023/08/08/linux/nas%E4%B8%AD%E9%87%8D%E5%91%BD%E5%90%8D%E6%96%87%E4%BB%B6/</url>
+    
+    <content type="html"><![CDATA[<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-meta">#!/bin/bash</span><br><br><span class="hljs-built_in">dir</span>=<span class="hljs-variable">$1</span>  <span class="hljs-comment"># 指定目录路径</span><br><br><span class="hljs-comment"># 进入目录</span><br><span class="hljs-built_in">cd</span> <span class="hljs-string">&quot;<span class="hljs-variable">$dir</span>&quot;</span> || <span class="hljs-built_in">exit</span><br><br><span class="hljs-comment"># 替换文件名中的abcd1至abcd9为abcd01至abcd09</span><br><span class="hljs-keyword">for</span> file <span class="hljs-keyword">in</span> *S01E[1-9].*; <span class="hljs-keyword">do</span><br>  new_file=$(<span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;<span class="hljs-variable">$file</span>&quot;</span> | sed <span class="hljs-string">&#x27;s/S01E\([1-9]\)/S01E0\1/&#x27;</span>)<br>  <span class="hljs-built_in">echo</span> <span class="hljs-variable">$new_file</span><br>  <span class="hljs-built_in">mv</span> <span class="hljs-string">&quot;<span class="hljs-variable">$file</span>&quot;</span> <span class="hljs-string">&quot;<span class="hljs-variable">$new_file</span>&quot;</span><br><span class="hljs-keyword">done</span><br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>linux</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>shell</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>快速开启http服务</title>
+    <link href="/2023/08/07/linux/%E5%BF%AB%E9%80%9F%E5%BC%80%E5%90%AFhttp%E6%9C%8D%E5%8A%A1/"/>
+    <url>/2023/08/07/linux/%E5%BF%AB%E9%80%9F%E5%BC%80%E5%90%AFhttp%E6%9C%8D%E5%8A%A1/</url>
+    
+    <content type="html"><![CDATA[<h4 id="快速开启http服务"><a href="#快速开启http服务" class="headerlink" title="快速开启http服务"></a>快速开启http服务</h4><p>这将监听本地 80 端口，响应 OK</p><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-built_in">echo</span> -e <span class="hljs-string">&#x27;HTTP/1.1 200 OK\r\n\r\nOK&#x27;</span> | sudo socat - TCP-LISTEN:80<br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>linux</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>linux</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>进入pod网络命名空间</title>
+    <link href="/2023/08/03/k8s/%E8%BF%9B%E5%85%A5pod%E7%BD%91%E7%BB%9C%E5%91%BD%E5%90%8D%E7%A9%BA%E9%97%B4/"/>
+    <url>/2023/08/03/k8s/%E8%BF%9B%E5%85%A5pod%E7%BD%91%E7%BB%9C%E5%91%BD%E5%90%8D%E7%A9%BA%E9%97%B4/</url>
+    
+    <content type="html"><![CDATA[<h4 id="1-找到-pod-所在节点"><a href="#1-找到-pod-所在节点" class="headerlink" title="1. 找到 pod 所在节点"></a>1. 找到 pod 所在节点</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs sh">k get po -owide<br><br>ssh root@xx.xx.xx.xx<br></code></pre></td></tr></table></figure><h4 id="2-获取容器-pid"><a href="#2-获取容器-pid" class="headerlink" title="2. 获取容器 pid"></a>2. 获取容器 pid</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># docker</span><br>docker inspect --format <span class="hljs-string">&#x27;&#123;&#123; .State.Pid &#125;&#125;&#x27;</span> 容器名/ID<br><br><span class="hljs-comment"># containerd</span><br>crictl inspect 容器ID | grep pid<br></code></pre></td></tr></table></figure><h4 id="3-进入容器网络"><a href="#3-进入容器网络" class="headerlink" title="3. 进入容器网络"></a>3. 进入容器网络</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">nsenter -t <span class="hljs-variable">$PID</span> -n<br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>k8s</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>k8s</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>解压、压缩</title>
+    <link href="/2023/08/03/linux/%E8%A7%A3%E5%8E%8B%E3%80%81%E5%8E%8B%E7%BC%A9/"/>
+    <url>/2023/08/03/linux/%E8%A7%A3%E5%8E%8B%E3%80%81%E5%8E%8B%E7%BC%A9/</url>
+    
+    <content type="html"><![CDATA[<h2 id="tar"><a href="#tar" class="headerlink" title="tar"></a>tar</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># 压缩</span><br>tar -czvf test.tar.gz README.md<br><br><span class="hljs-comment"># 解压</span><br>tar -xzvf test.tar.gz<br><br><span class="hljs-comment"># 解压到指定文件夹</span><br>tar -xzvf test.tar.gz -C /home/test<br><br><span class="hljs-comment"># 列出压缩文件内容</span><br>tar -tzvf test.tar.gz <br></code></pre></td></tr></table></figure><h4 id="参数说明"><a href="#参数说明" class="headerlink" title="参数说明"></a>参数说明</h4><ul><li>-v 显示指令执行过程。</li><li>-c 建立新的备份文件。</li><li>-f 指定备份文件。</li><li>-z 通过gzip指令处理备份文件。</li><li>-x 从备份文件中还原文件。</li></ul><h4 id="加密压缩"><a href="#加密压缩" class="headerlink" title="加密压缩"></a>加密压缩</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># 将当前目录下的files文件夹打包压缩，密码为password</span><br>tar -czvf - files | openssl des3 -salt -k password -out files.tar.gz<br><br><span class="hljs-comment"># 将当前目录下的files.tar.gz进行解密解压</span><br>openssl des3 -d -k password -salt -<span class="hljs-keyword">in</span> files.tar.gz | tar xzvf -<br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>linux</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>linux</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>buildx构建多版本镜像</title>
+    <link href="/2023/08/03/docker/buildx%E6%9E%84%E5%BB%BA%E5%A4%9A%E7%89%88%E6%9C%AC%E9%95%9C%E5%83%8F/"/>
+    <url>/2023/08/03/docker/buildx%E6%9E%84%E5%BB%BA%E5%A4%9A%E7%89%88%E6%9C%AC%E9%95%9C%E5%83%8F/</url>
+    
+    <content type="html"><![CDATA[<span id="more"></span><p><a href="http://blog.naturelr.cc/2023/06/16/%E4%BD%BF%E7%94%A8buildx%E7%BC%96%E8%AF%91%E5%A4%9A%E5%B9%B3%E5%8F%B0%E9%95%9C%E5%83%8F/">参考资料</a></p><p>目前大部分使用docker的场景中不单单只是 amd64 平台了有时我们需要再 arm 和 adm64 上都能运行</p><p>新版本的docker默认自带</p><h4 id="创建buildx"><a href="#创建buildx" class="headerlink" title="创建buildx"></a>创建buildx</h4><ul><li>查看当前buildx实例</li></ul><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs sh">$ docker buildx <span class="hljs-built_in">ls</span><br>NAME/NODE DRIVER/ENDPOINT STATUS  BUILDKIT PLATFORMS<br>default * docker<br>  default default         running 23.0.5   linux/amd64, linux/amd64/v2, linux/amd64/v3, linux/386<br></code></pre></td></tr></table></figure><blockquote><p>默认会有个实例叫default，default实例下有一个default的node，一个实例下可以有多个node,星号是默认使用的实例,node有很多种类型</p></blockquote><ul><li>创建buildx</li></ul><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">docker buildx create --name all --node local --driver docker-container --platform linux/amd64,linux/arm64,linux/arm/v8 --use<br></code></pre></td></tr></table></figure><ul><li>使用这个实例</li></ul><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">docker buildx use all<br></code></pre></td></tr></table></figure><ul><li>当我们执行编译的时候会先下载buildx镜像并运行起来，然后使用这个容器运行的buildx来编译镜像</li></ul><h4 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h4><ul><li>–platform执行要编译的平台，其他的参数和普通的build差不多</li></ul><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">直接上传到仓库</span><br>docker buildx build --platform linux/amd64,linux/arm64,linux/arm -t bearking0425/m3u8-downloader -o type=registry .<br><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_"># </span><span class="language-bash">输出本地</span><br>docker buildx build --platform linux/amd64,linux/arm64,linux/arm -t bearking0425/m3u8-downloader -o type=local,dest=./output .<br><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_"># </span><span class="language-bash">tar包</span><br>docker buildx build --platform linux/amd64,linux/arm64,linux/arm -t bearking0425/m3u8-downloader --output type=tar,dest=./output.tar .<br><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_"># </span><span class="language-bash">直接导入到本地 docker 中，只支持单平台架构</span><br>docker buildx build --platform linux/arm64 -t bearking0425/m3u8-downloader --load . <br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>docker</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>docker</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>cronjob 定时任务</title>
+    <link href="/2023/08/01/linux/cronjob%20%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1/"/>
+    <url>/2023/08/01/linux/cronjob%20%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1/</url>
+    
+    <content type="html"><![CDATA[<h4 id="cronjob-定时任务"><a href="#cronjob-定时任务" class="headerlink" title="cronjob 定时任务"></a>cronjob 定时任务</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># crontab -e 命令以编辑当前用户的cron表。</span><br>crontab -e<br><br><span class="hljs-comment"># 每分钟执行一次 ls</span><br>*/1 * * * * <span class="hljs-built_in">ls</span><br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>linux</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>linux</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>grpc如何使用</title>
+    <link href="/2023/07/31/golang/grpc%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8/"/>
+    <url>/2023/07/31/golang/grpc%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8/</url>
+    
+    <content type="html"><![CDATA[<h4 id="安装grpc"><a href="#安装grpc" class="headerlink" title="安装grpc"></a>安装grpc</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">go get google.golang.org/grpc@latest<br></code></pre></td></tr></table></figure><h4 id="安装Protocol-Buffers-v3"><a href="#安装Protocol-Buffers-v3" class="headerlink" title="安装Protocol Buffers v3"></a>安装Protocol Buffers v3</h4><p>protoc <a href="https://github.com/google/protobuf/releases">下载</a></p><h4 id="安装插件"><a href="#安装插件" class="headerlink" title="安装插件"></a>安装插件</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sh">go install google.golang.org/protobuf/cmd/protoc-gen-go@v1.28<br>go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@v1.2<br></code></pre></td></tr></table></figure><h1 id="入门示例"><a href="#入门示例" class="headerlink" title="入门示例"></a>入门示例</h1><p><a href="https://github.com/oldwang12/grpc-demo">代码实现</a></p><h2 id="服务端"><a href="#服务端" class="headerlink" title="服务端"></a>服务端</h2><h4 id="编写proto代码"><a href="#编写proto代码" class="headerlink" title="编写proto代码"></a>编写proto代码</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-built_in">cat</span> &lt;&lt;<span class="hljs-string">EOF &gt; pb/hello.proto</span><br><span class="hljs-string">syntax = &quot;proto3&quot;; // 版本声明，使用Protocol Buffers v3版本</span><br><span class="hljs-string"></span><br><span class="hljs-string">option go_package = &quot;server/pb&quot;;  // 指定生成的Go代码在你项目中的导入路径</span><br><span class="hljs-string"></span><br><span class="hljs-string">package pb; // 包名</span><br><span class="hljs-string"></span><br><span class="hljs-string"></span><br><span class="hljs-string">// 定义服务</span><br><span class="hljs-string">service Greeter &#123;</span><br><span class="hljs-string">    // SayHello 方法</span><br><span class="hljs-string">    rpc SayHello (HelloRequest) returns (HelloResponse) &#123;&#125;</span><br><span class="hljs-string">&#125;</span><br><span class="hljs-string"></span><br><span class="hljs-string">// 请求消息</span><br><span class="hljs-string">message HelloRequest &#123;</span><br><span class="hljs-string">    string name = 1;</span><br><span class="hljs-string">&#125;</span><br><span class="hljs-string"></span><br><span class="hljs-string">// 响应消息</span><br><span class="hljs-string">message HelloResponse &#123;</span><br><span class="hljs-string">    string reply = 1;</span><br><span class="hljs-string">&#125;</span><br><span class="hljs-string">EOF</span><br></code></pre></td></tr></table></figure><ul><li>执行命令：<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">protoc --go_out=. --go_opt=paths=source_relative --go-grpc_out=. --go-grpc_opt=paths=source_relative pb/hello.proto<br></code></pre></td></tr></table></figure></li></ul><h4 id="编写Server端Go代码"><a href="#编写Server端Go代码" class="headerlink" title="编写Server端Go代码"></a>编写Server端Go代码</h4><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-keyword">package</span> main<br><br><span class="hljs-keyword">import</span> (<br><span class="hljs-string">&quot;context&quot;</span><br><span class="hljs-string">&quot;fmt&quot;</span><br><span class="hljs-string">&quot;hello_server/pb&quot;</span><br><span class="hljs-string">&quot;net&quot;</span><br><br><span class="hljs-string">&quot;google.golang.org/grpc&quot;</span><br>)<br><br><span class="hljs-comment">// hello server</span><br><br><span class="hljs-keyword">type</span> server <span class="hljs-keyword">struct</span> &#123;<br>pb.UnimplementedGreeterServer<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-params">(s *server)</span></span> SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloResponse, <span class="hljs-type">error</span>) &#123;<br><span class="hljs-keyword">return</span> &amp;pb.HelloResponse&#123;Reply: <span class="hljs-string">&quot;Hello &quot;</span> + in.Name&#125;, <span class="hljs-literal">nil</span><br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;<br><span class="hljs-comment">// 监听本地的8972端口</span><br>lis, err := net.Listen(<span class="hljs-string">&quot;tcp&quot;</span>, <span class="hljs-string">&quot;:8972&quot;</span>)<br><span class="hljs-keyword">if</span> err != <span class="hljs-literal">nil</span> &#123;<br>fmt.Printf(<span class="hljs-string">&quot;failed to listen: %v&quot;</span>, err)<br><span class="hljs-keyword">return</span><br>&#125;<br>s := grpc.NewServer()                  <span class="hljs-comment">// 创建gRPC服务器</span><br>pb.RegisterGreeterServer(s, &amp;server&#123;&#125;) <span class="hljs-comment">// 在gRPC服务端注册服务</span><br><span class="hljs-comment">// 启动服务</span><br>err = s.Serve(lis)<br><span class="hljs-keyword">if</span> err != <span class="hljs-literal">nil</span> &#123;<br>fmt.Printf(<span class="hljs-string">&quot;failed to serve: %v&quot;</span>, err)<br><span class="hljs-keyword">return</span><br>&#125;<br>&#125;<br></code></pre></td></tr></table></figure><h4 id="代码结构"><a href="#代码结构" class="headerlink" title="代码结构"></a>代码结构</h4><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs stylus">server<br>├── go<span class="hljs-selector-class">.mod</span><br>├── go<span class="hljs-selector-class">.sum</span><br>├── <span class="hljs-selector-tag">main</span><span class="hljs-selector-class">.go</span><br>└── pb<br>    ├── hello<span class="hljs-selector-class">.pb</span><span class="hljs-selector-class">.go</span><br>    ├── hello<span class="hljs-selector-class">.proto</span><br>    └── hello_grpc<span class="hljs-selector-class">.pb</span>.go<br></code></pre></td></tr></table></figure><h4 id="运行"><a href="#运行" class="headerlink" title="运行"></a>运行</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">go run main.go<br></code></pre></td></tr></table></figure><h2 id="客户端"><a href="#客户端" class="headerlink" title="客户端"></a>客户端</h2><h4 id="编写proto代码-1"><a href="#编写proto代码-1" class="headerlink" title="编写proto代码"></a>编写proto代码</h4><p>新建 client 项目</p><p>将 go_package 改为 “client&#x2F;db”</p><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-built_in">cat</span> &lt;&lt;<span class="hljs-string">EOF &gt; pb/hello.proto</span><br><span class="hljs-string">syntax = &quot;proto3&quot;; // 版本声明，使用Protocol Buffers v3版本</span><br><span class="hljs-string"></span><br><span class="hljs-string">option go_package = &quot;client/pb&quot;;  // 指定生成的Go代码在你项目中的导入路径</span><br><span class="hljs-string"></span><br><span class="hljs-string">package pb; // 包名</span><br><span class="hljs-string"></span><br><span class="hljs-string"></span><br><span class="hljs-string">// 定义服务</span><br><span class="hljs-string">service Greeter &#123;</span><br><span class="hljs-string">    // SayHello 方法</span><br><span class="hljs-string">    rpc SayHello (HelloRequest) returns (HelloResponse) &#123;&#125;</span><br><span class="hljs-string">&#125;</span><br><span class="hljs-string"></span><br><span class="hljs-string">// 请求消息</span><br><span class="hljs-string">message HelloRequest &#123;</span><br><span class="hljs-string">    string name = 1;</span><br><span class="hljs-string">&#125;</span><br><span class="hljs-string"></span><br><span class="hljs-string">// 响应消息</span><br><span class="hljs-string">message HelloResponse &#123;</span><br><span class="hljs-string">    string reply = 1;</span><br><span class="hljs-string">&#125;</span><br><span class="hljs-string">EOF</span><br></code></pre></td></tr></table></figure><ul><li>执行命令<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">protoc --go_out=. --go_opt=paths=source_relative --go-grpc_out=. --go-grpc_opt=paths=source_relative pb/hello.proto<br></code></pre></td></tr></table></figure></li></ul><h4 id="client-端代码"><a href="#client-端代码" class="headerlink" title="client 端代码"></a>client 端代码</h4><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-keyword">package</span> main<br><br><span class="hljs-keyword">import</span> (<br><span class="hljs-string">&quot;context&quot;</span><br><span class="hljs-string">&quot;flag&quot;</span><br><span class="hljs-string">&quot;log&quot;</span><br><span class="hljs-string">&quot;time&quot;</span><br><br><span class="hljs-string">&quot;hello_client/pb&quot;</span><br><br><span class="hljs-string">&quot;google.golang.org/grpc&quot;</span><br><span class="hljs-string">&quot;google.golang.org/grpc/credentials/insecure&quot;</span><br>)<br><br><span class="hljs-comment">// hello_client</span><br><br><span class="hljs-keyword">const</span> (<br>defaultName = <span class="hljs-string">&quot;world&quot;</span><br>)<br><br><span class="hljs-keyword">var</span> (<br>addr = flag.String(<span class="hljs-string">&quot;addr&quot;</span>, <span class="hljs-string">&quot;127.0.0.1:8972&quot;</span>, <span class="hljs-string">&quot;the address to connect to&quot;</span>)<br>name = flag.String(<span class="hljs-string">&quot;name&quot;</span>, defaultName, <span class="hljs-string">&quot;Name to greet&quot;</span>)<br>)<br><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;<br>flag.Parse()<br><span class="hljs-comment">// 连接到server端，此处禁用安全传输</span><br>conn, err := grpc.Dial(*addr, grpc.WithTransportCredentials(insecure.NewCredentials()))<br><span class="hljs-keyword">if</span> err != <span class="hljs-literal">nil</span> &#123;<br>log.Fatalf(<span class="hljs-string">&quot;did not connect: %v&quot;</span>, err)<br>&#125;<br><span class="hljs-keyword">defer</span> conn.Close()<br>c := pb.NewGreeterClient(conn)<br><br><span class="hljs-comment">// 执行RPC调用并打印收到的响应数据</span><br>ctx, cancel := context.WithTimeout(context.Background(), time.Second)<br><span class="hljs-keyword">defer</span> cancel()<br>r, err := c.SayHello(ctx, &amp;pb.HelloRequest&#123;Name: *name&#125;)<br><span class="hljs-keyword">if</span> err != <span class="hljs-literal">nil</span> &#123;<br>log.Fatalf(<span class="hljs-string">&quot;could not greet: %v&quot;</span>, err)<br>&#125;<br>log.Printf(<span class="hljs-string">&quot;Greeting: %s&quot;</span>, r.GetReply())<br>&#125;<br></code></pre></td></tr></table></figure><h4 id="代码结构-1"><a href="#代码结构-1" class="headerlink" title="代码结构"></a>代码结构</h4><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs stylus">http_client<br>├── go<span class="hljs-selector-class">.mod</span><br>├── go<span class="hljs-selector-class">.sum</span><br>├── <span class="hljs-selector-tag">main</span><span class="hljs-selector-class">.go</span><br>└── pb<br>    ├── hello<span class="hljs-selector-class">.pb</span><span class="hljs-selector-class">.go</span><br>    ├── hello<span class="hljs-selector-class">.proto</span><br>    └── hello_grpc<span class="hljs-selector-class">.pb</span>.go<br></code></pre></td></tr></table></figure><h2 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sh">$ go run main.go -name=李四<br>Greeting: Hello 李四<br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>golang</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>golang</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>golang面试</title>
+    <link href="/2023/07/29/golang/golang%E9%9D%A2%E8%AF%95/"/>
+    <url>/2023/07/29/golang/golang%E9%9D%A2%E8%AF%95/</url>
+    
+    <content type="html"><![CDATA[<h3 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h3><p><a href="#1">1. 结构体打印时，%v 和 %+v 的区别</a><br><a href="#2">2. new和make的区别</a><br><a href="#3">3. slice扩容机制？</a><br><a href="#4">4. 什么是协程？</a><br><a href="#5">5. defer执行顺序</a><br><a href="#6">6. 如何判断 map 中是否包含某个 key ?</a><br><a href="#7">7. 如何获取一个结构体的所有tag？</a><br><a href="#8">8. 如何判断 2 个字符串切片（slice) 是相等的？</a><br><a href="#9">9. go里面的int和int32是同一个概念吗？</a><br><a href="#10">10. init() 函数</a><br><a href="#11">11. 2 个 nil 可能不相等吗？</a></p><p id="1"></p> <h4 id="结构体打印时，-v-和-v-的区别"><a href="#结构体打印时，-v-和-v-的区别" class="headerlink" title="结构体打印时，%v 和 %+v 的区别"></a>结构体打印时，%v 和 %+v 的区别</h4><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">printStruct</span><span class="hljs-params">()</span></span>&#123;<br>people := People&#123;<br>Name: <span class="hljs-string">&quot;lisi&quot;</span>,<br>Age:  <span class="hljs-number">18</span>,<br>&#125;<br>fmt.Printf(<span class="hljs-string">&quot;%v\n&quot;</span>, people)<br>fmt.Printf(<span class="hljs-string">&quot;%+v\n&quot;</span>, people)<br>fmt.Printf(<span class="hljs-string">&quot;%#v\n&quot;</span>, people)<br>&#125;<br><span class="hljs-comment">// 输出:</span><br><span class="hljs-comment">// &#123;lisi 18&#125;</span><br><span class="hljs-comment">// &#123;Name:lisi Age:18&#125;</span><br><span class="hljs-comment">// People&#123;Name:&quot;lisi&quot;, Age:18&#125;</span><br></code></pre></td></tr></table></figure><p id="2"></p> <h4 id="new-和-make的区别"><a href="#new-和-make的区别" class="headerlink" title="new 和 make的区别"></a>new 和 make的区别</h4><ul><li>new只用于分配内存，返回一个指向地址的指针。它为每个新类型分配一片内存，初始化为0且返回类型*T的内存地址，它相当于&amp;T{}</li><li>make只可用于slice,map,channel的初始化,返回的是引用。</li></ul><p id="3"></p><h4 id="slice扩容机制？"><a href="#slice扩容机制？" class="headerlink" title="slice扩容机制？"></a>slice扩容机制？</h4><p>Go &lt;&#x3D; 1.17</p><p>如果当前容量小于1024，则判断所需容量是否大于原来容量2倍，如果大于，当前容量加上所需容量；否则当前容量乘2。</p><p>如果当前容量大于1024，则每次按照1.25倍速度递增容量，也就是每次加上cap&#x2F;4。</p><p>Go1.18之后，引入了新的扩容规则：浅谈 Go 1.18.1的切片扩容机制</p><p id="4"></p><h4 id="什么是协程？"><a href="#什么是协程？" class="headerlink" title="什么是协程？"></a>什么是协程？</h4><p>协程是用户态轻量级线程，它是线程调度的基本单位。通常在函数前加上go关键字就能实现并发。一个Goroutine会以一个很小的栈启动2KB或4KB，当遇到栈空间不足时，栈会自动伸缩， 因此可以轻易实现成千上万个goroutine同时启动。</p><p id="5"></p><h4 id="defer执行顺序"><a href="#defer执行顺序" class="headerlink" title="defer执行顺序"></a>defer执行顺序</h4><p>后进先出</p><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">test</span><span class="hljs-params">()</span></span> <span class="hljs-type">int</span> &#123;<br>i := <span class="hljs-number">0</span><br><span class="hljs-keyword">defer</span> <span class="hljs-function"><span class="hljs-keyword">func</span><span class="hljs-params">()</span></span> &#123;<br>fmt.Println(<span class="hljs-string">&quot;defer1&quot;</span>)<br>&#125;()<br><span class="hljs-keyword">defer</span> <span class="hljs-function"><span class="hljs-keyword">func</span><span class="hljs-params">()</span></span> &#123;<br>i += <span class="hljs-number">1</span><br>fmt.Println(<span class="hljs-string">&quot;defer2&quot;</span>)<br>&#125;()<br><span class="hljs-keyword">return</span> i<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;<br>fmt.Println(<span class="hljs-string">&quot;return&quot;</span>, test())<br>&#125;<br><span class="hljs-comment">// 输出:</span><br><span class="hljs-comment">// defer2</span><br><span class="hljs-comment">// defer1</span><br><span class="hljs-comment">// return 0</span><br></code></pre></td></tr></table></figure><p>上面这个例子中，test返回值并没有修改，这是由于Go的返回机制决定的，执行Return语句后，Go会创建一个临时变量保存返回值。如果是有名返回（也就是指明返回值func test() (i int)）</p><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">test</span><span class="hljs-params">()</span></span> (i <span class="hljs-type">int</span>) &#123;<br>i = <span class="hljs-number">0</span><br><span class="hljs-keyword">defer</span> <span class="hljs-function"><span class="hljs-keyword">func</span><span class="hljs-params">()</span></span> &#123;<br>i += <span class="hljs-number">1</span><br>fmt.Println(<span class="hljs-string">&quot;defer2&quot;</span>)<br>&#125;()<br><span class="hljs-keyword">return</span> i<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;<br>fmt.Println(<span class="hljs-string">&quot;return&quot;</span>, test())<br>&#125;<br><span class="hljs-comment">// defer2</span><br><span class="hljs-comment">// return 1</span><br></code></pre></td></tr></table></figure><p>这个例子中，返回值被修改了。对于有名返回值的函数，执行 return 语句时，并不会再创建临时变量保存，因此，defer 语句修改了 i，即对返回值产生了影响。</p><p id="6"></p><h4 id="如何判断-map-中是否包含某个-key-？"><a href="#如何判断-map-中是否包含某个-key-？" class="headerlink" title="如何判断 map 中是否包含某个 key ？"></a>如何判断 map 中是否包含某个 key ？</h4><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-keyword">var</span> sample <span class="hljs-keyword">map</span>[<span class="hljs-type">int</span>]<span class="hljs-type">int</span><br><span class="hljs-keyword">if</span> _, ok := sample[<span class="hljs-number">10</span>]; ok &#123;<br>&#125; <span class="hljs-keyword">else</span> &#123;<br>&#125;<br></code></pre></td></tr></table></figure><p id="7"></p><h4 id="如何获取一个结构体的所有tag？"><a href="#如何获取一个结构体的所有tag？" class="headerlink" title="如何获取一个结构体的所有tag？"></a>如何获取一个结构体的所有tag？</h4><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-keyword">package</span> main<br><br><span class="hljs-keyword">import</span> (<br><span class="hljs-string">&quot;reflect&quot;</span><br><span class="hljs-string">&quot;fmt&quot;</span><br>)<br><br><span class="hljs-keyword">type</span> Author <span class="hljs-keyword">struct</span> &#123;<br>Name         <span class="hljs-type">int</span>      <span class="hljs-string">`json:Name`</span><br>Publications []<span class="hljs-type">string</span> <span class="hljs-string">`json:Publication,omitempty`</span><br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;<br>t := reflect.TypeOf(Author&#123;&#125;)<br><span class="hljs-keyword">for</span> i := <span class="hljs-number">0</span>; i &lt; t.NumField(); i++ &#123;<br>name := t.Field(i).Name<br>s, _ := t.FieldByName(name)<br>fmt.Println(name, s.Tag)<br>&#125;<br>&#125;<br><span class="hljs-comment">// Name json:Name</span><br><span class="hljs-comment">// Publications json:Publication,omitempty</span><br></code></pre></td></tr></table></figure><p id="8"></p><h4 id="如何判断-2-个字符串切片（slice-是相等的？"><a href="#如何判断-2-个字符串切片（slice-是相等的？" class="headerlink" title="如何判断 2 个字符串切片（slice) 是相等的？"></a>如何判断 2 个字符串切片（slice) 是相等的？</h4><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-keyword">package</span> main<br><br><span class="hljs-keyword">import</span> (<br><span class="hljs-string">&quot;fmt&quot;</span><br><span class="hljs-string">&quot;reflect&quot;</span><br>)<br><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;<br>x := <span class="hljs-string">&quot;abcd&quot;</span><br>y := <span class="hljs-string">&quot;abcde&quot;</span><br>fmt.Println(reflect.DeepEqual(x, y))<br><span class="hljs-comment">// Output: false</span><br>&#125;<br></code></pre></td></tr></table></figure><p id="9"></p><h4 id="go里面的int和int32是同一个概念吗？"><a href="#go里面的int和int32是同一个概念吗？" class="headerlink" title="go里面的int和int32是同一个概念吗？"></a>go里面的int和int32是同一个概念吗？</h4><p>不是一个概念！千万不能混淆。go语言中的int的大小是和操作系统位数相关的，如果是32位操作系统，int类型的大小就是4字节。如果是64位操作系统，int类型的大小就是8个字节。除此之外uint也与操作系统有关。</p><p>int8占1个字节，int16占2个字节，int32占4个字节，int64占8个字节。</p><p id="10"></p><h4 id="init-函数"><a href="#init-函数" class="headerlink" title="init() 函数"></a>init() 函数</h4><ul><li>init()函数是go初始化的一部分，由runtime初始化每个导入的包，初始化不是按照从上到下的导入顺序，而是按照解析的依赖关系，没有依赖的包最先初始化。</li><li>每个包首先初始化包作用域的常量和变量（常量优先于变量），然后执行包的init()函数。同一个包，甚至是同一个源文件可以有多个init()函数。</li><li>init()函数没有入参和返回值，不能被其他函数调用，</li><li><span style="color: green;">同一个包内多个init()函数的执行顺序不作保证。</span></li><li>一个文件可以有多个init()函数！</li><li>执行顺序：import –&gt; const –&gt; var –&gt;init()–&gt;main()</li></ul><p id="11"></p><h4 id="2-个-nil-可能不相等吗？"><a href="#2-个-nil-可能不相等吗？" class="headerlink" title="2 个 nil 可能不相等吗？"></a>2 个 nil 可能不相等吗？</h4><p>可能不等。interface在运行时绑定值，只有值为nil接口值才为nil，但是与指针的nil不相等。举个例子：</p><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-keyword">var</span> p *<span class="hljs-type">int</span> = <span class="hljs-literal">nil</span><br><span class="hljs-keyword">var</span> i <span class="hljs-keyword">interface</span>&#123;&#125; = <span class="hljs-literal">nil</span><br><span class="hljs-keyword">if</span>(p == i)&#123;<br>fmt.Println(<span class="hljs-string">&quot;Equal&quot;</span>)<br>&#125;<br></code></pre></td></tr></table></figure><p>两者并不相同。总结：<span style="color: green;">两个nil只有在类型相同时才相等。</span></p>]]></content>
+    
+    
+    <categories>
+      
+      <category>golang</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>golang</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>viper配置文件</title>
+    <link href="/2023/07/29/golang/viper%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/"/>
+    <url>/2023/07/29/golang/viper%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/</url>
+    
+    <content type="html"><![CDATA[<h4 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h4><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">mysql:</span><br>  <span class="hljs-attr">url:</span> <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span><br>  <span class="hljs-attr">port:</span> <span class="hljs-number">3306</span><br><span class="hljs-attr">isvalid:</span> <span class="hljs-literal">true</span><br></code></pre></td></tr></table></figure><h4 id="代码示例"><a href="#代码示例" class="headerlink" title="代码示例"></a>代码示例</h4><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-keyword">package</span> main<br><br><span class="hljs-keyword">import</span> (<br><span class="hljs-string">&quot;fmt&quot;</span><br><span class="hljs-string">&quot;github.com/spf13/viper&quot;</span><br>)<br><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;<br><span class="hljs-comment">// 设置配置文件的名字</span><br>viper.SetConfigName(<span class="hljs-string">&quot;config&quot;</span>)<br><span class="hljs-comment">// 设置配置文件的类型</span><br>viper.SetConfigType(<span class="hljs-string">&quot;yaml&quot;</span>)<br><span class="hljs-comment">// 添加配置文件的路径，指定 config 目录下寻找</span><br>viper.AddConfigPath(<span class="hljs-string">&quot;./config&quot;</span>)<br><span class="hljs-comment">// 寻找配置文件并读取</span><br>err := viper.ReadInConfig()<br><span class="hljs-keyword">if</span> err != <span class="hljs-literal">nil</span> &#123;<br><span class="hljs-built_in">panic</span>(fmt.Errorf(<span class="hljs-string">&quot;fatal error config file: %w&quot;</span>, err))<br>&#125;<br>fmt.Println(viper.Get(<span class="hljs-string">&quot;mysql&quot;</span>))<br>fmt.Println(viper.GetString(<span class="hljs-string">&quot;mysql.url&quot;</span>))<br>fmt.Println(viper.GetInt(<span class="hljs-string">&quot;mysql.port&quot;</span>))<br>fmt.Println(viper.GetBool(<span class="hljs-string">&quot;isvalid&quot;</span>))<br>&#125;<br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>golang</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>golang</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>xui客户端配置</title>
+    <link href="/2023/07/28/%E5%B7%A5%E5%85%B7/xui%E5%AE%A2%E6%88%B7%E7%AB%AF%E9%85%8D%E7%BD%AE/"/>
+    <url>/2023/07/28/%E5%B7%A5%E5%85%B7/xui%E5%AE%A2%E6%88%B7%E7%AB%AF%E9%85%8D%E7%BD%AE/</url>
+    
+    <content type="html"><![CDATA[<p>注意: 只适用于linux环境，下载 <a href="https://github.com/v2ray/v2ray-core/releases">v2ray-core</a>，解压后替换 config.yaml 如下。执行 .&#x2F;v2ray</p><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><code class="hljs yaml">&#123;<br>    <span class="hljs-attr">&quot;log&quot;:</span> &#123;<br>        <span class="hljs-attr">&quot;loglevel&quot;:</span> <span class="hljs-string">&quot;warning&quot;</span><br>    &#125;,<br>    <span class="hljs-attr">&quot;routing&quot;:</span> &#123;<br>        <span class="hljs-attr">&quot;domainStrategy&quot;:</span> <span class="hljs-string">&quot;AsIs&quot;</span>,<br>        <span class="hljs-attr">&quot;rules&quot;:</span> [<br>            &#123;<br>                <span class="hljs-attr">&quot;ip&quot;:</span> [<br>                    <span class="hljs-string">&quot;geoip:private&quot;</span><br>                ],<br>                <span class="hljs-attr">&quot;outboundTag&quot;:</span> <span class="hljs-string">&quot;direct&quot;</span>,<br>                <span class="hljs-attr">&quot;type&quot;:</span> <span class="hljs-string">&quot;field&quot;</span><br>            &#125;<br>        ]<br>    &#125;,<br>    <span class="hljs-attr">&quot;inbounds&quot;:</span> [<br>        &#123;<br>            <span class="hljs-attr">&quot;port&quot;:</span> <span class="hljs-number">1080</span>,<br>            <span class="hljs-attr">&quot;protocol&quot;:</span> <span class="hljs-string">&quot;socks&quot;</span>,<br>            <span class="hljs-attr">&quot;settings&quot;:</span> &#123;<br>                <span class="hljs-attr">&quot;auth&quot;:</span> <span class="hljs-string">&quot;noauth&quot;</span>,<br>                <span class="hljs-attr">&quot;udp&quot;:</span> <span class="hljs-literal">true</span><br>            &#125;,<br>            <span class="hljs-attr">&quot;tag&quot;:</span> <span class="hljs-string">&quot;socks&quot;</span><br>        &#125;<br>    ],<br>    <span class="hljs-attr">&quot;outbounds&quot;:</span> [<br>        &#123;<br>            <span class="hljs-attr">&quot;protocol&quot;:</span> <span class="hljs-string">&quot;vmess&quot;</span>,<br>            <span class="hljs-attr">&quot;settings&quot;:</span> &#123;<br>                <span class="hljs-attr">&quot;vnext&quot;:</span> [<br>                    &#123;<br>                        <span class="hljs-attr">&quot;users&quot;:</span> [<br>                            &#123;<br>                                <span class="hljs-attr">&quot;id&quot;:</span> <span class="hljs-string">&quot;&lt;uuid&gt;&quot;</span><br>                            &#125;<br>                        ],<br>                        <span class="hljs-attr">&quot;port&quot;:</span> <span class="hljs-string">&lt;服务端端口&gt;</span>,<br>                        <span class="hljs-attr">&quot;address&quot;:</span> <span class="hljs-string">&quot;&lt;服务端IP&gt;&quot;</span><br>                    &#125;<br>                ]<br>            &#125;<br>        &#125;,<br>        &#123;<br>            <span class="hljs-attr">&quot;protocol&quot;:</span> <span class="hljs-string">&quot;freedom&quot;</span>,<br>            <span class="hljs-attr">&quot;tag&quot;:</span> <span class="hljs-string">&quot;direct&quot;</span><br>        &#125;<br>    ]<br>&#125;<br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>工具</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>工具</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>chatgpt</title>
+    <link href="/2023/07/28/%E5%B7%A5%E5%85%B7/chatgpt/"/>
+    <url>/2023/07/28/%E5%B7%A5%E5%85%B7/chatgpt/</url>
+    
+    <content type="html"><![CDATA[<h4 id="测试-key"><a href="#测试-key" class="headerlink" title="测试 key"></a>测试 key</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs sh">curl https://api.openai.com/v1/chat/completions \<br>-H <span class="hljs-string">&quot;Content-Type: application/json&quot;</span>  \<br>-H <span class="hljs-string">&quot;Authorization: Bearer <span class="hljs-variable">$1</span>&quot;</span>  \<br>-d <span class="hljs-string">&#x27;&#123;</span><br><span class="hljs-string">    &quot;model&quot;: &quot;gpt-3.5-turbo&quot;, </span><br><span class="hljs-string">    &quot;messages&quot;: [</span><br><span class="hljs-string">        &#123;</span><br><span class="hljs-string">            &quot;role&quot;: &quot;user&quot;, </span><br><span class="hljs-string">            &quot;content&quot;: &quot;Hello!&quot;</span><br><span class="hljs-string">        &#125;</span><br><span class="hljs-string">    ]</span><br><span class="hljs-string">&#125;&#x27;</span><br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>工具</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>工具</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>oh my zsh 让终端飞</title>
+    <link href="/2023/07/27/%E5%B7%A5%E5%85%B7/oh-my-zsh-%E8%AE%A9%E7%BB%88%E7%AB%AF%E9%A3%9E/"/>
+    <url>/2023/07/27/%E5%B7%A5%E5%85%B7/oh-my-zsh-%E8%AE%A9%E7%BB%88%E7%AB%AF%E9%A3%9E/</url>
+    
+    <content type="html"><![CDATA[<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># yum先安装，如果是ubuntu使用 apt-get install zsh </span><br>yum -y install zsh<br><br><span class="hljs-comment"># 安装脚本</span><br>sh -c <span class="hljs-string">&quot;<span class="hljs-subst">$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)</span>&quot;</span><br><br><span class="hljs-comment"># 插件安装</span><br><br><span class="hljs-comment">## 高亮插件</span><br>git <span class="hljs-built_in">clone</span> https://github.com/zsh-users/zsh-syntax-highlighting.git <span class="hljs-variable">$&#123;ZSH_CUSTOM:-~/.oh-my-zsh/custom&#125;</span>/plugins/zsh-syntax-highlighting<br><br><span class="hljs-comment">## 自动补全</span><br>git <span class="hljs-built_in">clone</span> https://github.com/zsh-users/zsh-autosuggestions <span class="hljs-variable">$ZSH_CUSTOM</span>/plugins/zsh-autosuggestions<br></code></pre></td></tr></table></figure><h4 id="手动更改插件配置"><a href="#手动更改插件配置" class="headerlink" title="手动更改插件配置"></a>手动更改插件配置</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs sh">$ vim ~/.zshrc<br><br><span class="hljs-comment"># plugins 更改如下</span><br>plugins=(<br>  git<br>  zsh-autosuggestions<br>  zsh-syntax-highlighting<br>)<br><br><span class="hljs-comment"># 更换主题</span><br>ZSH_THEME=<span class="hljs-string">&quot;ys&quot;</span><br><br><span class="hljs-comment"># 重新加载</span><br><span class="hljs-built_in">source</span> ~/.zshrc<br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>工具</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>工具</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Dockerfile模版</title>
+    <link href="/2023/07/27/docker/Dockerfile%E6%A8%A1%E7%89%88/"/>
+    <url>/2023/07/27/docker/Dockerfile%E6%A8%A1%E7%89%88/</url>
+    
+    <content type="html"><![CDATA[<h4 id="1-一个适用于我自己的模板"><a href="#1-一个适用于我自己的模板" class="headerlink" title="1. 一个适用于我自己的模板"></a>1. 一个适用于我自己的模板</h4><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs dockerfile"><span class="hljs-keyword">FROM</span> golang:<span class="hljs-number">1.20</span> as builder<br><span class="hljs-keyword">WORKDIR</span><span class="language-bash"> /root/</span><br><span class="hljs-keyword">COPY</span><span class="language-bash"> . .</span><br><span class="hljs-keyword">RUN</span><span class="language-bash"> GOOS=linux GOARCH=amd64 CGO_ENABLED=0 GOFLAGS=-mod=vendor go build -o app main.go</span><br><br><span class="hljs-comment"># =================================== 分层编译 ==============================================</span><br><span class="hljs-keyword">FROM</span> alpine AS final<br><br><span class="hljs-comment"># 国内使用的goproxy</span><br><span class="hljs-keyword">ENV</span> GOPROXY=https://goproxy.cn<br><br><span class="hljs-comment"># 设置时区</span><br><span class="hljs-keyword">ENV</span> TZ=Asia/Shanghai<br><span class="hljs-keyword">RUN</span><span class="language-bash"> apk add --update tzdata \</span><br><span class="language-bash">    &amp;&amp; <span class="hljs-built_in">cp</span> /usr/share/zoneinfo/<span class="hljs-variable">$TZ</span> /etc/localtime \</span><br><span class="language-bash">    &amp;&amp; <span class="hljs-built_in">echo</span> <span class="hljs-variable">$TZ</span> &gt; /etc/timezone \</span><br><span class="language-bash">    &amp;&amp; <span class="hljs-built_in">rm</span> -rf /var/cache/apk/*</span><br><br><span class="hljs-keyword">WORKDIR</span><span class="language-bash"> /root/</span><br><span class="hljs-keyword">COPY</span><span class="language-bash"> --from=builder /root/app .</span><br><span class="hljs-keyword">COPY</span><span class="language-bash"> ./mydir/  ./mydir/</span><br><span class="hljs-keyword">RUN</span><span class="language-bash"> <span class="hljs-built_in">chmod</span> +x app \</span><br><span class="language-bash">    &amp;&amp; wget  https://storage.googleapis.com/kubernetes-release/release/v1.14.7/bin/linux/amd64/kubectl \</span><br><span class="language-bash">    &amp;&amp; <span class="hljs-built_in">chmod</span> +x kubectl</span><br><span class="hljs-keyword">EXPOSE</span> <span class="hljs-number">8080</span><br><span class="hljs-keyword">ENTRYPOINT</span><span class="language-bash"> [<span class="hljs-string">&quot;/root/app&quot;</span>]</span><br></code></pre></td></tr></table></figure><h4 id="2-COPY-vs-ADD"><a href="#2-COPY-vs-ADD" class="headerlink" title="2. COPY vs ADD"></a>2. COPY vs ADD</h4><p>没有特殊需求情况下，建议使用COPY</p><h6 id="1-ADD-会自动解压压缩文件。"><a href="#1-ADD-会自动解压压缩文件。" class="headerlink" title="1. ADD 会自动解压压缩文件。"></a>1. ADD 会自动解压压缩文件。</h6><h6 id="2-ADD-支持源文件URL形式。"><a href="#2-ADD-支持源文件URL形式。" class="headerlink" title="2. ADD 支持源文件URL形式。"></a>2. ADD 支持源文件URL形式。</h6><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs dockerfile"><span class="hljs-keyword">ADD</span><span class="language-bash"> http://example.com/example.txt /app/</span><br></code></pre></td></tr></table></figure><h4 id="3-CMD-vs-ENTRYPOINT"><a href="#3-CMD-vs-ENTRYPOINT" class="headerlink" title="3. CMD vs ENTRYPOINT"></a>3. CMD vs ENTRYPOINT</h4><h6 id="1-docker-run-如果指定了命令会覆盖"><a href="#1-docker-run-如果指定了命令会覆盖" class="headerlink" title="1. docker run 如果指定了命令会覆盖"></a>1. docker run 如果指定了命令会覆盖</h6><h6 id="2-下面是等价的"><a href="#2-下面是等价的" class="headerlink" title="2. 下面是等价的"></a>2. 下面是等价的</h6><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs dockerfile"><span class="hljs-keyword">CMD</span><span class="language-bash"> [<span class="hljs-string">&quot;python&quot;</span>, <span class="hljs-string">&quot;app.py&quot;</span>]</span><br></code></pre></td></tr></table></figure><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs dockerfile"><span class="hljs-keyword">ENTRYPOINT</span><span class="language-bash"> [<span class="hljs-string">&quot;python&quot;</span>, <span class="hljs-string">&quot;app.py&quot;</span>]</span><br></code></pre></td></tr></table></figure><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs dockerfile"><span class="hljs-comment"># 由 CMD 指令指定默认的可选参数：</span><br><span class="hljs-keyword">ENTRYPOINT</span><span class="language-bash"> [<span class="hljs-string">&quot;python&quot;</span>]</span><br><span class="hljs-keyword">CMD</span><span class="language-bash"> [<span class="hljs-string">&quot;app.py&quot;</span>]</span><br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>docker</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>docker</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>golang time包用法</title>
+    <link href="/2023/07/27/golang/golang-time%E5%8C%85%E7%94%A8%E6%B3%95/"/>
+    <url>/2023/07/27/golang/golang-time%E5%8C%85%E7%94%A8%E6%B3%95/</url>
+    
+    <content type="html"><![CDATA[<h4 id="时间格式"><a href="#时间格式" class="headerlink" title="时间格式"></a>时间格式</h4><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs go">timelocal, err := time.LoadLocation(<span class="hljs-string">&quot;Asia/Shanghai&quot;</span>)<br><span class="hljs-keyword">if</span> err != <span class="hljs-literal">nil</span> &#123;<br><span class="hljs-built_in">panic</span>(err)<br>&#125;<br>time.Local = timelocal<br>fmt.Println(time.Now().Local().Format(<span class="hljs-string">&quot;2006-01-02 15:04:05&quot;</span>))<br></code></pre></td></tr></table></figure><h4 id="超时处理"><a href="#超时处理" class="headerlink" title="超时处理"></a>超时处理</h4><ul><li><ol><li>使用select<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs go">c1 := <span class="hljs-built_in">make</span>(<span class="hljs-keyword">chan</span> <span class="hljs-type">string</span>, <span class="hljs-number">1</span>)<br><span class="hljs-keyword">go</span> <span class="hljs-function"><span class="hljs-keyword">func</span><span class="hljs-params">()</span></span> &#123;<br>    time.Sleep(time.Second * <span class="hljs-number">2</span>)<br>    c1 &lt;- <span class="hljs-string">&quot;result 1&quot;</span><br>&#125;()<br><br><span class="hljs-keyword">select</span> &#123;<br><span class="hljs-keyword">case</span> res := &lt;-c1:<br>    fmt.Println(res)<br><span class="hljs-keyword">case</span> &lt;-time.After(time.Second * <span class="hljs-number">1</span>):<br>    fmt.Println(<span class="hljs-string">&quot;timeout 1&quot;</span>)<br>&#125;<br></code></pre></td></tr></table></figure></li></ol></li><li><ol start="2"><li>使用 time.Since<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs go">startTime := time.Now()<br>timeout := <span class="hljs-number">5</span> * time.Second<br><br>   time.Sleep(<span class="hljs-number">10</span> * time.Second)<br><br>   <span class="hljs-keyword">if</span> time.Since(startTime) &gt; timeout &#123;<br>       <span class="hljs-keyword">return</span> fmt.Errorf(<span class="hljs-string">&quot;timeout&quot;</span>)<br>   &#125;<br></code></pre></td></tr></table></figure></li></ol></li></ul><h4 id="定时器"><a href="#定时器" class="headerlink" title="定时器"></a>定时器</h4><ul><li><ol><li>timer<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;<br><span class="hljs-comment">// NewTimer 创建一个 Timer，它会在最少过去时间段 d 后到期，向其自身的 C 字段发送当时的时间</span><br>timer1 := time.NewTimer(<span class="hljs-number">5</span> * time.Second)<br><br>fmt.Println(<span class="hljs-string">&quot;开始时间：&quot;</span>, time.Now().Format(<span class="hljs-string">&quot;2006-01-02 15:04:05&quot;</span>))<br><span class="hljs-keyword">go</span> <span class="hljs-function"><span class="hljs-keyword">func</span><span class="hljs-params">(t *time.Timer)</span></span> &#123;<br>times := <span class="hljs-number">0</span><br><span class="hljs-keyword">for</span> &#123;<br>&lt;-t.C<br>fmt.Println(<span class="hljs-string">&quot;timer&quot;</span>, time.Now().Format(<span class="hljs-string">&quot;2006-01-02 15:04:05&quot;</span>))<br><br>times++<br>fmt.Println(<span class="hljs-string">&quot;调用 reset 重新设置一次timer定时器，并将时间修改为2秒&quot;</span>)<br>t.Reset(<span class="hljs-number">2</span> * time.Second)<br><span class="hljs-keyword">if</span> times &gt; <span class="hljs-number">3</span> &#123;<br>fmt.Println(<span class="hljs-string">&quot;调用 stop 停止定时器&quot;</span>)<br>t.Stop()<br>&#125;<br>&#125;<br>&#125;(timer1)<br><br>time.Sleep(<span class="hljs-number">30</span> * time.Second)<br>fmt.Println(<span class="hljs-string">&quot;结束时间：&quot;</span>, time.Now().Format(<span class="hljs-string">&quot;2006-01-02 15:04:05&quot;</span>))<br>&#125;<br></code></pre></td></tr></table></figure></li></ol></li><li><ol start="2"><li>ticker</li></ol></li></ul><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;<br>ticker1 := time.NewTicker(<span class="hljs-number">5</span> * time.Second)<br><span class="hljs-keyword">defer</span> ticker1.Stop() <span class="hljs-comment">// 一定要调用Stop()，回收资源</span><br><span class="hljs-keyword">go</span> <span class="hljs-function"><span class="hljs-keyword">func</span><span class="hljs-params">(t *time.Ticker)</span></span> &#123;<br><span class="hljs-keyword">for</span> &#123;<br><span class="hljs-comment">// 每5秒中从chan t.C 中读取一次</span><br>&lt;-t.C<br>fmt.Println(<span class="hljs-string">&quot;Ticker:&quot;</span>, time.Now().Format(<span class="hljs-string">&quot;2006-01-02 15:04:05&quot;</span>))<br>&#125;<br>&#125;(ticker1)<br><br>time.Sleep(<span class="hljs-number">30</span> * time.Second)<br>fmt.Println(<span class="hljs-string">&quot;ok&quot;</span>)<br>&#125;<br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>golang</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>golang</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>容器网络接口（CNI）</title>
+    <link href="/2023/07/27/k8s/%E5%AE%B9%E5%99%A8%E7%BD%91%E7%BB%9C%E6%8E%A5%E5%8F%A3%EF%BC%88CNI%EF%BC%89/"/>
+    <url>/2023/07/27/k8s/%E5%AE%B9%E5%99%A8%E7%BD%91%E7%BB%9C%E6%8E%A5%E5%8F%A3%EF%BC%88CNI%EF%BC%89/</url>
+    
+    <content type="html"><![CDATA[<h1 id="CNI"><a href="#CNI" class="headerlink" title="CNI"></a>CNI</h1><h2 id="1-交互逻辑"><a href="#1-交互逻辑" class="headerlink" title="1. 交互逻辑"></a>1. 交互逻辑</h2><h4 id="1-1-Pod-IP地址分配机制"><a href="#1-1-Pod-IP地址分配机制" class="headerlink" title="1.1 Pod IP地址分配机制"></a>1.1 Pod IP地址分配机制</h4><p><img src="pod-allow-ip.png" alt="image"></p><h4 id="1-2-CRI插件与CNI插件的交互"><a href="#1-2-CRI插件与CNI插件的交互" class="headerlink" title="1.2 CRI插件与CNI插件的交互"></a>1.2 CRI插件与CNI插件的交互</h4><p><img src="cri-cni.png" alt="cri-cni"></p><h4 id="1-3-CNI插件间的交互"><a href="#1-3-CNI插件间的交互" class="headerlink" title="1.3 CNI插件间的交互"></a>1.3 CNI插件间的交互</h4><p><img src="cni-plugins.png" alt="cni"></p><h1 id="2-flannel-3种模式"><a href="#2-flannel-3种模式" class="headerlink" title="2. flannel 3种模式"></a>2. flannel 3种模式</h1><p><img src="flannel-modes.jpg" alt="flannel"></p><p>UDP、VXLAN模式基于三层网络，host-gateway需要在二层网络同一个交换机下才能实现。</p><h2 id="2-1-vxlan模式"><a href="#2-1-vxlan模式" class="headerlink" title="2.1 vxlan模式"></a>2.1 vxlan模式</h2><p>VXLAN是Flannel默认和推荐的模式。当我们使用默认配置安装Flannel时，它会为每个节点分配一个24位子网，并在每个节点上创建两张虚机网卡： cni0 和 flannel.1 。 cni0 是一个网桥设备，类似于 docker0 ，节点上所有的Pod都通过veth pair的形式与 cni0 相连。 flannel.1 则是一个VXLAN类型的设备，充当VTEP的角色，实现对VXLAN报文的封包解包。</p><h3 id="2-1-1-节点内通信"><a href="#2-1-1-节点内通信" class="headerlink" title="2.1.1 节点内通信"></a>2.1.1 节点内通信</h3><p><img src="flannel-vxlan-1.png" alt="flannel-vxlan-1"></p><h3 id="2-1-2-跨节点通信"><a href="#2-1-2-跨节点通信" class="headerlink" title="2.1.2 跨节点通信"></a>2.1.2 跨节点通信</h3><p><img src="flannel-vxlan-2.png" alt="flannel-vxlan-2"></p><h4 id="大致过程："><a href="#大致过程：" class="headerlink" title="大致过程："></a>大致过程：</h4><ul><li>发送端：在PodA中发起 ping 10.244.1.21 ，ICMP 报文经过 cni0 网桥后交由 flannel.1 设备处理。 flannel.1 设备是一个VXLAN类型的设备，负责VXLAN封包解包。 因此，在发送端，flannel.1 将原始L2报文封装成VXLAN UDP报文，然后从 eth0 发送。</li><li>接收端：Node2收到UDP报文，发现是一个VXLAN类型报文，交由 flannel.1 进行解包。根据解包后得到的原始报文中的目的IP，将原始报文经由 cni0 网桥发送给PodB。</li></ul><h4 id="哪些IP要交由-flannel-1-处理"><a href="#哪些IP要交由-flannel-1-处理" class="headerlink" title="哪些IP要交由 flannel.1 处理?"></a>哪些IP要交由 flannel.1 处理?</h4><p>flanneld 从 etcd 中可以获取所有节点的子网情况，以此为依据为各节点配置路由，将属于非本节点的子网IP都路由到 flannel.1 处理，本节点的子网路由到 cni0 网桥处理。</p><h4 id="flannel-封包过程"><a href="#flannel-封包过程" class="headerlink" title="flannel 封包过程"></a>flannel 封包过程</h4><p>VXLAN的封包是将二层以太网帧封装到四层UDP报文中的过程。</p><h4 id="原始L2帧"><a href="#原始L2帧" class="headerlink" title="原始L2帧"></a>原始L2帧</h4><p>要生成原始的L2帧， flannel.1 需要得知：</p><ul><li>内层源&#x2F;目的IP地址</li><li>内层源&#x2F;目的MAC地址</li></ul><p>内层的源&#x2F;目的IP地址是已知的，即为PodA&#x2F;PodB的PodIP，在图例中，分别为10.224.0.20和10.224.1.20。<br>内层源&#x2F;目的MAC地址要结合路由表和ARP表来获取。根据路由表①得知：</p><p>下一跳地址是10.224.1.0，关联ARP表②，得到下一跳的MAC地址，也就是目的MAC地址：Node2_flannel.1_MAC；<br>报文要从 flannel.1 虚拟网卡发出，因此源MAC地址为 flannel.1 的MAC地址。</p><p>要注意的是，这里ARP表的表项②并不是通过ARP学习得到的，而是 flanneld 预先为每个节点设置好的，由 flanneld负责维护，没有过期时间。</p><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># 查看ARP表</span><br>[root@Node1 ~]<span class="hljs-comment"># ip n | grep flannel.1</span><br>10.244.1.0 dev flannel.1 lladdr ba:74:f9:db:69:c1 PERMANENT <span class="hljs-comment"># PERMANENT 表示永不过期</span><br></code></pre></td></tr></table></figure><p>有了上面的信息， flannel.1 就可以构造出内层的2层以太网帧：</p><p><img src="flannel-vxlan-3.png" alt="flannel_packet_1.png"></p><h4 id="外层VXLAN-UDP报文"><a href="#外层VXLAN-UDP报文" class="headerlink" title="外层VXLAN UDP报文"></a>外层VXLAN UDP报文</h4><p>要将原始L2帧封装成VXLAN UDP报文， flannel.1 还需要填充源&#x2F;目的IP地址。前面提到，VTEP是VXLAN隧道的起点或终点。因此，目的IP地址即为对端VTEP的IP地址，通过FDB表获取。在FDB表③中，dst字段表示的即为VXLAN隧道目的端点（对端VTEP）的IP地址，也就是VXLAN DUP报文的目的IP地址。FDB表也是由 flanneld 在每个节点上预设并负责维护的。</p><p>FDB表（Forwarding database）用于保存二层设备中MAC地址和端口的关联关系，就像交换机中的MAC地址表一样。在二层设备转发二层以太网帧时，根据FDB表项来找到对应的端口。例如cni0网桥上连接了很多veth pair网卡，当网桥要将以太网帧转发给Pod时，FDB表根据Pod网卡的MAC地址查询FDB表，就能找到其对应的veth网卡，从而实现联通。</p><p>可以使用 bridge fdb show 查看FDB表：</p><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sh">[root@Node1 ~]<span class="hljs-comment"># bridge fdb show | grep flannel.1</span><br>ba:74:f9:db:69:c1 dev flannel.1 dst 192.168.50.3 self permanent<br></code></pre></td></tr></table></figure><p>源IP地址信息来自于 flannel.1 网卡设置本身，根据 local 192.168.50.2 可以得知源IP地址为192.168.50.2。</p><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs sh">[root@Node1 ~]<span class="hljs-comment"># ip -d a show flannel.1</span><br>6: flannel.1: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1450 qdisc noqueue state UNKNOWN group default<br>    <span class="hljs-built_in">link</span>/ether 32:02:78:2f:02:cb brd ff:ff:ff:ff:ff:ff promiscuity 0<br>    vxlan <span class="hljs-built_in">id</span> 1 <span class="hljs-built_in">local</span> 192.168.50.2 dev eth0 srcport 0 0 dstport 8472 nolearning ageing 300 noudpcsum noudp6zerocsumtx noudp6zerocsumrx numtxqueues 1 numrxqueues 1 gso_max_size 65536 gso_max_segs 65535<br>    inet 10.244.0.0/32 brd 10.244.0.0 scope global flannel.1<br>       valid_lft forever preferred_lft forever<br>    inet6 fe80::3002:78ff:fe2f:2cb/64 scope <span class="hljs-built_in">link</span><br>       valid_lft forever preferred_lft forever<br></code></pre></td></tr></table></figure><p>至此， flannel.1 已经得到了所有完成VXLAN封包所需的信息，最终通过 eth0 发送一个VXLAN UDP报文：</p><p>Flannel的VXLAN模式通过静态配置路由表，ARP表和FDB表的信息，结合VXLAN虚拟网卡 flannel.1 ，实现了一个所有Pod同属一个大二层网络的VXLAN网络模型。</p><h2 id="2-1-host-gw模式"><a href="#2-1-host-gw模式" class="headerlink" title="2.1 host-gw模式"></a>2.1 host-gw模式</h2><p><img src="flannel-host-gw-1.png" alt="host-gw模式"></p><p>在host-gw模式下，由于不涉及VXLAN的封包解包，不再需要<code>flannel.1</code>虚机网卡。 <code>flanneld</code> 负责为各节点设置路由 ，将对应节点Pod子网的下一跳地址指向对应的节点的IP，如图中<code>路由表①</code>所示。</p><p>要使用<code>host-gw</code>模式，需要修改 ConfigMap <code>kube-flannel-cfg</code> ，将 <code>Backend.Type</code> 从 <code>vxlan</code>改为<code>host-gw</code>，然后重启所有<code>kube-flannel Pod</code>即可：</p><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs sh">kubectl -n kube-flannel edit configmap kube-flannel-cfg<br><br>...<br>  net-conf.json: |<br>    &#123;<br>      <span class="hljs-string">&quot;Network&quot;</span>: <span class="hljs-string">&quot;10.244.0.0/16&quot;</span>,<br>      <span class="hljs-string">&quot;Backend&quot;</span>: &#123;<br>        <span class="hljs-string">&quot;Type&quot;</span>: <span class="hljs-string">&quot;host-gw&quot;</span> // &lt;- 改成host-gw<br>      &#125;<br>    &#125;<br>...<br></code></pre></td></tr></table></figure><h1 id="3-calico-两种网络模式"><a href="#3-calico-两种网络模式" class="headerlink" title="3. calico 两种网络模式"></a>3. calico 两种网络模式</h1><h2 id="3-1-IPIP-模式"><a href="#3-1-IPIP-模式" class="headerlink" title="3.1 IPIP 模式"></a>3.1 IPIP 模式</h2><h4 id="3-1-1-概要"><a href="#3-1-1-概要" class="headerlink" title="3.1.1 概要"></a>3.1.1 概要</h4><p>IPIP模式是calico的默认网络架构，calico中用环境变量<code>CALICO_IPV4POOL_IPIP</code>来标识是否开启<code>IPIP Mode</code>， 如果该变量的值为<code>Always</code>那么就是开启<code>IPIP</code>，如果关闭需要设置为<code>Never</code>(大小写不敏感，代码里有strings.ToLower操作)。</p><ul><li>从字面来理解，就是把一个IP数据包又套在一个IP包里，即把 IP 层封装到 IP 层的一个 tunnel，看起来似乎是浪费，实则不然。</li><li>它的作用其实基本上就相当于一个基于IP层的网桥！</li><li>一般来说，普通的网桥是基于mac层的，根本不需 IP，而这个 ipip 则是通过两端的路由做一个 tunnel，把两个本来不通的网络通过点对点连接起来。</li><li>ipip 的源代码在内核 net&#x2F;ipv4&#x2F;ipip.c 中可以找到。</li></ul><h4 id="3-1-2-工作原理"><a href="#3-1-2-工作原理" class="headerlink" title="3.1.2 工作原理"></a>3.1.2 工作原理</h4><p><img src="calico-ipip-1.png" alt="ipip"></p><p>Calico使用的这个tunl0设备，是一个IP隧道（IP tunnel）设备</p><p>在上面的例子中，IP包进入IP隧道设备之后，就会被Linux内核的IPIP驱动接管。IPIP驱动会将这个IP包直接封装在一个宿主机网络的IP包中，如下所示：</p><p><img src="calico-ipip-2.png" alt="ipip"></p><h2 id="3-2-BGP-模式"><a href="#3-2-BGP-模式" class="headerlink" title="3.2 BGP 模式"></a>3.2 BGP 模式</h2><h4 id="3-2-1-概要"><a href="#3-2-1-概要" class="headerlink" title="3.2.1 概要"></a>3.2.1 概要</h4><ul><li>边界网关协议（Border Gateway Protocol, BGP）是互联网上一个核心的去中心化自治路由协议。</li><li>它通过维护IP路由表或‘前缀’表来实现自治系统（AS）之间的可达性，属于矢量路由协议。</li><li>BGP不使用传统的内部网关协议（IGP）的指标，而使用基于路径、网络策略或规则集来决定路由。因此，它更适合被称为矢量性协议，而不是路由协议。</li><li>BGP，通俗的讲就是讲接入到机房的多条线路（如电信、联通、移动等）融合为一体，实现多线单IP，BGP 机房的优点：服务器只需要设置一个IP地址，最佳访问路由是由网络上的骨干路由器根据路由跳数与其它技术指标来确定的，不会占用服务器的任何系统。</li><li>BGP网络相比较IPIP网络，最大的不同之处就是没有了隧道设备 tunl0。前面介绍过<code>IPIP</code>网络pod之间的流量发送tunl0，然后tunl0发送对端设备。BGP网络中，pod之间的流量直接从网卡发送目的地，减少了<code>tunl0</code>这个环节。</li></ul><h4 id="3-2-2-工作原理"><a href="#3-2-2-工作原理" class="headerlink" title="3.2.2 工作原理"></a>3.2.2 工作原理</h4><p><img src="calico-bgp-1.png" alt="bgp"></p><h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><p><a href="https://ost.51cto.com/posts/15845">https://ost.51cto.com/posts/15845</a><br><a href="https://juejin.cn/post/6994825163757846565">https://juejin.cn/post/6994825163757846565</a></p>]]></content>
+    
+    
+    <categories>
+      
+      <category>k8s</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>k8s</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>使用kubeadm安装集群</title>
+    <link href="/2023/07/26/k8s/%E4%BD%BF%E7%94%A8kubeadm%E5%AE%89%E8%A3%85%E9%9B%86%E7%BE%A4/"/>
+    <url>/2023/07/26/k8s/%E4%BD%BF%E7%94%A8kubeadm%E5%AE%89%E8%A3%85%E9%9B%86%E7%BE%A4/</url>
+    
+    <content type="html"><![CDATA[<h4 id="图解k8s"><a href="#图解k8s" class="headerlink" title="图解k8s"></a>图解k8s</h4><p><img src="master-worker.png" alt="master-worker"></p><h3 id="1-安装containerd"><a href="#1-安装containerd" class="headerlink" title="1 安装containerd"></a>1 安装containerd</h3><h4 id="1-1-使用-tar-包安装"><a href="#1-1-使用-tar-包安装" class="headerlink" title="1.1 使用 tar 包安装"></a>1.1 使用 tar 包安装</h4><p><a href="https://github.com/containerd/containerd/releases">下载地址</a></p><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs sh">wget https://github.com/containerd/containerd/releases/download/v1.7.2/containerd-1.7.2-linux-amd64.tar.gz<br>tar Cxzvf /usr/local containerd-1.7.2-linux-amd64.tar.gz<br><span class="hljs-built_in">mkdir</span> -p /usr/local/lib/systemd/system<br>wget https://raw.githubusercontent.com/containerd/containerd/main/containerd.service<br><span class="hljs-built_in">mv</span> containerd.service /usr/local/lib/systemd/system/containerd.service<br>systemctl daemon-reload<br>systemctl <span class="hljs-built_in">enable</span> --now containerd<br></code></pre></td></tr></table></figure><h4 id="1-2-rpm、deb-包安装"><a href="#1-2-rpm、deb-包安装" class="headerlink" title="1.2 rpm、deb 包安装"></a>1.2 rpm、deb 包安装</h4><ul><li>Centos <a href="https://download.docker.com/linux/centos/7/x86_64/stable/Packages/">下载地址</a></li><li>Ubuntu <a href="https://download.docker.com/linux/ubuntu/dists/bionic/pool/stable/amd64">下载地址</a></li></ul><h3 id="2-安装runc"><a href="#2-安装runc" class="headerlink" title="2 安装runc"></a>2 安装runc</h3><p><a href="https://github.com/opencontainers/runc/releases">下载地址</a></p><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sh">wget https://github.com/opencontainers/runc/releases/download/v1.1.8/runc.amd64<br>install -m 755 runc.amd64 /usr/local/sbin/runc<br></code></pre></td></tr></table></figure><h3 id="3-安装ctrctl"><a href="#3-安装ctrctl" class="headerlink" title="3 安装ctrctl"></a>3 安装ctrctl</h3><p><a href="https://github.com/kubernetes-sigs/cri-tools/releases">下载地址</a></p><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># 注意: 下载对应的集群版本，crictl版本列表：https://github.com/kubernetes-sigs/cri-tools/tags</span><br>VERSION=<span class="hljs-string">&quot;v1.26.0&quot;</span> <span class="hljs-comment"># check latest version in /releases page</span><br>curl -L https://github.com/kubernetes-sigs/cri-tools/releases/download/<span class="hljs-variable">$VERSION</span>/crictl-<span class="hljs-variable">$&#123;VERSION&#125;</span>-linux-amd64.tar.gz --output crictl-<span class="hljs-variable">$&#123;VERSION&#125;</span>-linux-amd64.tar.gz<br>sudo tar zxvf crictl-<span class="hljs-variable">$VERSION</span>-linux-amd64.tar.gz -C /usr/local/bin<br><span class="hljs-built_in">rm</span> -f crictl-<span class="hljs-variable">$VERSION</span>-linux-amd64.tar.gz<br></code></pre></td></tr></table></figure><h4 id="3-1-ctrctl-报错文件找不到"><a href="#3-1-ctrctl-报错文件找不到" class="headerlink" title="3.1 ctrctl 报错文件找不到"></a>3.1 ctrctl 报错文件找不到</h4><ul><li>不同的部署方式，文件路径可能不同。</li></ul><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># 以 k3s 为例，指定 .sock 文件</span><br>crictl --runtime-endpoint /var/run/k3s/containerd/containerd.sock ps -a<br></code></pre></td></tr></table></figure><h4 id="3-2-查看-ctrctl-配置"><a href="#3-2-查看-ctrctl-配置" class="headerlink" title="3.2 查看 ctrctl 配置"></a>3.2 查看 ctrctl 配置</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-built_in">cat</span> /etc/crictl.yaml<br></code></pre></td></tr></table></figure><h3 id="4-安装kubeadm、kubelet、kubectl"><a href="#4-安装kubeadm、kubelet、kubectl" class="headerlink" title="4 安装kubeadm、kubelet、kubectl"></a>4 安装kubeadm、kubelet、kubectl</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs sh">DOWNLOAD_DIR=<span class="hljs-string">&quot;/usr/local/bin&quot;</span><br>sudo <span class="hljs-built_in">mkdir</span> -p <span class="hljs-string">&quot;<span class="hljs-variable">$DOWNLOAD_DIR</span>&quot;</span><br><br><span class="hljs-comment"># 安装最新版</span><br>RELEASE=<span class="hljs-string">&quot;<span class="hljs-subst">$(curl -sSL https://dl.k8s.io/release/stable.txt)</span>&quot;</span><br><br><span class="hljs-comment"># 安装指定版本</span><br><span class="hljs-comment"># RELEASE=&quot;v1.26.7&quot;</span><br><br>ARCH=<span class="hljs-string">&quot;amd64&quot;</span><br><span class="hljs-built_in">cd</span> <span class="hljs-variable">$DOWNLOAD_DIR</span><br>sudo curl -L --remote-name-all https://dl.k8s.io/release/<span class="hljs-variable">$&#123;RELEASE&#125;</span>/bin/linux/<span class="hljs-variable">$&#123;ARCH&#125;</span>/&#123;kubeadm,kubelet,kubectl&#125;<br>sudo <span class="hljs-built_in">chmod</span> +x &#123;kubeadm,kubelet,kubectl&#125;<br><br>RELEASE_VERSION=<span class="hljs-string">&quot;v0.15.1&quot;</span><br>curl -sSL <span class="hljs-string">&quot;https://raw.githubusercontent.com/kubernetes/release/<span class="hljs-variable">$&#123;RELEASE_VERSION&#125;</span>/cmd/kubepkg/templates/latest/deb/kubelet/lib/systemd/system/kubelet.service&quot;</span> | sed <span class="hljs-string">&quot;s:/usr/bin:<span class="hljs-variable">$&#123;DOWNLOAD_DIR&#125;</span>:g&quot;</span> | sudo <span class="hljs-built_in">tee</span> /etc/systemd/system/kubelet.service<br>sudo <span class="hljs-built_in">mkdir</span> -p /etc/systemd/system/kubelet.service.d<br>curl -sSL <span class="hljs-string">&quot;https://raw.githubusercontent.com/kubernetes/release/<span class="hljs-variable">$&#123;RELEASE_VERSION&#125;</span>/cmd/kubepkg/templates/latest/deb/kubeadm/10-kubeadm.conf&quot;</span> | sed <span class="hljs-string">&quot;s:/usr/bin:<span class="hljs-variable">$&#123;DOWNLOAD_DIR&#125;</span>:g&quot;</span> | sudo <span class="hljs-built_in">tee</span> /etc/systemd/system/kubelet.service.d/10-kubeadm.conf<br><br><span class="hljs-comment"># 激活并启动 kubelet</span><br>systemctl <span class="hljs-built_in">enable</span> --now kubelet<br></code></pre></td></tr></table></figure><h3 id="5-安装conntrack"><a href="#5-安装conntrack" class="headerlink" title="5 安装conntrack"></a>5 安装conntrack</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">yum install conntrack-tools -y<br></code></pre></td></tr></table></figure><h4 id="5-1-测试"><a href="#5-1-测试" class="headerlink" title="5.1 测试"></a>5.1 测试</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">conntrack -L<br></code></pre></td></tr></table></figure><h3 id="6-设置内核参数"><a href="#6-设置内核参数" class="headerlink" title="6 设置内核参数"></a>6 设置内核参数</h3><p>如果不设置参数，使用 kubeadm join 时可能会导致报错</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs log">W0726 10:29:26.474684    8216 checks.go:1064] [preflight] WARNING: Couldn&#x27;t create the interface used for talking to the container runtime: crictl is required by the container runtime: executable file not found in $PATH<br>[WARNING FileExisting-socat]: socat not found in system path<br>error execution phase preflight: [preflight] Some fatal errors occurred:<br>[ERROR FileExisting-crictl]: crictl not found in system path<br>[ERROR FileExisting-conntrack]: conntrack not found in system path<br>[ERROR FileContent--proc-sys-net-bridge-bridge-nf-call-iptables]: /proc/sys/net/bridge/bridge-nf-call-iptables does not exist<br>[ERROR FileContent--proc-sys-net-ipv4-ip_forward]: /proc/sys/net/ipv4/ip_forward contents are not set to 1<br>[preflight] If you know what you are doing, you can make a check non-fatal with `--ignore-preflight-errors=...`<br></code></pre></td></tr></table></figure><h4 id="6-1-加载-bridge-内核模块"><a href="#6-1-加载-bridge-内核模块" class="headerlink" title="6.1 加载 bridge 内核模块"></a>6.1 加载 bridge 内核模块</h4><p>查看是否加载 br_netfilter 模块</p><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">lsmod | grep br_netfilter<br></code></pre></td></tr></table></figure><p>如果没加载执行</p><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">sudo modprobe br_netfilter<br></code></pre></td></tr></table></figure><h4 id="6-2-更改内核参数"><a href="#6-2-更改内核参数" class="headerlink" title="6.2 更改内核参数"></a>6.2 更改内核参数</h4><p>打开 &#x2F;etc&#x2F;sysctl.conf 文件</p><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs sh">net.ipv4.ip_forward = 1<br>net.bridge.bridge-nf-call-iptables = 1<br>net.bridge.bridge-nf-call-ip6tables = 1<br></code></pre></td></tr></table></figure><h4 id="6-3-重新加载-sysctl-配置"><a href="#6-3-重新加载-sysctl-配置" class="headerlink" title="6.3 重新加载 sysctl 配置"></a>6.3 重新加载 sysctl 配置</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">sysctl -p<br></code></pre></td></tr></table></figure><h3 id="7-kubeadm部署集群"><a href="#7-kubeadm部署集群" class="headerlink" title="7 kubeadm部署集群"></a>7 kubeadm部署集群</h3><h4 id="7-1-Master"><a href="#7-1-Master" class="headerlink" title="7.1 Master"></a>7.1 Master</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">kubeadm init --v=5<br></code></pre></td></tr></table></figure><p>此时，正常情况下你应该看到master安装成功提示</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs log">kubeadm join 10.7.130.29:6443 --token kqi9ve.dvcyddrn9527rvnu \<br>--discovery-token-ca-cert-hash sha256:67c19abd79fhjkl1cc5a04e2192bf3bc335d41f2f4a76084adcc4cda3d48804<br></code></pre></td></tr></table></figure><h4 id="7-2-Node"><a href="#7-2-Node" class="headerlink" title="7.2 Node"></a>7.2 Node</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sh">kubeadm <span class="hljs-built_in">join</span> 10.7.130.29:6443 --token kqi9ve.dvcyddrn9527rvnu \<br>--discovery-token-ca-cert-hash sha256:67c19abd79fhjkl1cc5a04e2192bf3bc335d41f2f4a76084adcc4cda3d48804<br></code></pre></td></tr></table></figure><h4 id="7-3-参数说明"><a href="#7-3-参数说明" class="headerlink" title="7.3 参数说明"></a>7.3 参数说明</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># 指定版本</span><br>--kubernetes-version=v1.26.7<br><br><span class="hljs-comment"># 指定镜像源为阿里</span><br>--image-repository registry.cn-hangzhou.aliyuncs.com/google_containers<br><br><span class="hljs-comment"># 指定pod网段</span><br>--pod-network-cidr=10.244.0.0/16<br></code></pre></td></tr></table></figure><h4 id="7-4-重新生成-token"><a href="#7-4-重新生成-token" class="headerlink" title="7.4 重新生成 token"></a>7.4 重新生成 token</h4><p>当忘记kubeadm join命令时，可以重新生成token。以此来获得 kubeadm join 命令。</p><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">sudo kubeadm token create --print-join-command<br></code></pre></td></tr></table></figure><h4 id="7-5-查看-token"><a href="#7-5-查看-token" class="headerlink" title="7.5 查看 token"></a>7.5 查看 token</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">sudo kubeadm token list<br></code></pre></td></tr></table></figure><h4 id="8-kubeconfig-配置文件"><a href="#8-kubeconfig-配置文件" class="headerlink" title="8 kubeconfig 配置文件"></a>8 kubeconfig 配置文件</h4><p>默认生成的 kubeconfig 文件在 &#x2F;etc&#x2F;kubernetes&#x2F;admin.conf</p><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-built_in">mkdir</span> <span class="hljs-variable">$HOME</span>/.kube<br><span class="hljs-built_in">cp</span> /etc/kubernetes/admin.conf <span class="hljs-variable">$HOME</span>/.kube/config<br>kubectl get no<br></code></pre></td></tr></table></figure><h4 id="9-安装网络插件"><a href="#9-安装网络插件" class="headerlink" title="9. 安装网络插件"></a>9. 安装网络插件</h4><h5 id="9-1-先安装官方插件"><a href="#9-1-先安装官方插件" class="headerlink" title="9.1 先安装官方插件"></a>9.1 先安装官方插件</h5><p><a href="https://github.com/containernetworking/plugins/releases">下载地址</a></p><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs sh">wget https://github.com/containernetworking/plugins/releases/download/v1.3.0/cni-plugins-linux-amd64-v1.3.0.tgz<br>tar -zxvf cni-plugins-linux-amd64-v1.3.0.tgz -C /opt/cni/bin<br><span class="hljs-built_in">rm</span> -f cni-plugins-linux-amd64-v1.3.0.tgz<br></code></pre></td></tr></table></figure><h4 id="9-2-安装-flannel-或-calico"><a href="#9-2-安装-flannel-或-calico" class="headerlink" title="9.2 安装 flannel 或 calico"></a>9.2 安装 flannel 或 calico</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># flannel</span><br>kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml<br></code></pre></td></tr></table></figure><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># calico</span><br>kubectl apply -f https://docs.projectcalico.org/manifests/calico.yaml<br></code></pre></td></tr></table></figure><p>安装完<code>cni</code>后，此时<code>coredns</code>应该为<code>running</code></p><h4 id="9-2-1-查看flannel模式"><a href="#9-2-1-查看flannel模式" class="headerlink" title="9.2.1 查看flannel模式"></a>9.2.1 查看flannel模式</h4><p><code>flannel</code> 默认的模式为 <code>vxlan</code>，如果需要修改，可以修改<code>configmap</code> <code>kube-flannel-cfg</code></p><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">kubectl -n kube-flannel get configmap kube-flannel-cfg -oyaml<br></code></pre></td></tr></table></figure><h4 id="9-2-2-创建测试pod"><a href="#9-2-2-创建测试pod" class="headerlink" title="9.2.2 创建测试pod"></a>9.2.2 创建测试pod</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">kubectl run my-pod --image=nginx:latest<br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>k8s</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>k8s</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>使用client-go操作自定义CRD</title>
+    <link href="/2023/07/25/k8s/%E4%BD%BF%E7%94%A8client-go%E6%93%8D%E4%BD%9C%E8%87%AA%E5%AE%9A%E4%B9%89CRD/"/>
+    <url>/2023/07/25/k8s/%E4%BD%BF%E7%94%A8client-go%E6%93%8D%E4%BD%9C%E8%87%AA%E5%AE%9A%E4%B9%89CRD/</url>
+    
+    <content type="html"><![CDATA[<h4 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h4><p>简洁、高效、无需定义 CR 相关结构体，实现了四种方法： Get、List、Update、Delete 来操作 CR。</p><p>个人觉得这只适合对 CR 字段更改不是很多的环境，如果参数过多可能会有些繁琐。</p><h4 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h4><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-keyword">package</span> main<br><br><span class="hljs-keyword">import</span> (<br><span class="hljs-string">&quot;context&quot;</span><br><span class="hljs-string">&quot;fmt&quot;</span><br><span class="hljs-string">&quot;path/filepath&quot;</span><br><br>metav1 <span class="hljs-string">&quot;k8s.io/apimachinery/pkg/apis/meta/v1&quot;</span><br><span class="hljs-string">&quot;k8s.io/apimachinery/pkg/apis/meta/v1/unstructured&quot;</span><br><span class="hljs-string">&quot;k8s.io/apimachinery/pkg/runtime/schema&quot;</span><br><span class="hljs-string">&quot;k8s.io/client-go/dynamic&quot;</span><br><span class="hljs-string">&quot;k8s.io/client-go/tools/clientcmd&quot;</span><br><span class="hljs-string">&quot;k8s.io/client-go/util/homedir&quot;</span><br>)<br><br><span class="hljs-keyword">type</span> KubernetesCrdExec <span class="hljs-keyword">interface</span> &#123;<br>Get(dynamicClient dynamic.Interface, resource schema.GroupVersionResource, namespace, name <span class="hljs-type">string</span>) (*unstructured.Unstructured, <span class="hljs-type">error</span>)<br>List(dynamicClient dynamic.Interface, resource schema.GroupVersionResource, namespace <span class="hljs-type">string</span>) (*unstructured.UnstructuredList, <span class="hljs-type">error</span>)<br>Update(dynamicClient dynamic.Interface, resource schema.GroupVersionResource, result *unstructured.Unstructured, namespace, name <span class="hljs-type">string</span>) (*unstructured.Unstructured, <span class="hljs-type">error</span>)<br>Delete(dynamicClient dynamic.Interface, resource schema.GroupVersionResource, namespace, name <span class="hljs-type">string</span>) <span class="hljs-type">error</span><br>&#125;<br><br><span class="hljs-keyword">type</span> Alertmanager <span class="hljs-keyword">struct</span>&#123;&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;<br>resource := schema.GroupVersionResource&#123;<br>Group:    <span class="hljs-string">&quot;monitoring.coreos.com&quot;</span>,<br>Version:  <span class="hljs-string">&quot;v1&quot;</span>,<br>Resource: <span class="hljs-string">&quot;alertmanagers&quot;</span>, <span class="hljs-comment">// 这里必须是复数形式</span><br>&#125;<br><br>namespace := <span class="hljs-string">&quot;default&quot;</span><br>name := <span class="hljs-string">&quot;my-alertmanager&quot;</span><br><br>dynamicClient, err := getClient()<br><span class="hljs-keyword">if</span> err != <span class="hljs-literal">nil</span> &#123;<br><span class="hljs-built_in">panic</span>(err.Error())<br>&#125;<br><br><span class="hljs-keyword">var</span> crd KubernetesCrdExec<br>crd = Alertmanager&#123;&#125;<br><br>result, err := crd.Get(dynamicClient, resource, namespace, name)<br><span class="hljs-keyword">if</span> err != <span class="hljs-literal">nil</span> &#123;<br><span class="hljs-built_in">panic</span>(err)<br>&#125;<br><br>fmt.Println(result.Object[<span class="hljs-string">&quot;spec&quot;</span>].(<span class="hljs-keyword">map</span>[<span class="hljs-type">string</span>]<span class="hljs-keyword">interface</span>&#123;&#125;)[<span class="hljs-string">&quot;externalUrl&quot;</span>])<br><br>resultLists, err := crd.List(dynamicClient, resource, namespace)<br><span class="hljs-keyword">if</span> err != <span class="hljs-literal">nil</span> &#123;<br><span class="hljs-built_in">panic</span>(err)<br>&#125;<br><br><span class="hljs-keyword">for</span> _, item := <span class="hljs-keyword">range</span> resultLists.Items &#123;<br>name := item.Object[<span class="hljs-string">&quot;metadata&quot;</span>].(<span class="hljs-keyword">map</span>[<span class="hljs-type">string</span>]<span class="hljs-keyword">interface</span>&#123;&#125;)[<span class="hljs-string">&quot;name&quot;</span>]<br>namespace := item.Object[<span class="hljs-string">&quot;metadata&quot;</span>].(<span class="hljs-keyword">map</span>[<span class="hljs-type">string</span>]<span class="hljs-keyword">interface</span>&#123;&#125;)[<span class="hljs-string">&quot;namespace&quot;</span>]<br>fmt.Printf(<span class="hljs-string">&quot;%v/%v\n&quot;</span>, namespace, name)<br>&#125;<br><br><span class="hljs-comment">// 在这里对 Object 进行修改，更新字段值。这里相当于更新了 spec.externalUrl = http://127.0.0.1:9093</span><br>result.Object[<span class="hljs-string">&quot;spec&quot;</span>].(<span class="hljs-keyword">map</span>[<span class="hljs-type">string</span>]<span class="hljs-keyword">interface</span>&#123;&#125;)[<span class="hljs-string">&quot;externalUrl&quot;</span>] = <span class="hljs-string">&quot;http://127.0.0.1:9093&quot;</span><br>result, err = crd.Update(dynamicClient, resource, result, namespace, name)<br><span class="hljs-keyword">if</span> err != <span class="hljs-literal">nil</span> &#123;<br><span class="hljs-built_in">panic</span>(err)<br>&#125;<br><br>err = crd.Delete(dynamicClient, resource, namespace, name)<br><span class="hljs-keyword">if</span> err != <span class="hljs-literal">nil</span> &#123;<br><span class="hljs-built_in">panic</span>(err)<br>&#125;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-params">(Alertmanager)</span></span> Get(dynamicClient dynamic.Interface, resource schema.GroupVersionResource, namespace, name <span class="hljs-type">string</span>) (*unstructured.Unstructured, <span class="hljs-type">error</span>) &#123;<br><span class="hljs-keyword">return</span> dynamicClient.Resource(resource).Namespace(namespace).Get(context.TODO(), name, metav1.GetOptions&#123;&#125;)<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-params">(Alertmanager)</span></span> List(dynamicClient dynamic.Interface, resource schema.GroupVersionResource, namespace <span class="hljs-type">string</span>) (*unstructured.UnstructuredList, <span class="hljs-type">error</span>) &#123;<br><span class="hljs-keyword">return</span> dynamicClient.Resource(resource).Namespace(namespace).List(context.TODO(), metav1.ListOptions&#123;&#125;)<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-params">(Alertmanager)</span></span> Update(dynamicClient dynamic.Interface, resource schema.GroupVersionResource, result *unstructured.Unstructured, namespace, name <span class="hljs-type">string</span>) (*unstructured.Unstructured, <span class="hljs-type">error</span>) &#123;<br><span class="hljs-keyword">return</span> dynamicClient.Resource(resource).Namespace(namespace).Update(context.TODO(), result, metav1.UpdateOptions&#123;&#125;)<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-params">(Alertmanager)</span></span> Delete(dynamicClient dynamic.Interface, resource schema.GroupVersionResource, namespace, name <span class="hljs-type">string</span>) <span class="hljs-type">error</span> &#123;<br><span class="hljs-keyword">return</span> dynamicClient.Resource(resource).Namespace(namespace).Delete(context.TODO(), name, metav1.DeleteOptions&#123;&#125;)<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">getClient</span><span class="hljs-params">()</span></span> (dynamic.Interface, <span class="hljs-type">error</span>) &#123;<br>kubeconfig := filepath.Join(homedir.HomeDir(), <span class="hljs-string">&quot;.kube&quot;</span>, <span class="hljs-string">&quot;config&quot;</span>)<br>config, err := clientcmd.BuildConfigFromFlags(<span class="hljs-string">&quot;&quot;</span>, kubeconfig)<br><span class="hljs-keyword">if</span> err != <span class="hljs-literal">nil</span> &#123;<br><span class="hljs-keyword">return</span> <span class="hljs-literal">nil</span>, err<br>&#125;<br><span class="hljs-keyword">return</span> dynamic.NewForConfig(config)<br>&#125;<br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>k8s</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>k8s</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>文件、磁盘相关命令</title>
+    <link href="/2023/07/25/linux/%E6%96%87%E4%BB%B6%E3%80%81%E7%A3%81%E7%9B%98%E7%9B%B8%E5%85%B3%E5%91%BD%E4%BB%A4/"/>
+    <url>/2023/07/25/linux/%E6%96%87%E4%BB%B6%E3%80%81%E7%A3%81%E7%9B%98%E7%9B%B8%E5%85%B3%E5%91%BD%E4%BB%A4/</url>
+    
+    <content type="html"><![CDATA[<h4 id="查看某个目录下所有文件夹大小"><a href="#查看某个目录下所有文件夹大小" class="headerlink" title="查看某个目录下所有文件夹大小"></a>查看某个目录下所有文件夹大小</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># 只能查看文件夹</span><br><br><span class="hljs-comment"># 查看当前目录</span><br><span class="hljs-built_in">du</span> -h --max-depth=1 | <span class="hljs-built_in">sort</span> -h<br><br><span class="hljs-comment"># 查看指定目录</span><br><span class="hljs-built_in">du</span> -h <span class="hljs-variable">$DIR</span> --max-depth=1 | <span class="hljs-built_in">sort</span> -h<br><br><span class="hljs-comment"># 参数解析</span><br><span class="hljs-comment"># --max-depth 深度</span><br><span class="hljs-comment"># sort -h 从小到大排序</span><br><span class="hljs-comment"># sort -rh 从大到小排序</span><br></code></pre></td></tr></table></figure><h4 id="查看磁盘"><a href="#查看磁盘" class="headerlink" title="查看磁盘"></a>查看磁盘</h4><ol><li>显示系统中每个文件系统的磁盘使用情况</li></ol><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-built_in">df</span> -h<br></code></pre></td></tr></table></figure><ol start="2"><li>显示系统中所有的块设备，包括硬盘和分区。通常，系统盘的挂载点是根目录 &#x2F;，而数据盘则可能挂载在其他目录上，如&#x2F;home、&#x2F;mnt等。</li></ol><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">lsblk<br></code></pre></td></tr></table></figure><ol start="3"><li>显示所有在启动时挂载的文件系统，包括系统盘和数据盘的信息。一般情况下，系统盘的挂载信息会在此文件中。<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-built_in">cat</span> /etc/fstab<br></code></pre></td></tr></table></figure></li></ol>]]></content>
+    
+    
+    <categories>
+      
+      <category>linux</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>linux</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>如何分配IP</title>
+    <link href="/2023/07/24/golang/%E5%A6%82%E4%BD%95%E5%88%86%E9%85%8DIP/"/>
+    <url>/2023/07/24/golang/%E5%A6%82%E4%BD%95%E5%88%86%E9%85%8DIP/</url>
+    
+    <content type="html"><![CDATA[<h4 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h4><p>当我们有一段或者多段IP时，如何从IP池中分配出一个IP？</p><h4 id="创建配置文件"><a href="#创建配置文件" class="headerlink" title="创建配置文件"></a>创建配置文件</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-built_in">cat</span> &lt;&lt;<span class="hljs-string">EOF &gt; ipam.json</span><br><span class="hljs-string">&#123;</span><br><span class="hljs-string">  &quot;ranges&quot;: [</span><br><span class="hljs-string">    &#123;</span><br><span class="hljs-string">      &quot;start&quot;: &quot;10.172.16.2&quot;,</span><br><span class="hljs-string">      &quot;end&quot;: &quot;10.172.16.3&quot;</span><br><span class="hljs-string">    &#125;,</span><br><span class="hljs-string">    &#123;</span><br><span class="hljs-string">      &quot;start&quot;: &quot;10.172.17.2&quot;,</span><br><span class="hljs-string">      &quot;end&quot;: &quot;10.172.17.3&quot;</span><br><span class="hljs-string">    &#125;</span><br><span class="hljs-string">  ]</span><br><span class="hljs-string">&#125;</span><br><span class="hljs-string">EOF</span><br></code></pre></td></tr></table></figure><h4 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h4><p><a href="https://github.com/oldwang12/ipam">ipam</a></p>]]></content>
+    
+    
+    <categories>
+      
+      <category>golang</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>golang</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>安装kubectl快捷命令</title>
+    <link href="/2023/07/23/k8s/%E5%AE%89%E8%A3%85kubectl%E5%BF%AB%E6%8D%B7%E5%91%BD%E4%BB%A4/"/>
+    <url>/2023/07/23/k8s/%E5%AE%89%E8%A3%85kubectl%E5%BF%AB%E6%8D%B7%E5%91%BD%E4%BB%A4/</url>
+    
+    <content type="html"><![CDATA[<h4 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h4><p>k8s 的命令不算长，也很好记，但身为一个偷懒者，我想我可以更简洁、高效。</p><p>默认快捷命令保存在 ～&#x2F;.bash_profile 文件。</p><h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">curl -sfL https://raw.githubusercontent.com/oldwang12/oldwang12.github.io/master/source/shells/k8s_alias_install.sh | sh -<br></code></pre></td></tr></table></figure><h6 id="如果你想指定保存文件"><a href="#如果你想指定保存文件" class="headerlink" title="如果你想指定保存文件"></a>如果你想指定保存文件</h6><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">curl -sfL https://raw.githubusercontent.com/oldwang12/oldwang12.github.io/master/source/shells/k8s_alias_install.sh | bash -s ~/.zshrc<br></code></pre></td></tr></table></figure><p>执行完记得source &lt;～&#x2F;FILE_NAME&gt;，例如：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">source</span> ～/.bash_profile<br></code></pre></td></tr></table></figure><h4 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># 获取pod</span><br>$ p<br>NAME                              READY   STATUS    RESTARTS   AGE<br>test-deployment-d5b769945-q29d4   1/1     Running   0          6d7h<br><br><span class="hljs-comment"># 进入pod</span><br>$ ke test-deployment-d5b769945-q29d4<br>kubectl <span class="hljs-built_in">exec</span> [POD] [COMMAND] is DEPRECATED and will be removed <span class="hljs-keyword">in</span> a future version. Use kubectl <span class="hljs-built_in">exec</span> [POD] -- [COMMAND] instead.<br><br><span class="hljs-comment"># 查看日志</span><br>$ kl<br><br><span class="hljs-comment"># 查看帮助</span><br>$ kh<br><span class="hljs-built_in">alias</span> k=<span class="hljs-string">&quot;kubectl&quot;</span><br><span class="hljs-built_in">alias</span> kk=<span class="hljs-string">&quot;kubectl -n kube-system&quot;</span><br><span class="hljs-built_in">alias</span> kl=<span class="hljs-string">&quot;kubectl logs -f&quot;</span><br><span class="hljs-built_in">alias</span> kd=<span class="hljs-string">&quot;kubectl describe&quot;</span><br><span class="hljs-built_in">alias</span> p=<span class="hljs-string">&quot;kubectl get po&quot;</span><br><span class="hljs-built_in">alias</span> svc=<span class="hljs-string">&quot;kubectl get svc&quot;</span><br><span class="hljs-built_in">alias</span> no=<span class="hljs-string">&quot;kubectl get no&quot;</span><br><span class="hljs-built_in">alias</span> pvc=<span class="hljs-string">&quot;kubectl get pvc&quot;</span><br><span class="hljs-built_in">alias</span> sa=<span class="hljs-string">&quot;kubectl get sa&quot;</span><br><span class="hljs-built_in">alias</span> ds=<span class="hljs-string">&quot;kubectl get ds&quot;</span><br><span class="hljs-built_in">alias</span> rs=<span class="hljs-string">&quot;kubectl get rs&quot;</span><br><span class="hljs-built_in">alias</span> ep=<span class="hljs-string">&quot;kubectl get ep&quot;</span><br>ke=kubectl <span class="hljs-built_in">exec</span> -it POD_NAME sh<br></code></pre></td></tr></table></figure><h4 id="kubens、kubectx"><a href="#kubens、kubectx" class="headerlink" title="kubens、kubectx"></a>kubens、kubectx</h4><p>你可以通过修改环境变量更改 fzf 的背景颜色和字体颜色</p><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># 颜色对照表参考: https://github.com/medikoo/cli-color</span><br><span class="hljs-built_in">export</span> KUBECTX_CURRENT_FGCOLOR=$(tput setaf 6) <span class="hljs-comment"># blue text</span><br><span class="hljs-built_in">export</span> KUBECTX_CURRENT_BGCOLOR=$(tput setab 7) <span class="hljs-comment"># white background</span><br></code></pre></td></tr></table></figure><h1 id="卸载"><a href="#卸载" class="headerlink" title="卸载"></a>卸载</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">curl -sfL https://raw.githubusercontent.com/oldwang12/oldwang12.github.io/master/source/shells/k8s_alias_uninstall.sh | sh -<br></code></pre></td></tr></table></figure><p>如果你的文件不是 ～&#x2F;.bashrc，需要替换为对应文件，以 ~&#x2F;.zshrc 为例</p><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">curl -sfL https://raw.githubusercontent.com/oldwang12/oldwang12.github.io/master/source/shells/k8s_alias_uninstall.sh | bash -s ~/.zshrc<br></code></pre></td></tr></table></figure><p>执行完记得source &lt;～&#x2F;FILE_NAME&gt;，例如：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">source</span> ～/.bashrc<br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>k8s</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>kubectl alias</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>网络</title>
+    <link href="/2023/07/23/linux/%E7%BD%91%E7%BB%9C/"/>
+    <url>/2023/07/23/linux/%E7%BD%91%E7%BB%9C/</url>
+    
+    <content type="html"><![CDATA[<h4 id="查看网络连接信息"><a href="#查看网络连接信息" class="headerlink" title="查看网络连接信息"></a>查看网络连接信息</h4><figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">netstat -nplt</span><br></code></pre></td></tr></table></figure><p>-n 将字母转化为数字</p><p>-p 显示进程相关信息</p><p>-l 列出状态为监听</p><p>-t 只查看tcp协议</p><p>-a 查看全部协议(netstat -an)</p><h4 id="路由追踪"><a href="#路由追踪" class="headerlink" title="路由追踪"></a>路由追踪</h4><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-attribute">traceroute</span> <span class="hljs-number">8.8.8.8</span><br></code></pre></td></tr></table></figure><h4 id="查看路由表"><a href="#查看路由表" class="headerlink" title="查看路由表"></a>查看路由表</h4><figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs crmsh">ip <span class="hljs-keyword">rule</span><br>ip -<span class="hljs-number">6</span> <span class="hljs-keyword">rule</span> <br>ip <span class="hljs-keyword">rule</span> list<br></code></pre></td></tr></table></figure><h4 id="查看默认路由表信息"><a href="#查看默认路由表信息" class="headerlink" title="查看默认路由表信息"></a>查看默认路由表信息</h4><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs powershell">ip <span class="hljs-built_in">r</span><br>ip <span class="hljs-literal">-6</span> <span class="hljs-built_in">r</span><br>route<br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>linux</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>linux</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>k8s记不住的命令</title>
+    <link href="/2023/07/23/k8s/k8s%E8%AE%B0%E4%B8%8D%E4%BD%8F%E7%9A%84%E5%91%BD%E4%BB%A4/"/>
+    <url>/2023/07/23/k8s/k8s%E8%AE%B0%E4%B8%8D%E4%BD%8F%E7%9A%84%E5%91%BD%E4%BB%A4/</url>
+    
+    <content type="html"><![CDATA[<h4 id="创建pod"><a href="#创建pod" class="headerlink" title="创建pod"></a>创建pod</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">kubectl run my-pod --image=nginx:latest<br></code></pre></td></tr></table></figure><h4 id="更新镜像"><a href="#更新镜像" class="headerlink" title="更新镜像"></a>更新镜像</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">kubectl <span class="hljs-built_in">set</span> image deployment/provider provider=provider:latest<br></code></pre></td></tr></table></figure><h4 id="给-node-pod-打标签"><a href="#给-node-pod-打标签" class="headerlink" title="给 node&#x2F;pod 打标签"></a>给 node&#x2F;pod 打标签</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">kubectl label nodes kube-node node=kube-node<br></code></pre></td></tr></table></figure><h4 id="通过标签过滤"><a href="#通过标签过滤" class="headerlink" title="通过标签过滤"></a>通过标签过滤</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">kubectl get node -l <span class="hljs-string">&quot;node=kube-node&quot;</span><br></code></pre></td></tr></table></figure><h4 id="kubectl-cp"><a href="#kubectl-cp" class="headerlink" title="kubectl cp"></a>kubectl cp</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># 拷贝pod数据到本地</span><br>kubectl <span class="hljs-built_in">cp</span> &lt;some-namespace&gt;/&lt;some-pod&gt;:/tmp/foo /tmp/foo<br><br><span class="hljs-comment"># 拷贝本地数据到pod之中</span><br>kubectl <span class="hljs-built_in">cp</span> /tmp/foo &lt;some-namespace&gt;/&lt;some-pod&gt;:/tmp/foo<br></code></pre></td></tr></table></figure><h4 id="回滚版本"><a href="#回滚版本" class="headerlink" title="回滚版本"></a>回滚版本</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># 查看历史版本</span><br>kubectl rollout <span class="hljs-built_in">history</span> deployment provider<br><br><span class="hljs-comment"># 回滚到上一个版本</span><br>kubectl rollout undo deployment provider<br><br><span class="hljs-comment"># 回滚到指定版本</span><br>kubectl rollout undo deployment provider --to-revision=2<br></code></pre></td></tr></table></figure><h4 id="污点"><a href="#污点" class="headerlink" title="污点"></a>污点</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># &lt;node-name&gt; 是要添加污点的节点的名称。</span><br><span class="hljs-comment"># &lt;taint-key&gt; 是污点的键。</span><br><span class="hljs-comment"># &lt;taint-value&gt; 是污点的值，可以留空。</span><br><span class="hljs-comment"># &lt;taint-effect&gt; 是污点的影响效果，可以是以下选项之一：</span><br><span class="hljs-comment"># NoSchedule：表示不将新的Pod调度到有这个污点的节点上。</span><br><span class="hljs-comment"># PreferNoSchedule：表示尽量不将新的Pod调度到有这个污点的节点上。</span><br><span class="hljs-comment"># NoExecute：表示不将新的Pod调度到有这个污点的节点上，并且将已经运行在节点上的Pod驱逐出节点（如果它们不匹配Pod的容忍度）。</span><br>kubectl taint nodes &lt;node-name&gt; &lt;taint-key&gt;=&lt;taint-value&gt;:&lt;taint-effect&gt;<br></code></pre></td></tr></table></figure><h4 id="探测"><a href="#探测" class="headerlink" title="探测"></a>探测</h4><ul><li>livenessProbe: 存活探测<ul><li>failureThreshold: 表示连续失败探测的次数，认为容器已经死亡，默认为3次</li><li>initialDelaySeconds: 表示在容器启动后多少秒开始进行探测，默认值为10秒。</li><li>periodSeconds: 表示多长时间重试一次探测，默认值为10秒</li><li>successThreshold: 表示连续成功探测的次数，认为容器仍处于健康状态，默认为1次</li><li>timeoutSeconds: 表示探测请求的超时时间，默认为1秒。</li></ul></li><li>readinessProbe: 就绪探测<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">livenessProbe:</span><br>  <span class="hljs-attr">failureThreshold:</span> <span class="hljs-number">10</span><br>  <span class="hljs-attr">initialDelaySeconds:</span> <span class="hljs-number">300</span><br>  <span class="hljs-attr">httpGet:</span><br>    <span class="hljs-attr">path:</span> <span class="hljs-string">/-/healthy</span><br>    <span class="hljs-attr">port:</span> <span class="hljs-string">web</span><br>    <span class="hljs-attr">scheme:</span> <span class="hljs-string">HTTP</span><br>  <span class="hljs-attr">periodSeconds:</span> <span class="hljs-number">5</span><br>  <span class="hljs-attr">successThreshold:</span> <span class="hljs-number">1</span><br>  <span class="hljs-attr">timeoutSeconds:</span> <span class="hljs-number">3</span><br><span class="hljs-attr">readinessProbe:</span><br>  <span class="hljs-attr">initialDelaySeconds:</span> <span class="hljs-number">300</span><br>  <span class="hljs-attr">failureThreshold:</span> <span class="hljs-number">20</span><br>  <span class="hljs-attr">httpGet:</span><br>    <span class="hljs-attr">path:</span> <span class="hljs-string">/-/ready</span><br>    <span class="hljs-attr">port:</span> <span class="hljs-string">web</span><br>    <span class="hljs-attr">scheme:</span> <span class="hljs-string">HTTP</span><br>  <span class="hljs-attr">periodSeconds:</span> <span class="hljs-number">5</span><br>  <span class="hljs-attr">successThreshold:</span> <span class="hljs-number">1</span><br>  <span class="hljs-attr">timeoutSeconds:</span> <span class="hljs-number">3</span><br></code></pre></td></tr></table></figure></li></ul>]]></content>
+    
+    
+    <categories>
+      
+      <category>k8s</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>k8s</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>docker记不住的命令</title>
+    <link href="/2023/07/23/docker/docker%E8%AE%B0%E4%B8%8D%E4%BD%8F%E7%9A%84%E5%91%BD%E4%BB%A4/"/>
+    <url>/2023/07/23/docker/docker%E8%AE%B0%E4%B8%8D%E4%BD%8F%E7%9A%84%E5%91%BD%E4%BB%A4/</url>
+    
+    <content type="html"><![CDATA[<h4 id="启动一个容器"><a href="#启动一个容器" class="headerlink" title="启动一个容器"></a>启动一个容器</h4><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-comment"># -p: 8888为主机端口，3306为容器端口</span><br><span class="hljs-comment"># -e: 环境变量设置</span><br><span class="hljs-comment"># 最后的 mysql 为镜像 </span><br><span class="hljs-string">docker</span> <span class="hljs-string">run</span> <span class="hljs-string">-itd</span> <span class="hljs-string">--name</span> <span class="hljs-string">mysql-test</span> <span class="hljs-string">-p</span> <span class="hljs-number">8888</span><span class="hljs-string">:3306</span> <span class="hljs-string">-e</span> <span class="hljs-string">MYSQL_ROOT_PASSWORD=123456</span> <span class="hljs-string">mysql</span><br></code></pre></td></tr></table></figure><h4 id="列出所有的容器-ID"><a href="#列出所有的容器-ID" class="headerlink" title="列出所有的容器 ID"></a>列出所有的容器 ID</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">docker ps -aq<br></code></pre></td></tr></table></figure><h4 id="停止所有的容器"><a href="#停止所有的容器" class="headerlink" title="停止所有的容器"></a>停止所有的容器</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">docker stop $(docker ps -aq)<br></code></pre></td></tr></table></figure><h4 id="删除所有的容器"><a href="#删除所有的容器" class="headerlink" title="删除所有的容器"></a>删除所有的容器</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">docker <span class="hljs-built_in">rm</span> $(docker ps -aq)<br></code></pre></td></tr></table></figure><h4 id="删除所有的镜像"><a href="#删除所有的镜像" class="headerlink" title="删除所有的镜像"></a>删除所有的镜像</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">docker rmi $(docker images -q)<br></code></pre></td></tr></table></figure><h4 id="删除所有未使用的镜像"><a href="#删除所有未使用的镜像" class="headerlink" title="删除所有未使用的镜像"></a>删除所有未使用的镜像</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">docker system prune -a<br></code></pre></td></tr></table></figure><h4 id="删除-none-相关镜像"><a href="#删除-none-相关镜像" class="headerlink" title="删除 none 相关镜像"></a>删除 none 相关镜像</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">docker rmi $(docker images | grep none | awk <span class="hljs-string">&#x27;&#123;print $3&#125;&#x27;</span>)     <br></code></pre></td></tr></table></figure><h4 id="拉取指定版本镜像"><a href="#拉取指定版本镜像" class="headerlink" title="拉取指定版本镜像"></a>拉取指定版本镜像</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">docker pull tickstep/aliyunpan-sync:v0.2.7 --platform=linux/arm/v7<br></code></pre></td></tr></table></figure><h4 id="mac-清理镜像层"><a href="#mac-清理镜像层" class="headerlink" title="mac 清理镜像层"></a>mac 清理镜像层</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-built_in">rm</span> ~/Library/Containers/com.docker.docker<br></code></pre></td></tr></table></figure><h4 id="复制文件"><a href="#复制文件" class="headerlink" title="复制文件"></a>复制文件</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sh">docker <span class="hljs-built_in">cp</span> mycontainer:/opt/file.txt /opt/local/<br>docker <span class="hljs-built_in">cp</span> /opt/local/file.txt mycontainer:/opt/<br></code></pre></td></tr></table></figure><h4 id="启动-x-ui"><a href="#启动-x-ui" class="headerlink" title="启动 x-ui"></a>启动 x-ui</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">docker run -d --net=host --name x-ui -v /etc/x-ui:/etc/x-ui/ xxx/xxx/x-ui:latest<br></code></pre></td></tr></table></figure><h4 id="安装最新版-docker"><a href="#安装最新版-docker" class="headerlink" title="安装最新版 docker"></a>安装最新版 docker</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># 删除旧版本的Docker</span><br>sudo yum remove docker docker-client docker-client-latest docker-common docker-latest docker-latest-logrotate docker-logrotate docker-engine<br><span class="hljs-comment"># 安装依赖软件包</span><br>sudo yum install -y yum-utils device-mapper-persistent-data lvm2<br><span class="hljs-comment"># 添加Docker软件源</span><br>sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo<br><span class="hljs-comment"># 更新yum缓存</span><br>sudo yum makecache fast<br><span class="hljs-comment"># 安装最新版Docker</span><br>sudo yum install -y docker-ce<br><span class="hljs-comment"># 启动Docker服务并设置开机自启动</span><br>sudo systemctl start docker<br>sudo systemctl <span class="hljs-built_in">enable</span> docker<br><span class="hljs-comment"># 确认Docker已安装并正在运行</span><br>docker --version<br>sudo docker info<br></code></pre></td></tr></table></figure><h4 id="查看容器资源占用"><a href="#查看容器资源占用" class="headerlink" title="查看容器资源占用"></a>查看容器资源占用</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># 持续监控</span><br>docker stats<br><br><span class="hljs-comment"># 输出当前</span><br>docker stats --no-stream<br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>docker</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>docker</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>chrome浏览器如何屏蔽无效请求</title>
+    <link href="/2023/07/23/%E5%B7%A5%E5%85%B7/chrome%E6%B5%8F%E8%A7%88%E5%99%A8%E5%A6%82%E4%BD%95%E5%B1%8F%E8%94%BD%E6%97%A0%E6%95%88%E8%AF%B7%E6%B1%82/"/>
+    <url>/2023/07/23/%E5%B7%A5%E5%85%B7/chrome%E6%B5%8F%E8%A7%88%E5%99%A8%E5%A6%82%E4%BD%95%E5%B1%8F%E8%94%BD%E6%97%A0%E6%95%88%E8%AF%B7%E6%B1%82/</url>
+    
+    <content type="html"><![CDATA[<h4 id="如何屏蔽掉无用的网络请求"><a href="#如何屏蔽掉无用的网络请求" class="headerlink" title="如何屏蔽掉无用的网络请求"></a>如何屏蔽掉无用的网络请求</h4><figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs jboss-cli">-<span class="hljs-string">/.</span>*<span class="hljs-string">.js</span>|.*<span class="hljs-string">.php</span>|.*<span class="hljs-string">.png</span>|.*<span class="hljs-string">.ico</span>|.*<span class="hljs-string">.css</span>|.*<span class="hljs-string">.gif/</span><br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>工具</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>工具</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>vscode必备插件</title>
+    <link href="/2023/07/23/%E5%B7%A5%E5%85%B7/vscode%E5%BF%85%E5%A4%87%E6%8F%92%E4%BB%B6/"/>
+    <url>/2023/07/23/%E5%B7%A5%E5%85%B7/vscode%E5%BF%85%E5%A4%87%E6%8F%92%E4%BB%B6/</url>
+    
+    <content type="html"><![CDATA[<p>vscode 插件</p><h4 id="markdone-预览"><a href="#markdone-预览" class="headerlink" title="markdone 预览"></a>markdone 预览</h4><figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">Markdown Preview Enhanced</span><br></code></pre></td></tr></table></figure><h4 id="git-查看历史提交"><a href="#git-查看历史提交" class="headerlink" title="git 查看历史提交"></a>git 查看历史提交</h4><figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">Git History</span><br></code></pre></td></tr></table></figure><h4 id="yaml自动补全"><a href="#yaml自动补全" class="headerlink" title="yaml自动补全"></a>yaml自动补全</h4><figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs asciidoc"><span class="hljs-bullet">* </span>git: line<br><span class="hljs-bullet">* </span>kubernetes、yaml<br></code></pre></td></tr></table></figure><h4 id="自动生成图"><a href="#自动生成图" class="headerlink" title="自动生成图"></a>自动生成图</h4><figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">markmap</span><br></code></pre></td></tr></table></figure><h4 id="远程开发"><a href="#远程开发" class="headerlink" title="远程开发"></a>远程开发</h4><figure class="highlight basic"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs basic"><span class="hljs-comment">Remote - SSH</span><br></code></pre></td></tr></table></figure><h4 id="html-预览"><a href="#html-预览" class="headerlink" title="html 预览"></a>html 预览</h4><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs css"><span class="hljs-selector-tag">HTML</span> Preview<br></code></pre></td></tr></table></figure><h4 id="生成脑图"><a href="#生成脑图" class="headerlink" title="生成脑图"></a>生成脑图</h4><figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">MarkMap</span><br></code></pre></td></tr></table></figure><h4 id="粘贴图片"><a href="#粘贴图片" class="headerlink" title="粘贴图片"></a>粘贴图片</h4><figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">Pasts Image</span><br></code></pre></td></tr></table></figure><h4 id="坤坤鼓励师"><a href="#坤坤鼓励师" class="headerlink" title="坤坤鼓励师"></a>坤坤鼓励师</h4><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs">坤坤鼓励师<br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>工具</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>工具</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Macos 好用工具推荐</title>
+    <link href="/2023/07/23/%E5%B7%A5%E5%85%B7/Macos-%E5%A5%BD%E7%94%A8%E5%B7%A5%E5%85%B7%E6%8E%A8%E8%8D%90/"/>
+    <url>/2023/07/23/%E5%B7%A5%E5%85%B7/Macos-%E5%A5%BD%E7%94%A8%E5%B7%A5%E5%85%B7%E6%8E%A8%E8%8D%90/</url>
+    
+    <content type="html"><![CDATA[<h4 id="翻译工具"><a href="#翻译工具" class="headerlink" title="翻译工具"></a>翻译工具</h4><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs">沙拉查词<br></code></pre></td></tr></table></figure><h4 id="截屏"><a href="#截屏" class="headerlink" title="截屏"></a>截屏</h4><figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">snipaste</span><br></code></pre></td></tr></table></figure><h4 id="剪切板（复制多个）"><a href="#剪切板（复制多个）" class="headerlink" title="剪切板（复制多个）"></a>剪切板（复制多个）</h4><figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">icopy</span><br></code></pre></td></tr></table></figure><h4 id="内存、CPU、磁盘占用"><a href="#内存、CPU、磁盘占用" class="headerlink" title="内存、CPU、磁盘占用"></a>内存、CPU、磁盘占用</h4><figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">iStat Menus</span><br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>工具</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>工具</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Makefile模版</title>
+    <link href="/2023/07/23/linux/Makefile%E6%A8%A1%E7%89%88/"/>
+    <url>/2023/07/23/linux/Makefile%E6%A8%A1%E7%89%88/</url>
+    
+    <content type="html"><![CDATA[<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs makefile"><span class="hljs-meta"><span class="hljs-keyword">.PHONY</span>: git_push docker_build all help</span><br><br><span class="hljs-comment"># 获取 git 项目 COMMIT_HASH</span><br>COMMIT_HASH = <span class="hljs-variable">$(<span class="hljs-built_in">shell</span> git rev-parse --short=7 HEAD)</span><br><br><span class="hljs-section">git_push: ## 上传代码到 Github</span><br>git add .<br>git commit -m <span class="hljs-string">&quot;`date &#x27;+%Y/%m/%d %H:%M:%S&#x27;`&quot;</span><br>git push origin dev<br><br><span class="hljs-section">help: ## 查看帮助</span><br>@awk &#x27;BEGIN &#123;FS = <span class="hljs-string">&quot;:.*?## &quot;</span>&#125; /^[a-zA-Z_-]+:.*?<span class="hljs-comment">## / &#123;sub(&quot;\\\\n&quot;,sprintf(&quot;\n%22c&quot;,&quot; &quot;), $$2);printf &quot; \033[36m%-20s\033[0m  %s\n&quot;, $$1, $$2&#125;&#x27; $(MAKEFILE_LIST)</span><br></code></pre></td></tr></table></figure><h4 id="指定参数"><a href="#指定参数" class="headerlink" title="指定参数"></a>指定参数</h4><figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs makefile"><span class="hljs-section">commit: </span><br>git commit -m <span class="hljs-string">&quot;<span class="hljs-variable">$(msg)</span>&quot;</span><br></code></pre></td></tr></table></figure><p>使用如下</p><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">make commit msg=<span class="hljs-string">&quot;makefile 测试&quot;</span>              <br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>linux</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>linux</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>gin跨域问题</title>
+    <link href="/2023/07/23/golang/gin%E8%B7%A8%E5%9F%9F%E9%97%AE%E9%A2%98/"/>
+    <url>/2023/07/23/golang/gin%E8%B7%A8%E5%9F%9F%E9%97%AE%E9%A2%98/</url>
+    
+    <content type="html"><![CDATA[<h4 id="解决跨域问题"><a href="#解决跨域问题" class="headerlink" title="解决跨域问题"></a>解决跨域问题</h4><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs go">r := gin.Default()<br>r.Use(Cors())<br><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">Cors</span><span class="hljs-params">()</span></span> gin.HandlerFunc &#123;<br><span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">func</span><span class="hljs-params">(c *gin.Context)</span></span> &#123;<br>method := c.Request.Method<br>origin := c.Request.Header.Get(<span class="hljs-string">&quot;Origin&quot;</span>)<br><span class="hljs-keyword">if</span> origin != <span class="hljs-string">&quot;&quot;</span> &#123;<br>c.Header(<span class="hljs-string">&quot;Access-Control-Allow-Origin&quot;</span>, <span class="hljs-string">&quot;*&quot;</span>) <span class="hljs-comment">// 可将将 * 替换为指定的域名</span><br>c.Header(<span class="hljs-string">&quot;Access-Control-Allow-Methods&quot;</span>, <span class="hljs-string">&quot;POST, GET, OPTIONS, PUT, DELETE, UPDATE&quot;</span>)<br>c.Header(<span class="hljs-string">&quot;Access-Control-Allow-Headers&quot;</span>, <span class="hljs-string">&quot;Origin, X-Requested-With, Content-Type, Accept, Authorization&quot;</span>)<br>c.Header(<span class="hljs-string">&quot;Access-Control-Expose-Headers&quot;</span>, <span class="hljs-string">&quot;Content-Length, Access-Control-Allow-Origin, Access-Control-Allow-Headers, Cache-Control, Content-Language, Content-Type&quot;</span>)<br>c.Header(<span class="hljs-string">&quot;Access-Control-Allow-Credentials&quot;</span>, <span class="hljs-string">&quot;true&quot;</span>)<br>&#125;<br><span class="hljs-keyword">if</span> method == <span class="hljs-string">&quot;OPTIONS&quot;</span> &#123;<br>c.AbortWithStatus(http.StatusNoContent)<br>&#125;<br>c.Next()<br>&#125;<br>&#125;<br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>golang</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>golang</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Golang 无法下载kubernetes包</title>
+    <link href="/2023/07/23/golang/%E6%97%A0%E6%B3%95%E4%B8%8B%E8%BD%BDkubernetes%E5%8C%85/"/>
+    <url>/2023/07/23/golang/%E6%97%A0%E6%B3%95%E4%B8%8B%E8%BD%BDkubernetes%E5%8C%85/</url>
+    
+    <content type="html"><![CDATA[<p>如果我们直接 go get k8s.io&#x2F;<a href="mailto:&#107;&#x75;&#x62;&#x65;&#x72;&#110;&#x65;&#x74;&#x65;&#x73;&#64;&#x76;&#x31;&#x2e;&#x31;&#x39;&#46;&#x32;">&#107;&#x75;&#x62;&#x65;&#x72;&#110;&#x65;&#x74;&#x65;&#x73;&#64;&#x76;&#x31;&#x2e;&#x31;&#x39;&#46;&#x32;</a> 下载依赖，会出现以下错误:</p><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-keyword">go</span> get k8s.io/kubernetes@v1<span class="hljs-number">.19</span><span class="hljs-number">.2</span><br><span class="hljs-keyword">go</span>: downloading k8s.io/kubernetes v1<span class="hljs-number">.19</span><span class="hljs-number">.2</span><br><span class="hljs-keyword">go</span>: k8s.io/kubernetes@v1<span class="hljs-number">.19</span><span class="hljs-number">.2</span> requires<br>        k8s.io/api@v0<span class="hljs-number">.0</span><span class="hljs-number">.0</span>: reading k8s.io/api/<span class="hljs-keyword">go</span>.mod at revision v0<span class="hljs-number">.0</span><span class="hljs-number">.0</span>:<br></code></pre></td></tr></table></figure><p>错误的原因是在kubernetes主仓中，也使用了公共库，不过go.mod文件中所有公共库版本都指定为了v0.0.0（显然这个版本不存在）， 然后通过Go Module的replace机制，将版本替换为子目录.&#x2F;staging&#x2F;src&#x2F;k8s.io对应的依赖。</p><p>保存内容为 go-get-kubernetes.sh, 执行 .&#x2F;go-get-kubernetes.sh v1.19.2，会自动在go.mod中替换。</p><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-meta">#!/bin/sh</span><br><span class="hljs-built_in">set</span> -euo pipefail<br><br>VERSION=<span class="hljs-variable">$&#123;1#&quot;v&quot;&#125;</span><br><span class="hljs-keyword">if</span> [ -z <span class="hljs-string">&quot;<span class="hljs-variable">$VERSION</span>&quot;</span> ]; <span class="hljs-keyword">then</span><br>    <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;Must specify version!&quot;</span><br>    <span class="hljs-built_in">exit</span> 1<br><span class="hljs-keyword">fi</span><br>MODS=($(<br>    curl -sS https://raw.githubusercontent.com/kubernetes/kubernetes/v<span class="hljs-variable">$&#123;VERSION&#125;</span>/go.mod |<br>    sed -n <span class="hljs-string">&#x27;s|.*k8s.io/\(.*\) =&gt; ./staging/src/k8s.io/.*|k8s.io/\1|p&#x27;</span><br>))<br><span class="hljs-keyword">for</span> MOD <span class="hljs-keyword">in</span> <span class="hljs-string">&quot;<span class="hljs-variable">$&#123;MODS[@]&#125;</span>&quot;</span>; <span class="hljs-keyword">do</span><br><br>    V=$(<br>        go mod download -json <span class="hljs-string">&quot;<span class="hljs-variable">$&#123;MOD&#125;</span>@kubernetes-<span class="hljs-variable">$&#123;VERSION&#125;</span>&quot;</span> |<br>        sed -n <span class="hljs-string">&#x27;s|.*&quot;Version&quot;: &quot;\(.*\)&quot;.*|\1|p&#x27;</span><br>    )<br>    go mod edit <span class="hljs-string">&quot;-replace=<span class="hljs-variable">$&#123;MOD&#125;</span>=<span class="hljs-variable">$&#123;MOD&#125;</span>@<span class="hljs-variable">$&#123;V&#125;</span>&quot;</span><br><span class="hljs-keyword">done</span><br>go get <span class="hljs-string">&quot;k8s.io/kubernetes@v<span class="hljs-variable">$&#123;VERSION&#125;</span>&quot;</span><br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>golang</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>golang</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  
+</search>

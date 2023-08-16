@@ -2,7 +2,8 @@
 layout: k8s
 title: 安装kubectl快捷命令
 date: 2023-07-23 15:12:24
-tags: k8s
+tags: kubectl alias
+categories: k8s
 ---
 
 #### 简介

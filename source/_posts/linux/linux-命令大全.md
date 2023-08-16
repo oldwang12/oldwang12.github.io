@@ -2,7 +2,8 @@
 layout: linux
 title: linux 命令大全
 date: 2023-08-16 14:40:47
-tags:
+tags: linux
+categories: linux
 ---
 
 #### 1. 查看文件权限

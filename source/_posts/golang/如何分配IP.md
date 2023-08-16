@@ -3,6 +3,7 @@ layout: golang
 title: 如何分配IP
 date: 2023-07-24 18:33:58
 tags: golang
+categories: golang
 ---
 
 

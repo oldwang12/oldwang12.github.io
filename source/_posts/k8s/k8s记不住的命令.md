@@ -3,6 +3,7 @@ layout: k8s
 title: k8s记不住的命令
 date: 2023-07-23 00:29:39
 tags: k8s
+categories: k8s
 ---
 
 #### 创建pod

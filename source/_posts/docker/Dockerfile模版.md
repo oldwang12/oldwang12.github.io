@@ -3,6 +3,7 @@ layout: docker
 title: Dockerfile模版
 date: 2023-07-27 15:34:10
 tags: docker
+categories: docker
 ---
 
 #### 1. 一个适用于我自己的模板

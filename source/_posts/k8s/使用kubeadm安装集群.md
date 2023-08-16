@@ -3,6 +3,7 @@ layout: k8s
 title: 使用kubeadm安装集群
 date: 2023-07-26 10:09:12
 tags: k8s
+categories: k8s
 ---
 
 #### 图解k8s

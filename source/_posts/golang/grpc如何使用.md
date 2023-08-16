@@ -3,6 +3,7 @@ layout: golang
 title: grpc如何使用
 date: 2023-07-31 17:04:16
 tags: golang
+categories: golang
 ---
 
 #### 安装grpc

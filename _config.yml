@@ -7,8 +7,8 @@ title: Hexo
 subtitle: ""
 description: ""
 keywords:
-author: John Doe
-language: en
+author: oldwang12
+language: zh-CN
 timezone: ""
 
 # URL
@@ -97,7 +97,10 @@ ignore:
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
-theme: pure
+# theme: pure
+# theme: butterfly
+# theme: matery
+theme: fluid
 
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment

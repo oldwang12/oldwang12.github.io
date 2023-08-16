@@ -3,6 +3,7 @@ layout: tools
 title: vscode必备插件
 date: 2023-07-23 00:17:38
 tags: 工具
+categories: 工具
 ---
 
 vscode 插件

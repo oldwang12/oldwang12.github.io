@@ -3,6 +3,7 @@ layout: 工具
 title: oh my zsh 让终端飞
 date: 2023-07-27 18:31:40
 tags: 工具
+categories: 工具
 ---
 
 

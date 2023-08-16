@@ -3,6 +3,7 @@ layout: golang
 title: Golang 无法下载kubernetes包
 date: 2023-07-23 00:11:45
 tags: golang
+categories: golang
 ---
 
 如果我们直接 go get k8s.io/kubernetes@v1.19.2 下载依赖，会出现以下错误:

@@ -3,6 +3,7 @@ layout: linux
 title: Makefile模版
 date: 2023-07-23 00:15:50
 tags: linux
+categories: linux
 ---
 
 ```makefile

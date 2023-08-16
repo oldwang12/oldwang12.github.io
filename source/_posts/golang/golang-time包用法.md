@@ -2,7 +2,8 @@
 layout: golang
 title: golang time包用法
 date: 2023-07-27 15:33:31
-tags:
+tags: golang
+categories: golang
 ---
 
 #### 时间格式

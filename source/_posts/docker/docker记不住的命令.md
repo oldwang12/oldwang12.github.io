@@ -4,6 +4,7 @@ title: docker记不住的命令
 date: 2023-07-23 00:20:28
 type: "tags"
 tags: "docker"
+categories: docker
 ---
 
 #### 启动一个容器
