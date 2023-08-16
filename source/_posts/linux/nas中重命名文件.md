@@ -1,6 +1,6 @@
 ---
 layout: linux
-title: 重命名文件
+title: nas中重命名文件
 date: 2023-08-08 16:29:04
 tags: linux
 ---

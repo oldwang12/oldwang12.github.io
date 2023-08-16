@@ -17,16 +17,20 @@
   <meta http-equiv="window-target" content="_top" />
   
   
-  <title>归档: 2023 | Hexo</title>
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://blog.caiplus.pro/archives/2023/index.html">
+  <title>linux 命令大全 | Hexo</title>
+  <meta name="description" content="1. 查看文件权限12# 以数字形式输出文件权限，0644stat -c &amp;#x27;%a&amp;#x27; example.txt  123456789ls -l example.txt# 输出将类似于以下内容：-rw-r--r-- 1 user group 12345 Jan 1 10:00 example.txt# 在这个示例中，-rw-r--r--表示文件的权限。# 第一个字符表示文件类型，-">
+<meta property="og:type" content="article">
+<meta property="og:title" content="linux 命令大全">
+<meta property="og:url" content="http://blog.caiplus.pro/2023/08/16/linux-%E5%91%BD%E4%BB%A4%E5%A4%A7%E5%85%A8/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="1. 查看文件权限12# 以数字形式输出文件权限，0644stat -c &amp;#x27;%a&amp;#x27; example.txt  123456789ls -l example.txt# 输出将类似于以下内容：-rw-r--r-- 1 user group 12345 Jan 1 10:00 example.txt# 在这个示例中，-rw-r--r--表示文件的权限。# 第一个字符表示文件类型，-">
 <meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2023-08-16T06:40:47.000Z">
+<meta property="article:modified_time" content="2023-08-16T06:44:25.995Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
   <!-- Canonical links -->
-  <link rel="canonical" href="http://blog.caiplus.pro/archives/2023/index.html">
+  <link rel="canonical" href="http://blog.caiplus.pro/2023/08/16/linux-%E5%91%BD%E4%BB%A4%E5%A4%A7%E5%85%A8/index.html">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -272,164 +276,174 @@
   
   
 <main class="main" role="main">
-  	<article class="content article article-archives article-type-list" itemscope="">
-	    <header class="article-header">
-	      <h1 itemprop="title">归档: 2023</h1>
-	      <p class="text-muted">共 31 篇文章</p>
-	    </header>
-	    <div class="article-body">
-	      
-  
-  
+  <div class="content">
+  <article id="linux-linux-命令大全" class="article article-type-linux" itemscope itemtype="http://schema.org/BlogPosting">
     
-    
+    <div class="article-header">
       
+        
+  
+    <h1 class="article-title" itemprop="name">
+      linux 命令大全
+    </h1>
+  
+
       
-      <section class="panel panel-default b-no">
-        <div class="panel-heading" role="tab">
-          <h3 class="panel-title">
-            <a data-toggle="collapse" href="#collapse2023" aria-expanded="true">
-              <i class="icon icon-calendar-plus text-active"></i><i class="icon icon-calendar-minus text"></i>
-              2023
-            </a>
-            <!-- <a href="/archives/2023" class="archive-year">2023</a> -->
-          </h3>
-        </div>
-        <div id="collapse2023" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading2023">
-        <div class="panel-body">
-          <div class="collection">
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2023/08/16/linux-%E5%91%BD%E4%BB%A4%E5%A4%A7%E5%85%A8/" class="article-date">
+	  发布日期：<time datetime="2023-08-16T06:40:47.000Z" itemprop="datePublished">2023-08-16</time>
+	</a>
+</span>
+
+<span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+    <a href="/2023/08/16/linux-%E5%91%BD%E4%BB%A4%E5%A4%A7%E5%85%A8/" class="article-date">
+        最后更新：<time datetime="2023-08-16T06:44:25.995Z" itemprop="dateUpdated">
+            2023-08-16
+        </time>
+    </a>
+</span>
+        
+        
+
+        
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2023/08/16/linux-%E5%91%BD%E4%BB%A4%E5%A4%A7%E5%85%A8/#comments" class="article-comment-link">评论</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 199(字)</span>
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 1(分)</span>
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h4 id="1-查看文件权限"><a href="#1-查看文件权限" class="headerlink" title="1. 查看文件权限"></a>1. 查看文件权限</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 以数字形式输出文件权限，0644</span></span><br><span class="line"><span class="built_in">stat</span> -c <span class="string">&#x27;%a&#x27;</span> example.txt</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">ls</span> -l example.txt</span><br><span class="line"></span><br><span class="line"><span class="comment"># 输出将类似于以下内容：</span></span><br><span class="line">-rw-r--r-- 1 user group 12345 Jan 1 10:00 example.txt</span><br><span class="line"></span><br><span class="line"><span class="comment"># 在这个示例中，-rw-r--r--表示文件的权限。</span></span><br><span class="line"><span class="comment"># 第一个字符表示文件类型，- 表示普通文件。剩余的九个字符分为三组，每组三个字符表示所有者、所属组和其他人的权限。</span></span><br><span class="line"><span class="comment"># 每组中的三个字符表示读（r）、写（w）和执行（x）权限。如果对应位置有权限，字符表示对应的权限，否则用 - 来表示缺少权限。</span></span><br><span class="line"><span class="comment"># 在这个例子中，-rw-r--r-- 表示文件所有者有读、写权限，所属组和其他人只有读权限。</span></span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
     
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="http://blog.caiplus.pro/2023/08/16/linux-%E5%91%BD%E4%BB%A4%E5%A4%A7%E5%85%A8/" title="linux 命令大全" target="_blank" rel="external">http://blog.caiplus.pro/2023/08/16/linux-命令大全/</a>
+    </li>
     
-<a href="/2023/08/16/linux-%E5%91%BD%E4%BB%A4%E5%A4%A7%E5%85%A8/" class="collection-item"   itemprop="url">
-  <time datetime="2023-08-16T06:40:47.000Z" itemprop="datePublished">2023-08-16</time>
-  <span>&nbsp;&nbsp;&nbsp;</span> linux 命令大全
-</a>
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
 
 
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="" target="_blank"><span class="text-dark">隔壁老王</span><small class="ml-1x">k8s &amp; ?</small></a></h3>
+        <div>仅供个人使用。</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
   
     
-    
-    
-<a href="/2023/08/16/%E5%B7%A5%E5%85%B7/git%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/" class="collection-item"   itemprop="url">
-  <time datetime="2023-08-16T02:36:30.000Z" itemprop="datePublished">2023-08-16</time>
-  <span>&nbsp;&nbsp;&nbsp;</span> git使用指南
-</a>
-
-
-  
-    
-    
-    
-<a href="/2023/08/08/linux/nas%E4%B8%AD%E9%87%8D%E5%91%BD%E5%90%8D%E6%96%87%E4%BB%B6/" class="collection-item"   itemprop="url">
-  <time datetime="2023-08-08T08:29:04.000Z" itemprop="datePublished">2023-08-08</time>
-  <span>&nbsp;&nbsp;&nbsp;</span> nas中重命名文件
-</a>
-
-
-  
-    
-    
-    
-<a href="/2023/08/07/linux/%E5%BF%AB%E9%80%9F%E5%BC%80%E5%90%AFhttp%E6%9C%8D%E5%8A%A1/" class="collection-item"   itemprop="url">
-  <time datetime="2023-08-07T09:22:35.000Z" itemprop="datePublished">2023-08-07</time>
-  <span>&nbsp;&nbsp;&nbsp;</span> 快速开启http服务
-</a>
-
-
-  
-    
-    
-    
-<a href="/2023/08/03/k8s/%E8%BF%9B%E5%85%A5pod%E7%BD%91%E7%BB%9C%E5%91%BD%E5%90%8D%E7%A9%BA%E9%97%B4/" class="collection-item"   itemprop="url">
-  <time datetime="2023-08-03T08:35:39.000Z" itemprop="datePublished">2023-08-03</time>
-  <span>&nbsp;&nbsp;&nbsp;</span> 进入pod网络命名空间
-</a>
-
-
-  
-    
-    
-    
-<a href="/2023/08/03/linux/%E8%A7%A3%E5%8E%8B%E3%80%81%E5%8E%8B%E7%BC%A9/" class="collection-item"   itemprop="url">
-  <time datetime="2023-08-03T07:43:09.000Z" itemprop="datePublished">2023-08-03</time>
-  <span>&nbsp;&nbsp;&nbsp;</span> 解压、压缩
-</a>
-
-
-  
-    
-    
-    
-<a href="/2023/08/03/docker/buildx%E6%9E%84%E5%BB%BA%E5%A4%9A%E7%89%88%E6%9C%AC%E9%95%9C%E5%83%8F/" class="collection-item"   itemprop="url">
-  <time datetime="2023-08-03T07:23:18.000Z" itemprop="datePublished">2023-08-03</time>
-  <span>&nbsp;&nbsp;&nbsp;</span> buildx构建多版本镜像
-</a>
-
-
-  
-    
-    
-    
-<a href="/2023/08/01/linux/cronjob%20%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1/" class="collection-item"   itemprop="url">
-  <time datetime="2023-08-01T07:49:05.000Z" itemprop="datePublished">2023-08-01</time>
-  <span>&nbsp;&nbsp;&nbsp;</span> cronjob 定时任务
-</a>
-
-
-  
-    
-    
-    
-<a href="/2023/07/31/golang/grpc%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8/" class="collection-item"   itemprop="url">
-  <time datetime="2023-07-31T09:04:16.000Z" itemprop="datePublished">2023-07-31</time>
-  <span>&nbsp;&nbsp;&nbsp;</span> grpc如何使用
-</a>
-
-
-  
-    
-    
-    
-<a href="/2023/07/29/golang/golang%E7%BB%86%E8%8A%82/" class="collection-item"   itemprop="url">
-  <time datetime="2023-07-29T05:20:35.000Z" itemprop="datePublished">2023-07-29</time>
-  <span>&nbsp;&nbsp;&nbsp;</span> golang细节
-</a>
-
-
-  
-  
-    </div></div></div></section>
-  
-
-	    </div>
-  	</article>
+  <section id="comments">
   	
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
     
-    <nav class="bar bar-footer clearfix" data-stick-bottom>
-        <div class="bar-inner">
-        <ul class="pager pull-left">
-            
-            <li class="prev disabled">
-                <a href="javascript:;">
-                    <i class="icon icon-angle-left"></i>
-                    上一页
-                </a>
-            </li>
-            
-            
-            <li class="next">
-                <a href="/archives/2023/page/2/">
-                    下一页
-                    <i class="icon icon-angle-right"></i>
-                </a>
-            </li>
-            
-        </ul>
-            <div class="total-article bar-right">Page 1 of 4</div>
+    
+    <li class="next">
+      <a href="/2023/08/16/%E5%B7%A5%E5%85%B7/git%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/" title="git使用指南"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>赏</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>感谢您的支持，我会继续努力的!</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/donate/alipayimg.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开支付宝扫一扫，即可进行扫码打赏哦</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/donate/wechatpayimg.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开微信扫一扫，即可进行扫码打赏哦</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> 支付宝</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> 微信支付</a>
+              </li>
+            </ul>
+          </div>
         </div>
-    </nav>
-    
- 	
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
 </main>
 
   <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
@@ -480,6 +494,12 @@ window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
 
 
 
+   
+
+
+
+
+   
 
 
   <script src="//cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.3.5/dist/jquery.fancybox.min.js"></script>

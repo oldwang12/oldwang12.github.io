@@ -8,6 +8,7 @@ tags: k8s
 #### 图解k8s
 ![master-worker](master-worker.png)
 ### 1 安装containerd
+#### 1.1 使用 tar 包安装
 [下载地址](https://github.com/containerd/containerd/releases)
 
 ```sh
@@ -19,6 +20,10 @@ mv containerd.service /usr/local/lib/systemd/system/containerd.service
 systemctl daemon-reload
 systemctl enable --now containerd
 ```
+
+#### 1.2 rpm、deb 包安装
+- Centos [下载地址](https://download.docker.com/linux/centos/7/x86_64/stable/Packages/)
+- Ubuntu [下载地址](https://download.docker.com/linux/ubuntu/dists/bionic/pool/stable/amd64)
 
 ### 2 安装runc
 

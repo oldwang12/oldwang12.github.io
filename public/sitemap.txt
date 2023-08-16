@@ -1,9 +1,10 @@
-http://blog.caiplus.pro/2023/08/16/%E5%B7%A5%E5%85%B7/git%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/
+http://blog.caiplus.pro/2023/08/16/linux-%E5%91%BD%E4%BB%A4%E5%A4%A7%E5%85%A8/
+http://blog.caiplus.pro/2023/08/08/linux/nas%E4%B8%AD%E9%87%8D%E5%91%BD%E5%90%8D%E6%96%87%E4%BB%B6/
 http://blog.caiplus.pro/2023/07/26/k8s/%E4%BD%BF%E7%94%A8kubeadm%E5%AE%89%E8%A3%85%E9%9B%86%E7%BE%A4/
+http://blog.caiplus.pro/2023/08/16/%E5%B7%A5%E5%85%B7/git%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/
 http://blog.caiplus.pro/2023/07/27/k8s/%E5%AE%B9%E5%99%A8%E7%BD%91%E7%BB%9C%E6%8E%A5%E5%8F%A3%EF%BC%88CNI%EF%BC%89/
 http://blog.caiplus.pro/2023/07/23/k8s/k8s%E8%AE%B0%E4%B8%8D%E4%BD%8F%E7%9A%84%E5%91%BD%E4%BB%A4/
 http://blog.caiplus.pro/2023/08/03/linux/%E8%A7%A3%E5%8E%8B%E3%80%81%E5%8E%8B%E7%BC%A9/
-http://blog.caiplus.pro/2023/08/08/linux/%E9%87%8D%E5%91%BD%E5%90%8D%E6%96%87%E4%BB%B6/
 http://blog.caiplus.pro/2023/08/07/linux/%E5%BF%AB%E9%80%9F%E5%BC%80%E5%90%AFhttp%E6%9C%8D%E5%8A%A1/
 http://blog.caiplus.pro/2023/07/23/docker/docker%E8%AE%B0%E4%B8%8D%E4%BD%8F%E7%9A%84%E5%91%BD%E4%BB%A4/
 http://blog.caiplus.pro/2023/08/03/k8s/%E8%BF%9B%E5%85%A5pod%E7%BD%91%E7%BB%9C%E5%91%BD%E5%90%8D%E7%A9%BA%E9%97%B4/
