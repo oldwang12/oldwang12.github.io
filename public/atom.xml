@@ -6,7 +6,7 @@
   <link href="http://blog.caiplus.pro/atom.xml" rel="self"/>
   
   <link href="http://blog.caiplus.pro/"/>
-  <updated>2023-08-08T08:29:17.603Z</updated>
+  <updated>2023-08-16T02:38:06.452Z</updated>
   <id>http://blog.caiplus.pro/</id>
   
   <author>
@@ -15,6 +15,28 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>git使用指南</title>
+    <link href="http://blog.caiplus.pro/2023/08/16/%E5%B7%A5%E5%85%B7/git%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/"/>
+    <id>http://blog.caiplus.pro/2023/08/16/%E5%B7%A5%E5%85%B7/git%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/</id>
+    <published>2023-08-16T02:36:30.000Z</published>
+    <updated>2023-08-16T02:38:06.452Z</updated>
+    
+    <content type="html"><![CDATA[<h4 id="一键提交当前分支"><a href="#一键提交当前分支" class="headerlink" title="一键提交当前分支"></a>一键提交当前分支</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git add .;git commit -m <span class="string">&quot;test&quot;</span>;git push origin $(git symbolic-ref --short HEAD)</span><br></pre></td></tr></table></figure>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h4 id=&quot;一键提交当前分支&quot;&gt;&lt;a href=&quot;#一键提交当前分支&quot; class=&quot;headerlink&quot; title=&quot;一键提交当前分支&quot;&gt;&lt;/a&gt;一键提交当前分支&lt;/h4&gt;&lt;figure class=&quot;highlight sh&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class</summary>
+      
+    
+    
+    
+    
+    <category term="工具" scheme="http://blog.caiplus.pro/tags/%E5%B7%A5%E5%85%B7/"/>
+    
+  </entry>
   
   <entry>
     <title>重命名文件</title>
@@ -436,29 +458,6 @@
     
     
     <category term="golang" scheme="http://blog.caiplus.pro/tags/golang/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>安装kubectl快捷命令</title>
-    <link href="http://blog.caiplus.pro/2023/07/23/k8s/%E5%AE%89%E8%A3%85kubectl%E5%BF%AB%E6%8D%B7%E5%91%BD%E4%BB%A4/"/>
-    <id>http://blog.caiplus.pro/2023/07/23/k8s/%E5%AE%89%E8%A3%85kubectl%E5%BF%AB%E6%8D%B7%E5%91%BD%E4%BB%A4/</id>
-    <published>2023-07-23T07:12:24.000Z</published>
-    <updated>2023-07-28T10:33:58.434Z</updated>
-    
-    <content type="html"><![CDATA[<h4 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h4><p>k8s 的命令不算长，也很好记，但身为一个偷懒者，我想我可以更简洁、高效。</p><p>默认快捷命令保存在 ～&#x2F;.bash_profile 文件。</p><h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -sfL https://raw.githubusercontent.com/oldwang12/oldwang12.github.io/master/source/shells/k8s_alias_install.sh | sh -</span><br></pre></td></tr></table></figure><h6 id="如果你想指定保存文件"><a href="#如果你想指定保存文件" class="headerlink" title="如果你想指定保存文件"></a>如果你想指定保存文件</h6><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -sfL https://raw.githubusercontent.com/oldwang12/oldwang12.github.io/master/source/shells/k8s_alias_install.sh | bash -s ~/.zshrc</span><br></pre></td></tr></table></figure><p>执行完记得source &lt;～&#x2F;FILE_NAME&gt;，例如：</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">source ～/.bash_profile</span><br></pre></td></tr></table></figure><h4 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 获取pod</span></span><br><span class="line">$ p</span><br><span class="line">NAME                              READY   STATUS    RESTARTS   AGE</span><br><span class="line">test-deployment-d5b769945-q29d4   1/1     Running   0          6d7h</span><br><span class="line"></span><br><span class="line"><span class="comment"># 进入pod</span></span><br><span class="line">$ ke test-deployment-d5b769945-q29d4</span><br><span class="line">kubectl <span class="built_in">exec</span> [POD] [COMMAND] is DEPRECATED and will be removed <span class="keyword">in</span> a future version. Use kubectl <span class="built_in">exec</span> [POD] -- [COMMAND] instead.</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看日志</span></span><br><span class="line">$ kl</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看帮助</span></span><br><span class="line">$ kh</span><br><span class="line"><span class="built_in">alias</span> k=<span class="string">&quot;kubectl&quot;</span></span><br><span class="line"><span class="built_in">alias</span> kk=<span class="string">&quot;kubectl -n kube-system&quot;</span></span><br><span class="line"><span class="built_in">alias</span> kl=<span class="string">&quot;kubectl logs -f&quot;</span></span><br><span class="line"><span class="built_in">alias</span> kd=<span class="string">&quot;kubectl describe&quot;</span></span><br><span class="line"><span class="built_in">alias</span> p=<span class="string">&quot;kubectl get po&quot;</span></span><br><span class="line"><span class="built_in">alias</span> svc=<span class="string">&quot;kubectl get svc&quot;</span></span><br><span class="line"><span class="built_in">alias</span> no=<span class="string">&quot;kubectl get no&quot;</span></span><br><span class="line"><span class="built_in">alias</span> pvc=<span class="string">&quot;kubectl get pvc&quot;</span></span><br><span class="line"><span class="built_in">alias</span> sa=<span class="string">&quot;kubectl get sa&quot;</span></span><br><span class="line"><span class="built_in">alias</span> ds=<span class="string">&quot;kubectl get ds&quot;</span></span><br><span class="line"><span class="built_in">alias</span> rs=<span class="string">&quot;kubectl get rs&quot;</span></span><br><span class="line"><span class="built_in">alias</span> ep=<span class="string">&quot;kubectl get ep&quot;</span></span><br><span class="line">ke=kubectl <span class="built_in">exec</span> -it POD_NAME sh</span><br></pre></td></tr></table></figure><h4 id="kubens、kubectx"><a href="#kubens、kubectx" class="headerlink" title="kubens、kubectx"></a>kubens、kubectx</h4><p>你可以通过修改环境变量更改 fzf 的背景颜色和字体颜色</p><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 颜色对照表参考: https://github.com/medikoo/cli-color</span></span><br><span class="line"><span class="built_in">export</span> KUBECTX_CURRENT_FGCOLOR=$(tput setaf 6) <span class="comment"># blue text</span></span><br><span class="line"><span class="built_in">export</span> KUBECTX_CURRENT_BGCOLOR=$(tput setab 7) <span class="comment"># white background</span></span><br></pre></td></tr></table></figure><h1 id="卸载"><a href="#卸载" class="headerlink" title="卸载"></a>卸载</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -sfL https://raw.githubusercontent.com/oldwang12/oldwang12.github.io/master/source/shells/k8s_alias_uninstall.sh | sh -</span><br></pre></td></tr></table></figure><p>如果你的文件不是 ～&#x2F;.bashrc，需要替换为对应文件，以 ~&#x2F;.zshrc 为例</p><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -sfL https://raw.githubusercontent.com/oldwang12/oldwang12.github.io/master/source/shells/k8s_alias_uninstall.sh | bash -s ~/.zshrc</span><br></pre></td></tr></table></figure><p>执行完记得source &lt;～&#x2F;FILE_NAME&gt;，例如：</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">source ～/.bashrc</span><br></pre></td></tr></table></figure>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;h4 id=&quot;简介&quot;&gt;&lt;a href=&quot;#简介&quot; class=&quot;headerlink&quot; title=&quot;简介&quot;&gt;&lt;/a&gt;简介&lt;/h4&gt;&lt;p&gt;k8s 的命令不算长，也很好记，但身为一个偷懒者，我想我可以更简洁、高效。&lt;/p&gt;
-&lt;p&gt;默认快捷命令保存在 ～&amp;#x2F;.bash_pr</summary>
-      
-    
-    
-    
-    
-    <category term="k8s" scheme="http://blog.caiplus.pro/tags/k8s/"/>
     
   </entry>
   
