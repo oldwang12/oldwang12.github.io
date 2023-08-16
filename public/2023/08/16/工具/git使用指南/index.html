@@ -18,15 +18,15 @@
   
   
   <title>git使用指南 | Hexo</title>
-  <meta name="description" content="一键提交当前分支1git add .;git commit -m &quot;test&quot;;git push origin $(git symbolic-ref --short HEAD)">
+  <meta name="description" content="一键提交当前分支1git add .;git commit -m &quot;test&quot;;git push origin $(git symbolic-ref --short HEAD)  开发分支落后时，如何同步 master 分支。123456789101112# 1. 获取master分支的最新变更。可以使用以下命令来更新您本地的master分支git checkout maste">
 <meta property="og:type" content="article">
 <meta property="og:title" content="git使用指南">
 <meta property="og:url" content="http://blog.caiplus.pro/2023/08/16/%E5%B7%A5%E5%85%B7/git%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="一键提交当前分支1git add .;git commit -m &quot;test&quot;;git push origin $(git symbolic-ref --short HEAD)">
+<meta property="og:description" content="一键提交当前分支1git add .;git commit -m &quot;test&quot;;git push origin $(git symbolic-ref --short HEAD)  开发分支落后时，如何同步 master 分支。123456789101112# 1. 获取master分支的最新变更。可以使用以下命令来更新您本地的master分支git checkout maste">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2023-08-16T02:36:30.000Z">
-<meta property="article:modified_time" content="2023-08-16T02:38:06.452Z">
+<meta property="article:modified_time" content="2023-08-16T07:30:15.913Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="工具">
 <meta name="twitter:card" content="summary">
@@ -197,7 +197,7 @@
                 
               </p>
               <p class="item-title">
-                <a href="/2023/08/16/linux-%E5%91%BD%E4%BB%A4%E5%A4%A7%E5%85%A8/" class="title">linux 命令大全</a>
+                <a href="/2023/08/16/linux/linux-%E5%91%BD%E4%BB%A4%E5%A4%A7%E5%85%A8/" class="title">linux 命令大全</a>
               </p>
               <p class="item-date">
                 <time datetime="2023-08-16T06:40:47.000Z" itemprop="datePublished">2023-08-16</time>
@@ -301,7 +301,7 @@
 <span class="article-date">
     <i class="icon icon-calendar-check"></i>
     <a href="/2023/08/16/%E5%B7%A5%E5%85%B7/git%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/" class="article-date">
-        最后更新：<time datetime="2023-08-16T02:38:06.452Z" itemprop="dateUpdated">
+        最后更新：<time datetime="2023-08-16T07:30:15.913Z" itemprop="dateUpdated">
             2023-08-16
         </time>
     </a>
@@ -319,7 +319,7 @@
         <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2023/08/16/%E5%B7%A5%E5%85%B7/git%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/#comments" class="article-comment-link">评论</a></span>
         
 	
-		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 24(字)</span>
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 143(字)</span>
 	
 	
 		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 1(分)</span>
@@ -330,6 +330,8 @@
     <div class="article-entry marked-body" itemprop="articleBody">
       
         <h4 id="一键提交当前分支"><a href="#一键提交当前分支" class="headerlink" title="一键提交当前分支"></a>一键提交当前分支</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git add .;git commit -m <span class="string">&quot;test&quot;</span>;git push origin $(git symbolic-ref --short HEAD)</span><br></pre></td></tr></table></figure>
+
+<h4 id="开发分支落后时，如何同步-master-分支。"><a href="#开发分支落后时，如何同步-master-分支。" class="headerlink" title="开发分支落后时，如何同步 master 分支。"></a>开发分支落后时，如何同步 master 分支。</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 1. 获取master分支的最新变更。可以使用以下命令来更新您本地的master分支</span></span><br><span class="line">git checkout master</span><br><span class="line">git pull origin master</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. 切换回开发分支，并将master分支的变更合并到开发分支上：</span></span><br><span class="line">git checkout feature/test</span><br><span class="line">git merge master</span><br><span class="line"></span><br><span class="line"><span class="comment"># 3. 如果有冲突出现，您需要解决这些冲突后再提交变更。</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 4. 推送开发分支到远程仓库</span></span><br><span class="line">git push origin feature/test</span><br></pre></td></tr></table></figure>
       
     </div>
     <div class="article-footer">
@@ -383,7 +385,7 @@
   <ul class="pager pull-left">
     
     <li class="prev">
-      <a href="/2023/08/16/linux-%E5%91%BD%E4%BB%A4%E5%A4%A7%E5%85%A8/" title="linux 命令大全"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+      <a href="/2023/08/16/linux/linux-%E5%91%BD%E4%BB%A4%E5%A4%A7%E5%85%A8/" title="linux 命令大全"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
     </li>
     
     

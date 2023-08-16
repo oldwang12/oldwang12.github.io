@@ -18,8 +18,8 @@
   
   <entry>
     <title>linux 命令大全</title>
-    <link href="http://blog.caiplus.pro/2023/08/16/linux-%E5%91%BD%E4%BB%A4%E5%A4%A7%E5%85%A8/"/>
-    <id>http://blog.caiplus.pro/2023/08/16/linux-%E5%91%BD%E4%BB%A4%E5%A4%A7%E5%85%A8/</id>
+    <link href="http://blog.caiplus.pro/2023/08/16/linux/linux-%E5%91%BD%E4%BB%A4%E5%A4%A7%E5%85%A8/"/>
+    <id>http://blog.caiplus.pro/2023/08/16/linux/linux-%E5%91%BD%E4%BB%A4%E5%A4%A7%E5%85%A8/</id>
     <published>2023-08-16T06:40:47.000Z</published>
     <updated>2023-08-16T06:44:25.995Z</updated>
     
@@ -41,9 +41,9 @@
     <link href="http://blog.caiplus.pro/2023/08/16/%E5%B7%A5%E5%85%B7/git%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/"/>
     <id>http://blog.caiplus.pro/2023/08/16/%E5%B7%A5%E5%85%B7/git%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/</id>
     <published>2023-08-16T02:36:30.000Z</published>
-    <updated>2023-08-16T02:38:06.452Z</updated>
+    <updated>2023-08-16T07:30:15.913Z</updated>
     
-    <content type="html"><![CDATA[<h4 id="一键提交当前分支"><a href="#一键提交当前分支" class="headerlink" title="一键提交当前分支"></a>一键提交当前分支</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git add .;git commit -m <span class="string">&quot;test&quot;</span>;git push origin $(git symbolic-ref --short HEAD)</span><br></pre></td></tr></table></figure>]]></content>
+    <content type="html"><![CDATA[<h4 id="一键提交当前分支"><a href="#一键提交当前分支" class="headerlink" title="一键提交当前分支"></a>一键提交当前分支</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git add .;git commit -m <span class="string">&quot;test&quot;</span>;git push origin $(git symbolic-ref --short HEAD)</span><br></pre></td></tr></table></figure><h4 id="开发分支落后时，如何同步-master-分支。"><a href="#开发分支落后时，如何同步-master-分支。" class="headerlink" title="开发分支落后时，如何同步 master 分支。"></a>开发分支落后时，如何同步 master 分支。</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 1. 获取master分支的最新变更。可以使用以下命令来更新您本地的master分支</span></span><br><span class="line">git checkout master</span><br><span class="line">git pull origin master</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. 切换回开发分支，并将master分支的变更合并到开发分支上：</span></span><br><span class="line">git checkout feature/test</span><br><span class="line">git merge master</span><br><span class="line"></span><br><span class="line"><span class="comment"># 3. 如果有冲突出现，您需要解决这些冲突后再提交变更。</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 4. 推送开发分支到远程仓库</span></span><br><span class="line">git push origin feature/test</span><br></pre></td></tr></table></figure>]]></content>
     
     
       
