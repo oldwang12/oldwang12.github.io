@@ -2,16 +2,16 @@
 layout: 工具
 title: git使用指南
 date: 2023-08-16 10:36:30
-tags: 工具
+tags: [工具,git]
 categories: 工具
 ---
 
-#### 一键提交当前分支
+## 1. 一键提交当前分支
 ```sh
 git add .;git commit -m "test";git push origin $(git symbolic-ref --short HEAD)
 ```
 
-#### 开发分支落后时，如何同步 master 分支。
+## 2. 开发分支落后时，如何同步 master 分支。
 ```sh
 # 1. 获取master分支的最新变更。可以使用以下命令来更新您本地的master分支
 git checkout master

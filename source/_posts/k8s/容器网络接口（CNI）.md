@@ -3,6 +3,7 @@ layout: k8s
 title: 容器网络接口（CNI）
 date: 2023-07-27 14:31:00
 tags: k8s
+categories: k8s
 ---
 
 # 1. CNI交互逻辑

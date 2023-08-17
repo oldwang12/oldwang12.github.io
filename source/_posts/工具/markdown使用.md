@@ -2,8 +2,9 @@
 layout: 工具
 title: Markdown使用
 date: 2023-08-16 16:39:49
-tags: markdown
+tags: [markdown,fluid,hexo]
 categories: 工具
+sticky: 999
 # index_img: /img/titles/markdown.png
 ---
 

@@ -96,9 +96,11 @@ conntrack -L
 ```
 
 ## 6. 设置内核参数
+
 {% note warning %}
 如果不设置参数，使用 kubeadm join 时可能会导致报错。
 {% endnote %}
+
 ```log
 W0726 10:29:26.474684    8216 checks.go:1064] [preflight] WARNING: Couldn't create the interface used for talking to the container runtime: crictl is required by the container runtime: executable file not found in $PATH
 	[WARNING FileExisting-socat]: socat not found in system path

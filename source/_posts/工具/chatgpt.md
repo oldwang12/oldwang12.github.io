@@ -8,16 +8,5 @@ categories: 工具
 
 #### 测试 key
 ```sh
-curl https://api.openai.com/v1/chat/completions \
--H "Content-Type: application/json"  \
--H "Authorization: Bearer $1"  \
--d '{
-    "model": "gpt-3.5-turbo", 
-    "messages": [
-        {
-            "role": "user", 
-            "content": "Hello!"
-        }
-    ]
-}'
+curl -sfL https://raw.githubusercontent.com/oldwang12/oldwang12.github.io/master/source/shells/chatgpt_test.sh | bash -s $API_KEY
 ```

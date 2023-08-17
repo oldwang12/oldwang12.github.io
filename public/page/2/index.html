@@ -251,15 +251,15 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/2023/07/23/linux/%E7%BD%91%E7%BB%9C/" target="_self">
-          网络
+        <a href="/2023/08/08/linux/nas%E4%B8%AD%E9%87%8D%E5%91%BD%E5%90%8D%E6%96%87%E4%BB%B6/" target="_self">
+          nas中重命名文件
         </a>
       </h2>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/2023/07/23/linux/%E7%BD%91%E7%BB%9C/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/2023/08/08/linux/nas%E4%B8%AD%E9%87%8D%E5%91%BD%E5%90%8D%E6%96%87%E4%BB%B6/" target="_self">
         <div>
-          查看网络连接信息1netstat -nplt -n 将字母转化为数字 -p 显示进程相关信息 -l 列出状态为监听 -t 只查看tcp协议 -a 查看全部协议(netstat -an) 路由追踪1traceroute 8.8.8.8  查看路由表123ip ruleip -6 rule ip rule list 查看默认路由表信息123ip rip -6 rroute
+          12345678910111213#!/bin/bashdir=$1  # 指定目录路径# 进入目录cd &quot;$dir&quot; || exit# 替换文件名中的abcd1至abcd9为abcd01至abcd09for file in *S01E[1-9].*; do  new_file=$(echo &quot;$file&quot; | sed &#x27;s/S01E\([1-9]
         </div>
       </a>
 
@@ -267,130 +267,69 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2023-07-23 15:06" pubdate>
+            <time datetime="2023-08-08 16:29" pubdate>
+              2023-08-08
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/linux/" class="category-chain-item">linux</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/shell/">#shell</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2023/07/23/linux/Makefile%E6%A8%A1%E7%89%88/" target="_self">
+          Makefile模版
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2023/07/23/linux/Makefile%E6%A8%A1%E7%89%88/" target="_self">
+        <div>
+          123456789101112.PHONY: git_push docker_build all help# 获取 git 项目 COMMIT_HASHCOMMIT_HASH = $(shell git rev-parse --short=7 HEAD)git_push: ## 上传代码到 Github	git add .	git commit -m &quot;`date &#x27;+%Y/%
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2023-07-23 00:15" pubdate>
               2023-07-23
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/linux/" class="category-chain-item">linux</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/linux/">#linux</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h2 class="index-header">
-        
-        <a href="/2023/08/07/linux/%E5%BF%AB%E9%80%9F%E5%BC%80%E5%90%AFhttp%E6%9C%8D%E5%8A%A1/" target="_self">
-          快速开启http服务
-        </a>
-      </h2>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2023/08/07/linux/%E5%BF%AB%E9%80%9F%E5%BC%80%E5%90%AFhttp%E6%9C%8D%E5%8A%A1/" target="_self">
-        <div>
-          快速开启http服务这将监听本地 80 端口，响应 OK 1echo -e &#x27;HTTP/1.1 200 OK\r\n\r\nOK&#x27; | sudo socat - TCP-LISTEN:80
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2023-08-07 17:22" pubdate>
-              2023-08-07
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/linux/" class="category-chain-item">linux</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/linux/">#linux</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h2 class="index-header">
-        
-        <a href="/2023/08/03/linux/%E8%A7%A3%E5%8E%8B%E3%80%81%E5%8E%8B%E7%BC%A9/" target="_self">
-          解压、压缩
-        </a>
-      </h2>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2023/08/03/linux/%E8%A7%A3%E5%8E%8B%E3%80%81%E5%8E%8B%E7%BC%A9/" target="_self">
-        <div>
-          tar1234567891011# 压缩tar -czvf test.tar.gz README.md# 解压tar -xzvf test.tar.gz# 解压到指定文件夹tar -xzvf test.tar.gz -C /home/test# 列出压缩文件内容tar -tzvf test.tar.gz   参数说明 -v 显示指令执行过程。 -c 建立新的备份文件。 -f 指定备份文件。 -z
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2023-08-03 15:43" pubdate>
-              2023-08-03
             </time>
           </div>
         
@@ -739,67 +678,6 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/2023/07/27/%E5%B7%A5%E5%85%B7/oh-my-zsh-%E8%AE%A9%E7%BB%88%E7%AB%AF%E9%A3%9E/" target="_self">
-          oh my zsh 让终端飞
-        </a>
-      </h2>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2023/07/27/%E5%B7%A5%E5%85%B7/oh-my-zsh-%E8%AE%A9%E7%BB%88%E7%AB%AF%E9%A3%9E/" target="_self">
-        <div>
-          12345678910111213# yum先安装，如果是ubuntu使用 apt-get install zsh yum -y install zsh# 安装脚本sh -c &quot;$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)&quot;# 插件安装## 高亮插件
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2023-07-27 18:31" pubdate>
-              2023-07-27
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/%E5%B7%A5%E5%85%B7/" class="category-chain-item">工具</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E5%B7%A5%E5%85%B7/">#工具</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h2 class="index-header">
-        
         <a href="/2023/07/23/%E5%B7%A5%E5%85%B7/Macos-%E5%A5%BD%E7%94%A8%E5%B7%A5%E5%85%B7%E6%8E%A8%E8%8D%90/" target="_self">
           Macos 好用工具推荐
         </a>
@@ -855,11 +733,133 @@
     </article>
   </div>
 
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2023/07/23/%E5%B7%A5%E5%85%B7/chrome%E6%B5%8F%E8%A7%88%E5%99%A8%E5%A6%82%E4%BD%95%E5%B1%8F%E8%94%BD%E6%97%A0%E6%95%88%E8%AF%B7%E6%B1%82/" target="_self">
+          chrome浏览器如何屏蔽无效请求
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2023/07/23/%E5%B7%A5%E5%85%B7/chrome%E6%B5%8F%E8%A7%88%E5%99%A8%E5%A6%82%E4%BD%95%E5%B1%8F%E8%94%BD%E6%97%A0%E6%95%88%E8%AF%B7%E6%B1%82/" target="_self">
+        <div>
+          如何屏蔽掉无用的网络请求1-/.*.js|.*.php|.*.png|.*.ico|.*.css|.*.gif/
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2023-07-23 00:19" pubdate>
+              2023-07-23
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%B7%A5%E5%85%B7/" class="category-chain-item">工具</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%B7%A5%E5%85%B7/">#工具</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2023/07/27/docker/Dockerfile%E6%A8%A1%E7%89%88/" target="_self">
+          Dockerfile模版
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2023/07/27/docker/Dockerfile%E6%A8%A1%E7%89%88/" target="_self">
+        <div>
+          1. 一个适用于我自己的模板1234567891011121314151617181920212223242526FROM golang:1.20 as builderWORKDIR /root/COPY . .RUN GOOS=linux GOARCH=amd64 CGO_ENABLED=0 GOFLAGS=-mod=vendor go build -o app main.go# =======
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2023-07-27 15:34" pubdate>
+              2023-07-27
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/docker/" class="category-chain-item">docker</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/docker/">#docker</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
 
 
   <nav aria-label="navigation">
     <span class="pagination" id="pagination">
-      <a class="extend prev" rel="prev" href="/"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/#board">3</a><a class="page-number" href="/page/4/#board">4</a><a class="extend next" rel="next" href="/page/3/#board"><i class="iconfont icon-arrowright"></i></a>
+      <a class="extend prev" rel="prev" href="/"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/#board">3</a><a class="extend next" rel="next" href="/page/3/#board"><i class="iconfont icon-arrowright"></i></a>
     </span>
   </nav>
 

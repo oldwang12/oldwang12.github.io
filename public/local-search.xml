@@ -4,6 +4,33 @@
   
   
   <entry>
+    <title>fzf-搜索神器</title>
+    <link href="/2023/08/17/linux/fzf-%E6%90%9C%E7%B4%A2%E7%A5%9E%E5%99%A8/"/>
+    <url>/2023/08/17/linux/fzf-%E6%90%9C%E7%B4%A2%E7%A5%9E%E5%99%A8/</url>
+    
+    <content type="html"><![CDATA[<p>模糊搜索神器</p><h2 id="1-配合history"><a href="#1-配合history" class="headerlink" title="1. 配合history"></a>1. 配合history</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-built_in">history</span> | fzf | awk <span class="hljs-string">&#x27;&#123;print $2&#125;&#x27;</span> | xargs -r -I &#123;&#125; sh -c <span class="hljs-string">&quot;&#123;&#125;&quot;</span><br></code></pre></td></tr></table></figure><h2 id="2-搜索到文件后查看内容"><a href="#2-搜索到文件后查看内容" class="headerlink" title="2. 搜索到文件后查看内容"></a>2. 搜索到文件后查看内容</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-built_in">ls</span> -l | fzf | awk <span class="hljs-string">&#x27;&#123;print $9&#125;&#x27;</span> | xargs -r -I &#123;&#125; sh -c <span class="hljs-string">&quot;cat &#123;&#125;&quot;</span><br></code></pre></td></tr></table></figure><h2 id="3-查看git提交状态"><a href="#3-查看git提交状态" class="headerlink" title="3. 查看git提交状态"></a>3. 查看git提交状态</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">git <span class="hljs-built_in">log</span> --oneline | fzf | awk <span class="hljs-string">&#x27;&#123;print $1&#125;&#x27;</span> | xargs -r -I &#123;&#125; git show &#123;&#125;<br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>linux</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>linux</tag>
+      
+      <tag>fzf</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>golang垃圾回收</title>
     <link href="/2023/08/16/golang/golang%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6/"/>
     <url>/2023/08/16/golang/golang%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6/</url>
@@ -47,6 +74,10 @@
       
       <tag>markdown</tag>
       
+      <tag>fluid</tag>
+      
+      <tag>hexo</tag>
+      
     </tags>
     
   </entry>
@@ -58,7 +89,7 @@
     <link href="/2023/08/16/linux/linux-%E5%91%BD%E4%BB%A4%E5%A4%A7%E5%85%A8/"/>
     <url>/2023/08/16/linux/linux-%E5%91%BD%E4%BB%A4%E5%A4%A7%E5%85%A8/</url>
     
-    <content type="html"><![CDATA[<h4 id="1-查看文件权限"><a href="#1-查看文件权限" class="headerlink" title="1. 查看文件权限"></a>1. 查看文件权限</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># 以数字形式输出文件权限，0644</span><br><span class="hljs-built_in">stat</span> -c <span class="hljs-string">&#x27;%a&#x27;</span> example.txt<br></code></pre></td></tr></table></figure><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-built_in">ls</span> -l example.txt<br><br><span class="hljs-comment"># 输出将类似于以下内容：</span><br>-rw-r--r-- 1 user group 12345 Jan 1 10:00 example.txt<br><br><span class="hljs-comment"># 在这个示例中，-rw-r--r--表示文件的权限。</span><br><span class="hljs-comment"># 第一个字符表示文件类型，- 表示普通文件。剩余的九个字符分为三组，每组三个字符表示所有者、所属组和其他人的权限。</span><br><span class="hljs-comment"># 每组中的三个字符表示读（r）、写（w）和执行（x）权限。如果对应位置有权限，字符表示对应的权限，否则用 - 来表示缺少权限。</span><br><span class="hljs-comment"># 在这个例子中，-rw-r--r-- 表示文件所有者有读、写权限，所属组和其他人只有读权限。</span><br></code></pre></td></tr></table></figure>]]></content>
+    <content type="html"><![CDATA[<p>分为文件操作、网络管理、系统管理、进程管理、安全性来归纳linux基本使用</p><span id="more"></span><h1 id="1-文件操作"><a href="#1-文件操作" class="headerlink" title="1. 文件操作"></a>1. 文件操作</h1><h2 id="查看文件权限"><a href="#查看文件权限" class="headerlink" title="查看文件权限"></a>查看文件权限</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># 以数字形式输出文件权限，0644</span><br><span class="hljs-built_in">stat</span> -c <span class="hljs-string">&#x27;%a&#x27;</span> example.txt<br></code></pre></td></tr></table></figure><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-built_in">ls</span> -l example.txt<br><br><span class="hljs-comment"># 输出将类似于以下内容：</span><br>-rw-r--r-- 1 user group 12345 Jan 1 10:00 example.txt<br><br><span class="hljs-comment"># 在这个示例中，-rw-r--r--表示文件的权限。</span><br><span class="hljs-comment"># 第一个字符表示文件类型，- 表示普通文件。剩余的九个字符分为三组，每组三个字符表示所有者、所属组和其他人的权限。</span><br><span class="hljs-comment"># 每组中的三个字符表示读（r）、写（w）和执行（x）权限。如果对应位置有权限，字符表示对应的权限，否则用 - 来表示缺少权限。</span><br><span class="hljs-comment"># 在这个例子中，-rw-r--r-- 表示文件所有者有读、写权限，所属组和其他人只有读权限。</span><br></code></pre></td></tr></table></figure><h2 id="命令行快捷键"><a href="#命令行快捷键" class="headerlink" title="命令行快捷键"></a>命令行快捷键</h2><div class="note note-warning">            <p>请注意，某些快捷键可能会因终端和操作系统的不同而有所差异。</p>          </div><table><thead><tr><th>快捷键</th><th>操作</th></tr></thead><tbody><tr><td>Ctrl + 左右键</td><td>在单词之间跳转</td></tr><tr><td>Ctrl + a</td><td>跳到本行的行首</td></tr><tr><td>Ctrl + e</td><td>跳到页尾</td></tr><tr><td>Ctrl + u</td><td>删除当前光标前面的文字 （还有剪切功能）</td></tr><tr><td>Ctrl + k</td><td>删除当前光标后面的文字 （还有剪切功能）</td></tr><tr><td>Ctrl + L</td><td>进行清屏操作</td></tr><tr><td>Ctrl + y</td><td>粘贴 Ctrl+u 或 Ctrl+k 剪切的内容</td></tr><tr><td>Ctrl + w</td><td>删除光标前面的单词的字符（以空格隔开的字符串）</td></tr><tr><td>Alt + d</td><td>由光标位置开始，往右删除单词，往行尾删</td></tr><tr><td>Ctrl + r</td><td>搜索执行过的命令</td></tr><tr><td>! + 字符</td><td>快速执行最近执行过的命令，其中包含该字符</td></tr><tr><td>history</td><td>显示部分历史命令</td></tr></tbody></table><h2 id="解压、压缩"><a href="#解压、压缩" class="headerlink" title="解压、压缩"></a>解压、压缩</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># 压缩</span><br>tar -czvf test.tar.gz README.md<br><br><span class="hljs-comment"># 解压</span><br>tar -xzvf test.tar.gz<br><br><span class="hljs-comment"># 解压到指定文件夹</span><br>tar -xzvf test.tar.gz -C /home/test<br><br><span class="hljs-comment"># 列出压缩文件内容</span><br>tar -tzvf test.tar.gz <br></code></pre></td></tr></table></figure><div class="note note-warning">            <p><strong>参数说明</strong></p><ul><li>-v 显示指令执行过程。</li><li>-c 建立新的备份文件。</li><li>-f 指定备份文件。</li><li>-z 通过gzip指令处理备份文件。</li><li>-x 从备份文件中还原文件。</li></ul>          </div><p><strong>加密压缩</strong></p><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># 将当前目录下的files文件夹打包压缩，密码为password</span><br>tar -czvf - files | openssl des3 -salt -k password -out files.tar.gz<br><br><span class="hljs-comment"># 将当前目录下的files.tar.gz进行解密解压</span><br>openssl des3 -d -k password -salt -<span class="hljs-keyword">in</span> files.tar.gz | tar xzvf -<br></code></pre></td></tr></table></figure><h2 id="du命令"><a href="#du命令" class="headerlink" title="du命令"></a>du命令</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># 只能查看文件夹</span><br><br><span class="hljs-comment"># 查看当前目录</span><br><span class="hljs-built_in">du</span> -h --max-depth=1 | <span class="hljs-built_in">sort</span> -h<br><br><span class="hljs-comment"># 查看指定目录</span><br><span class="hljs-built_in">du</span> -h <span class="hljs-variable">$DIR</span> --max-depth=1 | <span class="hljs-built_in">sort</span> -h<br><br><span class="hljs-comment"># 参数解析</span><br><span class="hljs-comment"># --max-depth 深度</span><br><span class="hljs-comment"># sort -h 从小到大排序</span><br><span class="hljs-comment"># sort -rh 从大到小排序</span><br></code></pre></td></tr></table></figure><h2 id="查看磁盘"><a href="#查看磁盘" class="headerlink" title="查看磁盘"></a>查看磁盘</h2><ol><li>显示系统中每个文件系统的磁盘使用情况</li></ol><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-built_in">df</span> -h<br></code></pre></td></tr></table></figure><ol start="2"><li>显示系统中所有的块设备，包括硬盘和分区。通常，系统盘的挂载点是根目录 &#x2F;，而数据盘则可能挂载在其他目录上，如&#x2F;home、&#x2F;mnt等。</li></ol><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">lsblk<br></code></pre></td></tr></table></figure><ol start="3"><li>显示所有在启动时挂载的文件系统，包括系统盘和数据盘的信息。一般情况下，系统盘的挂载信息会在此文件中。</li></ol><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-built_in">cat</span> /etc/fstab<br></code></pre></td></tr></table></figure><h1 id="2-网络管理"><a href="#2-网络管理" class="headerlink" title="2. 网络管理"></a>2. 网络管理</h1><h2 id="查看网络连接信息"><a href="#查看网络连接信息" class="headerlink" title="查看网络连接信息"></a>查看网络连接信息</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">netstat -nplt<br></code></pre></td></tr></table></figure><p>参数说明:</p><div class="note note-warning">            <p>-n 将字母转化为数字</p><p>-p 显示进程相关信息</p><p>-l 列出状态为监听</p><p>-t 只查看tcp协议</p><p>-a 查看全部协议(netstat -an)</p>          </div><h2 id="路由追踪"><a href="#路由追踪" class="headerlink" title="路由追踪"></a>路由追踪</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">traceroute 8.8.8.8<br></code></pre></td></tr></table></figure><h2 id="查看路由表"><a href="#查看路由表" class="headerlink" title="查看路由表"></a>查看路由表</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs sh">ip rule<br>ip -6 rule <br>ip rule list<br></code></pre></td></tr></table></figure><h2 id="查看默认路由表信息"><a href="#查看默认路由表信息" class="headerlink" title="查看默认路由表信息"></a>查看默认路由表信息</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs sh">ip r<br>ip -6 r<br>route<br></code></pre></td></tr></table></figure><h2 id="网速测试"><a href="#网速测试" class="headerlink" title="网速测试"></a>网速测试</h2><p><strong>安装</strong></p><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs sh">sudo yum - y install speedtest-cli<br><br>sudo apt install speedtest-cli<br><br>sudo pip3 install speedtest-cli<br></code></pre></td></tr></table></figure><p><strong>执行 speedtest-cli</strong></p><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs sh">$ speedtest-cli<br>Retrieving speedtest.net configuration...<br>Testing from Unknown (165.154.145.190)...<br>Retrieving speedtest.net server list...<br>Selecting best server based on ping...<br>Hosted by Enzu.com (Los Angeles, CA) [11654.37 km]: 3.173 ms<br>Testing download speed................................................................................<br>Download: 56.57 Mbit/s<br>Testing upload speed......................................................................................................<br>Upload: 34.54 Mbit/s<br></code></pre></td></tr></table></figure><div class="note note-warning">            <ul><li>MB：字节</li><li>Mbit：比特</li></ul><p>1 字节 &#x3D; 8 bit，所以 1MB&#x2F;s &#x3D; 8Mbit&#x2F;s。</p><p>下载网速为 1MB&#x2F;s ，这里指的是网速每秒可以下载1M。</p>          </div><h2 id="快速开启http服务"><a href="#快速开启http服务" class="headerlink" title="快速开启http服务"></a>快速开启http服务</h2><p>这将监听本地 80 端口，响应 OK</p><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-built_in">echo</span> -e <span class="hljs-string">&#x27;HTTP/1.1 200 OK\r\n\r\nOK&#x27;</span> | sudo socat - TCP-LISTEN:80<br></code></pre></td></tr></table></figure><h1 id="3-进程管理"><a href="#3-进程管理" class="headerlink" title="3. 进程管理"></a>3. 进程管理</h1><h1 id="4-系统管理"><a href="#4-系统管理" class="headerlink" title="4. 系统管理"></a>4. 系统管理</h1><h2 id="cronjob-定时任务"><a href="#cronjob-定时任务" class="headerlink" title="cronjob 定时任务"></a>cronjob 定时任务</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># crontab -e 命令以编辑当前用户的cron表。</span><br>crontab -e<br><br><span class="hljs-comment"># 每分钟执行一次 ls</span><br>*/1 * * * * <span class="hljs-built_in">ls</span><br></code></pre></td></tr></table></figure><h1 id="5-安全性"><a href="#5-安全性" class="headerlink" title="5. 安全性"></a>5. 安全性</h1>]]></content>
     
     
     <categories>
@@ -83,7 +114,7 @@
     <link href="/2023/08/16/%E5%B7%A5%E5%85%B7/git%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/"/>
     <url>/2023/08/16/%E5%B7%A5%E5%85%B7/git%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/</url>
     
-    <content type="html"><![CDATA[<h4 id="一键提交当前分支"><a href="#一键提交当前分支" class="headerlink" title="一键提交当前分支"></a>一键提交当前分支</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">git add .;git commit -m <span class="hljs-string">&quot;test&quot;</span>;git push origin $(git symbolic-ref --short HEAD)<br></code></pre></td></tr></table></figure><h4 id="开发分支落后时，如何同步-master-分支。"><a href="#开发分支落后时，如何同步-master-分支。" class="headerlink" title="开发分支落后时，如何同步 master 分支。"></a>开发分支落后时，如何同步 master 分支。</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># 1. 获取master分支的最新变更。可以使用以下命令来更新您本地的master分支</span><br>git checkout master<br>git pull origin master<br><br><span class="hljs-comment"># 2. 切换回开发分支，并将master分支的变更合并到开发分支上：</span><br>git checkout feature/test<br>git merge master<br><br><span class="hljs-comment"># 3. 如果有冲突出现，您需要解决这些冲突后再提交变更。</span><br><br><span class="hljs-comment"># 4. 推送开发分支到远程仓库</span><br>git push origin feature/test<br></code></pre></td></tr></table></figure>]]></content>
+    <content type="html"><![CDATA[<h2 id="1-一键提交当前分支"><a href="#1-一键提交当前分支" class="headerlink" title="1. 一键提交当前分支"></a>1. 一键提交当前分支</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">git add .;git commit -m <span class="hljs-string">&quot;test&quot;</span>;git push origin $(git symbolic-ref --short HEAD)<br></code></pre></td></tr></table></figure><h2 id="2-开发分支落后时，如何同步-master-分支。"><a href="#2-开发分支落后时，如何同步-master-分支。" class="headerlink" title="2. 开发分支落后时，如何同步 master 分支。"></a>2. 开发分支落后时，如何同步 master 分支。</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># 1. 获取master分支的最新变更。可以使用以下命令来更新您本地的master分支</span><br>git checkout master<br>git pull origin master<br><br><span class="hljs-comment"># 2. 切换回开发分支，并将master分支的变更合并到开发分支上：</span><br>git checkout feature/test<br>git merge master<br><br><span class="hljs-comment"># 3. 如果有冲突出现，您需要解决这些冲突后再提交变更。</span><br><br><span class="hljs-comment"># 4. 推送开发分支到远程仓库</span><br>git push origin feature/test<br></code></pre></td></tr></table></figure>]]></content>
     
     
     <categories>
@@ -96,6 +127,8 @@
     <tags>
       
       <tag>工具</tag>
+      
+      <tag>git</tag>
       
     </tags>
     
@@ -129,31 +162,6 @@
   
   
   <entry>
-    <title>快速开启http服务</title>
-    <link href="/2023/08/07/linux/%E5%BF%AB%E9%80%9F%E5%BC%80%E5%90%AFhttp%E6%9C%8D%E5%8A%A1/"/>
-    <url>/2023/08/07/linux/%E5%BF%AB%E9%80%9F%E5%BC%80%E5%90%AFhttp%E6%9C%8D%E5%8A%A1/</url>
-    
-    <content type="html"><![CDATA[<h4 id="快速开启http服务"><a href="#快速开启http服务" class="headerlink" title="快速开启http服务"></a>快速开启http服务</h4><p>这将监听本地 80 端口，响应 OK</p><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-built_in">echo</span> -e <span class="hljs-string">&#x27;HTTP/1.1 200 OK\r\n\r\nOK&#x27;</span> | sudo socat - TCP-LISTEN:80<br></code></pre></td></tr></table></figure>]]></content>
-    
-    
-    <categories>
-      
-      <category>linux</category>
-      
-    </categories>
-    
-    
-    <tags>
-      
-      <tag>linux</tag>
-      
-    </tags>
-    
-  </entry>
-  
-  
-  
-  <entry>
     <title>进入pod网络命名空间</title>
     <link href="/2023/08/03/k8s/%E8%BF%9B%E5%85%A5pod%E7%BD%91%E7%BB%9C%E5%91%BD%E5%90%8D%E7%A9%BA%E9%97%B4/"/>
     <url>/2023/08/03/k8s/%E8%BF%9B%E5%85%A5pod%E7%BD%91%E7%BB%9C%E5%91%BD%E5%90%8D%E7%A9%BA%E9%97%B4/</url>
@@ -179,31 +187,6 @@
   
   
   <entry>
-    <title>解压、压缩</title>
-    <link href="/2023/08/03/linux/%E8%A7%A3%E5%8E%8B%E3%80%81%E5%8E%8B%E7%BC%A9/"/>
-    <url>/2023/08/03/linux/%E8%A7%A3%E5%8E%8B%E3%80%81%E5%8E%8B%E7%BC%A9/</url>
-    
-    <content type="html"><![CDATA[<h2 id="tar"><a href="#tar" class="headerlink" title="tar"></a>tar</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># 压缩</span><br>tar -czvf test.tar.gz README.md<br><br><span class="hljs-comment"># 解压</span><br>tar -xzvf test.tar.gz<br><br><span class="hljs-comment"># 解压到指定文件夹</span><br>tar -xzvf test.tar.gz -C /home/test<br><br><span class="hljs-comment"># 列出压缩文件内容</span><br>tar -tzvf test.tar.gz <br></code></pre></td></tr></table></figure><h4 id="参数说明"><a href="#参数说明" class="headerlink" title="参数说明"></a>参数说明</h4><ul><li>-v 显示指令执行过程。</li><li>-c 建立新的备份文件。</li><li>-f 指定备份文件。</li><li>-z 通过gzip指令处理备份文件。</li><li>-x 从备份文件中还原文件。</li></ul><h4 id="加密压缩"><a href="#加密压缩" class="headerlink" title="加密压缩"></a>加密压缩</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># 将当前目录下的files文件夹打包压缩，密码为password</span><br>tar -czvf - files | openssl des3 -salt -k password -out files.tar.gz<br><br><span class="hljs-comment"># 将当前目录下的files.tar.gz进行解密解压</span><br>openssl des3 -d -k password -salt -<span class="hljs-keyword">in</span> files.tar.gz | tar xzvf -<br></code></pre></td></tr></table></figure>]]></content>
-    
-    
-    <categories>
-      
-      <category>linux</category>
-      
-    </categories>
-    
-    
-    <tags>
-      
-      <tag>linux</tag>
-      
-    </tags>
-    
-  </entry>
-  
-  
-  
-  <entry>
     <title>buildx构建多版本镜像</title>
     <link href="/2023/08/03/docker/buildx%E6%9E%84%E5%BB%BA%E5%A4%9A%E7%89%88%E6%9C%AC%E9%95%9C%E5%83%8F/"/>
     <url>/2023/08/03/docker/buildx%E6%9E%84%E5%BB%BA%E5%A4%9A%E7%89%88%E6%9C%AC%E9%95%9C%E5%83%8F/</url>
@@ -221,31 +204,6 @@
     <tags>
       
       <tag>docker</tag>
-      
-    </tags>
-    
-  </entry>
-  
-  
-  
-  <entry>
-    <title>cronjob 定时任务</title>
-    <link href="/2023/08/01/linux/cronjob%20%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1/"/>
-    <url>/2023/08/01/linux/cronjob%20%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1/</url>
-    
-    <content type="html"><![CDATA[<h4 id="cronjob-定时任务"><a href="#cronjob-定时任务" class="headerlink" title="cronjob 定时任务"></a>cronjob 定时任务</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># crontab -e 命令以编辑当前用户的cron表。</span><br>crontab -e<br><br><span class="hljs-comment"># 每分钟执行一次 ls</span><br>*/1 * * * * <span class="hljs-built_in">ls</span><br></code></pre></td></tr></table></figure>]]></content>
-    
-    
-    <categories>
-      
-      <category>linux</category>
-      
-    </categories>
-    
-    
-    <tags>
-      
-      <tag>linux</tag>
       
     </tags>
     
@@ -358,7 +316,7 @@
     <link href="/2023/07/28/%E5%B7%A5%E5%85%B7/chatgpt/"/>
     <url>/2023/07/28/%E5%B7%A5%E5%85%B7/chatgpt/</url>
     
-    <content type="html"><![CDATA[<h4 id="测试-key"><a href="#测试-key" class="headerlink" title="测试 key"></a>测试 key</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs sh">curl https://api.openai.com/v1/chat/completions \<br>-H <span class="hljs-string">&quot;Content-Type: application/json&quot;</span>  \<br>-H <span class="hljs-string">&quot;Authorization: Bearer <span class="hljs-variable">$1</span>&quot;</span>  \<br>-d <span class="hljs-string">&#x27;&#123;</span><br><span class="hljs-string">    &quot;model&quot;: &quot;gpt-3.5-turbo&quot;, </span><br><span class="hljs-string">    &quot;messages&quot;: [</span><br><span class="hljs-string">        &#123;</span><br><span class="hljs-string">            &quot;role&quot;: &quot;user&quot;, </span><br><span class="hljs-string">            &quot;content&quot;: &quot;Hello!&quot;</span><br><span class="hljs-string">        &#125;</span><br><span class="hljs-string">    ]</span><br><span class="hljs-string">&#125;&#x27;</span><br></code></pre></td></tr></table></figure>]]></content>
+    <content type="html"><![CDATA[<h4 id="测试-key"><a href="#测试-key" class="headerlink" title="测试 key"></a>测试 key</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">curl -sfL https://raw.githubusercontent.com/oldwang12/oldwang12.github.io/master/source/shells/chatgpt_test.sh | bash -s <span class="hljs-variable">$API_KEY</span><br></code></pre></td></tr></table></figure>]]></content>
     
     
     <categories>
@@ -396,6 +354,8 @@
     <tags>
       
       <tag>工具</tag>
+      
+      <tag>oh my zsh</tag>
       
     </tags>
     
@@ -461,6 +421,12 @@
     <content type="html"><![CDATA[<h1 id="1-CNI交互逻辑"><a href="#1-CNI交互逻辑" class="headerlink" title="1. CNI交互逻辑"></a>1. CNI交互逻辑</h1><h2 id="1-1-Pod-IP地址分配机制"><a href="#1-1-Pod-IP地址分配机制" class="headerlink" title="1.1 Pod IP地址分配机制"></a>1.1 Pod IP地址分配机制</h2><p><img src="pod-allow-ip.png" alt="image"></p><h2 id="1-2-CRI插件与CNI插件的交互"><a href="#1-2-CRI插件与CNI插件的交互" class="headerlink" title="1.2 CRI插件与CNI插件的交互"></a>1.2 CRI插件与CNI插件的交互</h2><p><img src="cri-cni.png" alt="cri-cni"></p><h2 id="1-3-CNI插件间的交互"><a href="#1-3-CNI插件间的交互" class="headerlink" title="1.3 CNI插件间的交互"></a>1.3 CNI插件间的交互</h2><p><img src="cni-plugins.png" alt="cni"></p><h1 id="2-flannel-3种模式"><a href="#2-flannel-3种模式" class="headerlink" title="2. flannel 3种模式"></a>2. flannel 3种模式</h1><p><img src="flannel-modes.jpg" alt="flannel"></p><p>UDP、VXLAN模式基于三层网络，host-gateway需要在二层网络同一个交换机下才能实现。</p><h2 id="2-1-vxlan模式"><a href="#2-1-vxlan模式" class="headerlink" title="2.1 vxlan模式"></a>2.1 vxlan模式</h2><p>VXLAN是Flannel默认和推荐的模式。当我们使用默认配置安装Flannel时，它会为每个节点分配一个24位子网，并在每个节点上创建两张虚机网卡： cni0 和 flannel.1 。 cni0 是一个网桥设备，类似于 docker0 ，节点上所有的Pod都通过veth pair的形式与 cni0 相连。 flannel.1 则是一个VXLAN类型的设备，充当VTEP的角色，实现对VXLAN报文的封包解包。</p><h3 id="2-1-1-节点内通信"><a href="#2-1-1-节点内通信" class="headerlink" title="2.1.1 节点内通信"></a>2.1.1 节点内通信</h3><p><img src="flannel-vxlan-1.png" alt="flannel-vxlan-1"></p><h3 id="2-1-2-跨节点通信"><a href="#2-1-2-跨节点通信" class="headerlink" title="2.1.2 跨节点通信"></a>2.1.2 跨节点通信</h3><p><img src="flannel-vxlan-2.png" alt="flannel-vxlan-2"></p><p><strong>大致过程:</strong></p><ul><li>发送端：在PodA中发起 ping 10.244.1.21 ，ICMP 报文经过 cni0 网桥后交由 flannel.1 设备处理。 flannel.1 设备是一个VXLAN类型的设备，负责VXLAN封包解包。 因此，在发送端，flannel.1 将原始L2报文封装成VXLAN UDP报文，然后从 eth0 发送。</li><li>接收端：Node2收到UDP报文，发现是一个VXLAN类型报文，交由 flannel.1 进行解包。根据解包后得到的原始报文中的目的IP，将原始报文经由 cni0 网桥发送给PodB。</li></ul><p><strong>哪些IP要交由 flannel.1 处理?</strong></p><p>flanneld 从 etcd 中可以获取所有节点的子网情况，以此为依据为各节点配置路由，将属于非本节点的子网IP都路由到 flannel.1 处理，本节点的子网路由到 cni0 网桥处理。</p><p><strong>flannel 封包过程</strong></p><p>VXLAN的封包是将二层以太网帧封装到四层UDP报文中的过程。</p><p><strong>原始L2帧</strong><br>要生成原始的L2帧， flannel.1 需要得知：</p><ul><li>内层源&#x2F;目的IP地址</li><li>内层源&#x2F;目的MAC地址</li></ul><p>内层的源&#x2F;目的IP地址是已知的，即为PodA&#x2F;PodB的PodIP，在图例中，分别为10.224.0.20和10.224.1.20。<br>内层源&#x2F;目的MAC地址要结合路由表和ARP表来获取。根据路由表①得知：</p><p>下一跳地址是10.224.1.0，关联ARP表②，得到下一跳的MAC地址，也就是目的MAC地址：Node2_flannel.1_MAC；<br>报文要从 flannel.1 虚拟网卡发出，因此源MAC地址为 flannel.1 的MAC地址。</p><p>要注意的是，这里ARP表的表项②并不是通过ARP学习得到的，而是 flanneld 预先为每个节点设置好的，由 flanneld负责维护，没有过期时间。</p><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># 查看ARP表</span><br>[root@Node1 ~]<span class="hljs-comment"># ip n | grep flannel.1</span><br>10.244.1.0 dev flannel.1 lladdr ba:74:f9:db:69:c1 PERMANENT <span class="hljs-comment"># PERMANENT 表示永不过期</span><br></code></pre></td></tr></table></figure><p>有了上面的信息， flannel.1 就可以构造出内层的2层以太网帧：</p><p><img src="flannel-vxlan-3.png" alt="flannel_packet_1.png"></p><p><strong>外层VXLAN UDP报文</strong><br>要将原始L2帧封装成VXLAN UDP报文， flannel.1 还需要填充源&#x2F;目的IP地址。前面提到，VTEP是VXLAN隧道的起点或终点。因此，目的IP地址即为对端VTEP的IP地址，通过FDB表获取。在FDB表③中，dst字段表示的即为VXLAN隧道目的端点（对端VTEP）的IP地址，也就是VXLAN DUP报文的目的IP地址。FDB表也是由 flanneld 在每个节点上预设并负责维护的。</p><p>FDB表（Forwarding database）用于保存二层设备中MAC地址和端口的关联关系，就像交换机中的MAC地址表一样。在二层设备转发二层以太网帧时，根据FDB表项来找到对应的端口。例如cni0网桥上连接了很多veth pair网卡，当网桥要将以太网帧转发给Pod时，FDB表根据Pod网卡的MAC地址查询FDB表，就能找到其对应的veth网卡，从而实现联通。</p><p>可以使用 bridge fdb show 查看FDB表：</p><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sh">[root@Node1 ~]<span class="hljs-comment"># bridge fdb show | grep flannel.1</span><br>ba:74:f9:db:69:c1 dev flannel.1 dst 192.168.50.3 self permanent<br></code></pre></td></tr></table></figure><p>源IP地址信息来自于 flannel.1 网卡设置本身，根据 local 192.168.50.2 可以得知源IP地址为192.168.50.2。</p><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs sh">[root@Node1 ~]<span class="hljs-comment"># ip -d a show flannel.1</span><br>6: flannel.1: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1450 qdisc noqueue state UNKNOWN group default<br>    <span class="hljs-built_in">link</span>/ether 32:02:78:2f:02:cb brd ff:ff:ff:ff:ff:ff promiscuity 0<br>    vxlan <span class="hljs-built_in">id</span> 1 <span class="hljs-built_in">local</span> 192.168.50.2 dev eth0 srcport 0 0 dstport 8472 nolearning ageing 300 noudpcsum noudp6zerocsumtx noudp6zerocsumrx numtxqueues 1 numrxqueues 1 gso_max_size 65536 gso_max_segs 65535<br>    inet 10.244.0.0/32 brd 10.244.0.0 scope global flannel.1<br>       valid_lft forever preferred_lft forever<br>    inet6 fe80::3002:78ff:fe2f:2cb/64 scope <span class="hljs-built_in">link</span><br>       valid_lft forever preferred_lft forever<br></code></pre></td></tr></table></figure><p>至此， flannel.1 已经得到了所有完成VXLAN封包所需的信息，最终通过 eth0 发送一个VXLAN UDP报文：</p><p>Flannel的VXLAN模式通过静态配置路由表，ARP表和FDB表的信息，结合VXLAN虚拟网卡 flannel.1 ，实现了一个所有Pod同属一个大二层网络的VXLAN网络模型。</p><h2 id="2-2-host-gw模式"><a href="#2-2-host-gw模式" class="headerlink" title="2.2 host-gw模式"></a>2.2 host-gw模式</h2><p><img src="flannel-host-gw-1.png" alt="host-gw模式"></p><p>在host-gw模式下，由于不涉及VXLAN的封包解包，不再需要<code>flannel.1</code>虚机网卡。 <code>flanneld</code> 负责为各节点设置路由 ，将对应节点Pod子网的下一跳地址指向对应的节点的IP，如图中<code>路由表①</code>所示。</p><p>要使用<code>host-gw</code>模式，需要修改 ConfigMap <code>kube-flannel-cfg</code> ，将 <code>Backend.Type</code> 从 <code>vxlan</code>改为<code>host-gw</code>，然后重启所有<code>kube-flannel Pod</code>即可：</p><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs sh">kubectl -n kube-flannel edit configmap kube-flannel-cfg<br><br>...<br>  net-conf.json: |<br>    &#123;<br>      <span class="hljs-string">&quot;Network&quot;</span>: <span class="hljs-string">&quot;10.244.0.0/16&quot;</span>,<br>      <span class="hljs-string">&quot;Backend&quot;</span>: &#123;<br>        <span class="hljs-string">&quot;Type&quot;</span>: <span class="hljs-string">&quot;host-gw&quot;</span> // &lt;- 改成host-gw<br>      &#125;<br>    &#125;<br>...<br></code></pre></td></tr></table></figure><h1 id="3-calico-两种网络模式"><a href="#3-calico-两种网络模式" class="headerlink" title="3. calico 两种网络模式"></a>3. calico 两种网络模式</h1><h2 id="3-1-IPIP-模式"><a href="#3-1-IPIP-模式" class="headerlink" title="3.1 IPIP 模式"></a>3.1 IPIP 模式</h2><h4 id="3-1-1-概要"><a href="#3-1-1-概要" class="headerlink" title="3.1.1 概要"></a>3.1.1 概要</h4><p>IPIP模式是calico的默认网络架构，calico中用环境变量<code>CALICO_IPV4POOL_IPIP</code>来标识是否开启<code>IPIP Mode</code>， 如果该变量的值为<code>Always</code>那么就是开启<code>IPIP</code>，如果关闭需要设置为<code>Never</code>(大小写不敏感，代码里有strings.ToLower操作)。</p><ul><li>从字面来理解，就是把一个IP数据包又套在一个IP包里，即把 IP 层封装到 IP 层的一个 tunnel，看起来似乎是浪费，实则不然。</li><li>它的作用其实基本上就相当于一个基于IP层的网桥！</li><li>一般来说，普通的网桥是基于mac层的，根本不需 IP，而这个 ipip 则是通过两端的路由做一个 tunnel，把两个本来不通的网络通过点对点连接起来。</li><li>ipip 的源代码在内核 net&#x2F;ipv4&#x2F;ipip.c 中可以找到。</li></ul><h4 id="3-1-2-工作原理"><a href="#3-1-2-工作原理" class="headerlink" title="3.1.2 工作原理"></a>3.1.2 工作原理</h4><p><img src="calico-ipip-1.png" alt="ipip"></p><p>Calico使用的这个tunl0设备，是一个IP隧道（IP tunnel）设备</p><p>在上面的例子中，IP包进入IP隧道设备之后，就会被Linux内核的IPIP驱动接管。IPIP驱动会将这个IP包直接封装在一个宿主机网络的IP包中，如下所示：</p><p><img src="calico-ipip-2.png" alt="ipip"></p><h2 id="3-2-BGP-模式"><a href="#3-2-BGP-模式" class="headerlink" title="3.2 BGP 模式"></a>3.2 BGP 模式</h2><h4 id="3-2-1-概要"><a href="#3-2-1-概要" class="headerlink" title="3.2.1 概要"></a>3.2.1 概要</h4><ul><li>边界网关协议（Border Gateway Protocol, BGP）是互联网上一个核心的去中心化自治路由协议。</li><li>它通过维护IP路由表或‘前缀’表来实现自治系统（AS）之间的可达性，属于矢量路由协议。</li><li>BGP不使用传统的内部网关协议（IGP）的指标，而使用基于路径、网络策略或规则集来决定路由。因此，它更适合被称为矢量性协议，而不是路由协议。</li><li>BGP，通俗的讲就是讲接入到机房的多条线路（如电信、联通、移动等）融合为一体，实现多线单IP，BGP 机房的优点：服务器只需要设置一个IP地址，最佳访问路由是由网络上的骨干路由器根据路由跳数与其它技术指标来确定的，不会占用服务器的任何系统。</li><li>BGP网络相比较IPIP网络，最大的不同之处就是没有了隧道设备 tunl0。前面介绍过<code>IPIP</code>网络pod之间的流量发送tunl0，然后tunl0发送对端设备。BGP网络中，pod之间的流量直接从网卡发送目的地，减少了<code>tunl0</code>这个环节。</li></ul><h4 id="3-2-2-工作原理"><a href="#3-2-2-工作原理" class="headerlink" title="3.2.2 工作原理"></a>3.2.2 工作原理</h4><p><img src="calico-bgp-1.png" alt="bgp"></p><h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><p><a href="https://ost.51cto.com/posts/15845">https://ost.51cto.com/posts/15845</a><br><a href="https://juejin.cn/post/6994825163757846565">https://juejin.cn/post/6994825163757846565</a></p>]]></content>
     
     
+    <categories>
+      
+      <category>k8s</category>
+      
+    </categories>
+    
     
     <tags>
       
@@ -523,31 +489,6 @@
   
   
   <entry>
-    <title>文件、磁盘相关命令</title>
-    <link href="/2023/07/25/linux/%E6%96%87%E4%BB%B6%E3%80%81%E7%A3%81%E7%9B%98%E7%9B%B8%E5%85%B3%E5%91%BD%E4%BB%A4/"/>
-    <url>/2023/07/25/linux/%E6%96%87%E4%BB%B6%E3%80%81%E7%A3%81%E7%9B%98%E7%9B%B8%E5%85%B3%E5%91%BD%E4%BB%A4/</url>
-    
-    <content type="html"><![CDATA[<h4 id="查看某个目录下所有文件夹大小"><a href="#查看某个目录下所有文件夹大小" class="headerlink" title="查看某个目录下所有文件夹大小"></a>查看某个目录下所有文件夹大小</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># 只能查看文件夹</span><br><br><span class="hljs-comment"># 查看当前目录</span><br><span class="hljs-built_in">du</span> -h --max-depth=1 | <span class="hljs-built_in">sort</span> -h<br><br><span class="hljs-comment"># 查看指定目录</span><br><span class="hljs-built_in">du</span> -h <span class="hljs-variable">$DIR</span> --max-depth=1 | <span class="hljs-built_in">sort</span> -h<br><br><span class="hljs-comment"># 参数解析</span><br><span class="hljs-comment"># --max-depth 深度</span><br><span class="hljs-comment"># sort -h 从小到大排序</span><br><span class="hljs-comment"># sort -rh 从大到小排序</span><br></code></pre></td></tr></table></figure><h4 id="查看磁盘"><a href="#查看磁盘" class="headerlink" title="查看磁盘"></a>查看磁盘</h4><ol><li>显示系统中每个文件系统的磁盘使用情况</li></ol><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-built_in">df</span> -h<br></code></pre></td></tr></table></figure><ol start="2"><li>显示系统中所有的块设备，包括硬盘和分区。通常，系统盘的挂载点是根目录 &#x2F;，而数据盘则可能挂载在其他目录上，如&#x2F;home、&#x2F;mnt等。</li></ol><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">lsblk<br></code></pre></td></tr></table></figure><ol start="3"><li>显示所有在启动时挂载的文件系统，包括系统盘和数据盘的信息。一般情况下，系统盘的挂载信息会在此文件中。<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-built_in">cat</span> /etc/fstab<br></code></pre></td></tr></table></figure></li></ol>]]></content>
-    
-    
-    <categories>
-      
-      <category>linux</category>
-      
-    </categories>
-    
-    
-    <tags>
-      
-      <tag>linux</tag>
-      
-    </tags>
-    
-  </entry>
-  
-  
-  
-  <entry>
     <title>如何分配IP</title>
     <link href="/2023/07/24/golang/%E5%A6%82%E4%BD%95%E5%88%86%E9%85%8DIP/"/>
     <url>/2023/07/24/golang/%E5%A6%82%E4%BD%95%E5%88%86%E9%85%8DIP/</url>
@@ -594,31 +535,6 @@
       <tag>kubectl</tag>
       
       <tag>alias</tag>
-      
-    </tags>
-    
-  </entry>
-  
-  
-  
-  <entry>
-    <title>网络</title>
-    <link href="/2023/07/23/linux/%E7%BD%91%E7%BB%9C/"/>
-    <url>/2023/07/23/linux/%E7%BD%91%E7%BB%9C/</url>
-    
-    <content type="html"><![CDATA[<h4 id="查看网络连接信息"><a href="#查看网络连接信息" class="headerlink" title="查看网络连接信息"></a>查看网络连接信息</h4><figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">netstat -nplt</span><br></code></pre></td></tr></table></figure><p>-n 将字母转化为数字</p><p>-p 显示进程相关信息</p><p>-l 列出状态为监听</p><p>-t 只查看tcp协议</p><p>-a 查看全部协议(netstat -an)</p><h4 id="路由追踪"><a href="#路由追踪" class="headerlink" title="路由追踪"></a>路由追踪</h4><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-attribute">traceroute</span> <span class="hljs-number">8.8.8.8</span><br></code></pre></td></tr></table></figure><h4 id="查看路由表"><a href="#查看路由表" class="headerlink" title="查看路由表"></a>查看路由表</h4><figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs crmsh">ip <span class="hljs-keyword">rule</span><br>ip -<span class="hljs-number">6</span> <span class="hljs-keyword">rule</span> <br>ip <span class="hljs-keyword">rule</span> list<br></code></pre></td></tr></table></figure><h4 id="查看默认路由表信息"><a href="#查看默认路由表信息" class="headerlink" title="查看默认路由表信息"></a>查看默认路由表信息</h4><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs powershell">ip <span class="hljs-built_in">r</span><br>ip <span class="hljs-literal">-6</span> <span class="hljs-built_in">r</span><br>route<br></code></pre></td></tr></table></figure>]]></content>
-    
-    
-    <categories>
-      
-      <category>linux</category>
-      
-    </categories>
-    
-    
-    <tags>
-      
-      <tag>linux</tag>
       
     </tags>
     
