@@ -9,7 +9,7 @@ categories: k8s
 ## 1. 简介
 
 {% note success %}
-k8s 的命令不长，也很好记，但身为一个偷懒者，我想我可以更简洁、高效。
+k8s 的命令不长，也很好记，但身为一个懒人，我想我可以更简洁、高效。
 
 默认快捷命令保存在 ~/.bashrc 文件。
 {% endnote %}
@@ -82,9 +82,13 @@ curl -sfL https://raw.githubusercontent.com/oldwang12/oldwang12.github.io/master
 
 执行完记得 {% label primary @source <～/FILE_NAME> %}，例如：
 
-```
+```sh
 source ~/.bashrc
 ```
+
+{% note warning %}
+如果你卸载成功了，重新source后，发现kubectl快捷命令继续可以使用。此时终端重新连接即可。
+{% endnote %}
 
 ## 5. kubens、kubectx
 
@@ -115,6 +119,10 @@ curl -sfL https://raw.githubusercontent.com/oldwang12/oldwang12.github.io/master
 
 执行完记得 {% label primary @source <～/FILE_NAME> %}，例如：
 
-```
+```sh
 source ~/.bashrc
 ```
+
+{% note warning %}
+如果你卸载成功了，重新source后，发现kubectl快捷命令继续可以使用。此时终端重新连接即可。
+{% endnote %}
