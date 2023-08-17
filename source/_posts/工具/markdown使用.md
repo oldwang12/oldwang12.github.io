@@ -14,6 +14,8 @@ sticky: 999
 
 {% endnote %}
 
+<!-- more -->
+
 ## 1. 文本颜色
 ```md
 <span style="color: green;">green</span>
