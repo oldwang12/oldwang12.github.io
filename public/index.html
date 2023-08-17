@@ -58,7 +58,7 @@
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
     Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"blog.caiplus.pro","root":"/","version":"1.9.5","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":false,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+    var CONFIG = {"hostname":"blog.caiplus.pro","root":"/","version":"1.9.5","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":false,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"left","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":6},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
 
     if (CONFIG.web_analytics.follow_dnt) {
       var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
@@ -213,7 +213,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="just for oldwang12"></span>
+            <span id="subtitle">just for oldwang12</span>
           
         </div>
 
@@ -251,15 +251,80 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
+        <a href="/2023/07/23/k8s/%E5%AE%89%E8%A3%85kubectl%E5%BF%AB%E6%8D%B7%E5%91%BD%E4%BB%A4/" target="_self">
+          安装kubectl快捷命令
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2023/07/23/k8s/%E5%AE%89%E8%A3%85kubectl%E5%BF%AB%E6%8D%B7%E5%91%BD%E4%BB%A4/" target="_self">
+        <div>
+          1. 简介             k8s 的命令不长，也很好记，但身为一个偷懒者，我想我可以更简洁、高效。默认快捷命令保存在 ~&#x2F;.bashrc 文件。            2. 安装你可以通过该命令一键安装 1curl -sfL https://raw.githubusercontent.com/oldwang12/oldwang12.github.io/master/source
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2023-07-23 15:12" pubdate>
+              2023-07-23
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/k8s/" class="category-chain-item">k8s</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/k8s/">#k8s</a>
+            
+              <a href="/tags/kubectl/">#kubectl</a>
+            
+              <a href="/tags/alias/">#alias</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
         <a href="/2023/08/16/%E5%B7%A5%E5%85%B7/markdown%E4%BD%BF%E7%94%A8/" target="_self">
-          markdown使用
+          Markdown使用
         </a>
       </h2>
 
       
       <a class="index-excerpt index-excerpt__noimg" href="/2023/08/16/%E5%B7%A5%E5%85%B7/markdown%E4%BD%BF%E7%94%A8/" target="_self">
         <div>
-          文本颜色12&lt;span style=&quot;color: green;&quot;&gt;green&lt;/span&gt;&lt;span style=&quot;color: red;&quot;&gt;red&lt;/span&gt;  页面内实现目录1234567### 目录[1. 章节1](#1)&lt;!-- 这里 p 标签必须和下面一行隔开 --&gt;&lt;p id=
+          有一些语法可能只能在 hexo fluid 主题中使用。             1. 文本颜色12&lt;span style=&quot;color: green;&quot;&gt;green&lt;/span&gt;&lt;span style=&quot;color: red;&quot;&gt;red&lt;/span&gt;  2. 页面内实现目录12345
         </div>
       </a>
 
@@ -312,15 +377,15 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/2023/07/23/k8s/%E5%AE%89%E8%A3%85kubectl%E5%BF%AB%E6%8D%B7%E5%91%BD%E4%BB%A4/" target="_self">
-          安装kubectl快捷命令
+        <a href="/2023/07/27/k8s/%E5%AE%B9%E5%99%A8%E7%BD%91%E7%BB%9C%E6%8E%A5%E5%8F%A3%EF%BC%88CNI%EF%BC%89/" target="_self">
+          容器网络接口（CNI）
         </a>
       </h2>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/2023/07/23/k8s/%E5%AE%89%E8%A3%85kubectl%E5%BF%AB%E6%8D%B7%E5%91%BD%E4%BB%A4/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/2023/07/27/k8s/%E5%AE%B9%E5%99%A8%E7%BD%91%E7%BB%9C%E6%8E%A5%E5%8F%A3%EF%BC%88CNI%EF%BC%89/" target="_self">
         <div>
-          简介k8s 的命令不算长，也很好记，但身为一个偷懒者，我想我可以更简洁、高效。 默认快捷命令保存在 ～&#x2F;.bash_profile 文件。 安装1curl -sfL https://raw.githubusercontent.com/oldwang12/oldwang12.github.io/master/source/shells/k8s_alias_install.sh | sh -
+          1. CNI交互逻辑1.1 Pod IP地址分配机制 1.2 CRI插件与CNI插件的交互 1.3 CNI插件间的交互 2. flannel 3种模式 UDP、VXLAN模式基于三层网络，host-gateway需要在二层网络同一个交换机下才能实现。 2.1 vxlan模式VXLAN是Flannel默认和推荐的模式。当我们使用默认配置安装Flannel时，它会为每个节点分配一个24位子网，并在每个
         </div>
       </a>
 
@@ -328,8 +393,109 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2023-07-23 15:12" pubdate>
-              2023-07-23
+            <time datetime="2023-07-27 14:31" pubdate>
+              2023-07-27
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/k8s/">#k8s</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2023/08/16/golang/golang%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6/" target="_self">
+          golang垃圾回收
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2023/08/16/golang/golang%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6/" target="_self">
+        <div>
+          golang是通过 三色标记法 来进行垃圾回收             1. 标记过程  初始状态下所有对象都是白色的。 从根节点开始遍历所有对象，把遍历到的对象变成灰色对象 遍历灰色对象，将灰色对象引用的对象也变成灰色对象，然后将遍历过的灰色对象变成黑色对象。 循环步骤3，直到灰色对象全部变黑色。 通过写屏障(write-barrier)检测对象有变化，重复以上操作 回
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2023-08-16 17:17" pubdate>
+              2023-08-16
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/golang/" class="category-chain-item">golang</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/golang/">#golang</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2023/07/26/k8s/%E4%BD%BF%E7%94%A8kubeadm%E5%AE%89%E8%A3%85%E9%9B%86%E7%BE%A4/" target="_self">
+          使用kubeadm安装集群
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2023/07/26/k8s/%E4%BD%BF%E7%94%A8kubeadm%E5%AE%89%E8%A3%85%E9%9B%86%E7%BE%A4/" target="_self">
+        <div>
+          图解k8s 1. containerd1.1 使用 tar 包安装下载地址 1234567wget https://github.com/containerd/containerd/releases/download/v1.7.2/containerd-1.7.2-linux-amd64.tar.gztar Cxzvf /usr/local containerd-1.7.2-linux-amd64
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2023-07-26 10:09" pubdate>
+              2023-07-26
             </time>
           </div>
         
@@ -359,7 +525,7 @@
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/kubectl-alias/">#kubectl alias</a>
+              <a href="/tags/k8s/">#k8s</a>
             
           </div>
         
@@ -672,189 +838,6 @@
     </article>
   </div>
 
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h2 class="index-header">
-        
-        <a href="/2023/07/23/linux/%E7%BD%91%E7%BB%9C/" target="_self">
-          网络
-        </a>
-      </h2>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2023/07/23/linux/%E7%BD%91%E7%BB%9C/" target="_self">
-        <div>
-          查看网络连接信息1netstat -nplt -n 将字母转化为数字 -p 显示进程相关信息 -l 列出状态为监听 -t 只查看tcp协议 -a 查看全部协议(netstat -an) 路由追踪1traceroute 8.8.8.8  查看路由表123ip ruleip -6 rule ip rule list 查看默认路由表信息123ip rip -6 rroute
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2023-07-23 15:06" pubdate>
-              2023-07-23
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/linux/" class="category-chain-item">linux</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/linux/">#linux</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h2 class="index-header">
-        
-        <a href="/2023/08/07/linux/%E5%BF%AB%E9%80%9F%E5%BC%80%E5%90%AFhttp%E6%9C%8D%E5%8A%A1/" target="_self">
-          快速开启http服务
-        </a>
-      </h2>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2023/08/07/linux/%E5%BF%AB%E9%80%9F%E5%BC%80%E5%90%AFhttp%E6%9C%8D%E5%8A%A1/" target="_self">
-        <div>
-          快速开启http服务这将监听本地 80 端口，响应 OK 1echo -e &#x27;HTTP/1.1 200 OK\r\n\r\nOK&#x27; | sudo socat - TCP-LISTEN:80
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2023-08-07 17:22" pubdate>
-              2023-08-07
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/linux/" class="category-chain-item">linux</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/linux/">#linux</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h2 class="index-header">
-        
-        <a href="/2023/08/03/linux/%E8%A7%A3%E5%8E%8B%E3%80%81%E5%8E%8B%E7%BC%A9/" target="_self">
-          解压、压缩
-        </a>
-      </h2>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2023/08/03/linux/%E8%A7%A3%E5%8E%8B%E3%80%81%E5%8E%8B%E7%BC%A9/" target="_self">
-        <div>
-          tar1234567891011# 压缩tar -czvf test.tar.gz README.md# 解压tar -xzvf test.tar.gz# 解压到指定文件夹tar -xzvf test.tar.gz -C /home/test# 列出压缩文件内容tar -tzvf test.tar.gz   参数说明 -v 显示指令执行过程。 -c 建立新的备份文件。 -f 指定备份文件。 -z
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2023-08-03 15:43" pubdate>
-              2023-08-03
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/linux/" class="category-chain-item">linux</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/linux/">#linux</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
 
 
   <nav aria-label="navigation">
@@ -909,7 +892,7 @@
     <div class="footer-inner">
   
     <div class="footer-content">
-       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> <div> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/js/duration.js"></script> </div> 
     </div>
   
   
@@ -938,21 +921,6 @@
 <script  src="/js/events.js" ></script>
 <script  src="/js/plugins.js" ></script>
 
-
-  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
-  <script>
-    (function (window, document) {
-      var typing = Fluid.plugins.typing;
-      var subtitle = document.getElementById('subtitle');
-      if (!subtitle || !typing) {
-        return;
-      }
-      var text = subtitle.getAttribute('data-typed-text');
-      
-        typing(text);
-      
-    })(window, document);
-  </script>
 
 
 

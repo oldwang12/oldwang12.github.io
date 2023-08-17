@@ -6,10 +6,10 @@ tags: k8s
 categories: k8s
 ---
 
-#### 图解k8s
+## 图解k8s
 ![master-worker](master-worker.png)
-### 1 安装containerd
-#### 1.1 使用 tar 包安装
+## 1. containerd
+**1.1 使用 tar 包安装**
 [下载地址](https://github.com/containerd/containerd/releases)
 
 ```sh
@@ -22,11 +22,11 @@ systemctl daemon-reload
 systemctl enable --now containerd
 ```
 
-#### 1.2 rpm、deb 包安装
+**1.2 rpm、deb 包安装**
 - Centos [下载地址](https://download.docker.com/linux/centos/7/x86_64/stable/Packages/)
 - Ubuntu [下载地址](https://download.docker.com/linux/ubuntu/dists/bionic/pool/stable/amd64)
 
-### 2 安装runc
+## 2. runc
 
 [下载地址](https://github.com/opencontainers/runc/releases)
 
@@ -35,7 +35,7 @@ wget https://github.com/opencontainers/runc/releases/download/v1.1.8/runc.amd64
 install -m 755 runc.amd64 /usr/local/sbin/runc
 ```
 
-### 3 安装ctrctl
+## 3. ctrctl
 
 [下载地址](https://github.com/kubernetes-sigs/cri-tools/releases)
 
@@ -47,7 +47,7 @@ sudo tar zxvf crictl-$VERSION-linux-amd64.tar.gz -C /usr/local/bin
 rm -f crictl-$VERSION-linux-amd64.tar.gz
 ```
 
-#### 3.1 ctrctl 报错文件找不到
+**3.1 ctrctl 报错文件找不到**
 * 不同的部署方式，文件路径可能不同。
 
 ```sh
@@ -55,12 +55,12 @@ rm -f crictl-$VERSION-linux-amd64.tar.gz
 crictl --runtime-endpoint /var/run/k3s/containerd/containerd.sock ps -a
 ```
 
-#### 3.2 查看 ctrctl 配置
+**3.2 查看 ctrctl 配置**
 ```sh
 cat /etc/crictl.yaml
 ```
 
-### 4 安装kubeadm、kubelet、kubectl
+## 4. kubeadm、kubelet、kubectl
 ```sh
 DOWNLOAD_DIR="/usr/local/bin"
 sudo mkdir -p "$DOWNLOAD_DIR"
@@ -85,19 +85,20 @@ curl -sSL "https://raw.githubusercontent.com/kubernetes/release/${RELEASE_VERSIO
 systemctl enable --now kubelet
 ```
 
-### 5 安装conntrack
+## 5. conntrack
 ```sh
 yum install conntrack-tools -y
 ```
 
-#### 5.1 测试
+**测试**
 ```sh
 conntrack -L
 ```
 
-### 6 设置内核参数
-
-如果不设置参数，使用 kubeadm join 时可能会导致报错
+## 6. 设置内核参数
+{% note warning %}
+如果不设置参数，使用 kubeadm join 时可能会导致报错。
+{% endnote %}
 ```log
 W0726 10:29:26.474684    8216 checks.go:1064] [preflight] WARNING: Couldn't create the interface used for talking to the container runtime: crictl is required by the container runtime: executable file not found in $PATH
 	[WARNING FileExisting-socat]: socat not found in system path
@@ -109,7 +110,7 @@ error execution phase preflight: [preflight] Some fatal errors occurred:
 [preflight] If you know what you are doing, you can make a check non-fatal with `--ignore-preflight-errors=...`
 ```
 
-#### 6.1 加载 bridge 内核模块
+### 6.1 加载 bridge 内核模块
 
 查看是否加载 br_netfilter 模块
 ```sh
@@ -121,7 +122,7 @@ lsmod | grep br_netfilter
 sudo modprobe br_netfilter
 ```
 
-#### 6.2 更改内核参数
+### 6.2 更改内核参数
 
 打开 /etc/sysctl.conf 文件
 
@@ -136,9 +137,9 @@ net.bridge.bridge-nf-call-ip6tables = 1
 sysctl -p
 ```
 
-### 7 kubeadm部署集群
+## 7. 部署集群
 
-#### 7.1 Master
+### 7.1 master
 ```sh
 kubeadm init --v=5
 ```
@@ -149,12 +150,12 @@ kubeadm init --v=5
 kubeadm join 10.7.130.29:6443 --token kqi9ve.dvcyddrn9527rvnu \
 	--discovery-token-ca-cert-hash sha256:67c19abd79fhjkl1cc5a04e2192bf3bc335d41f2f4a76084adcc4cda3d48804
 ```
-#### 7.2 Node
+### 7.2 node
 ```sh
 kubeadm join 10.7.130.29:6443 --token kqi9ve.dvcyddrn9527rvnu \
 	--discovery-token-ca-cert-hash sha256:67c19abd79fhjkl1cc5a04e2192bf3bc335d41f2f4a76084adcc4cda3d48804
 ```
-#### 7.3 参数说明
+### 7.3 参数说明
 ```sh
 # 指定版本
 --kubernetes-version=v1.26.7
@@ -166,19 +167,19 @@ kubeadm join 10.7.130.29:6443 --token kqi9ve.dvcyddrn9527rvnu \
 --pod-network-cidr=10.244.0.0/16
 ```
 
-#### 7.4 重新生成 token
+### 7.4 重新生成 token
 
 当忘记kubeadm join命令时，可以重新生成token。以此来获得 kubeadm join 命令。
 
 ```sh
 sudo kubeadm token create --print-join-command
 ```
-#### 7.5 查看 token
+### 7.5 查看 token
 ```sh
 sudo kubeadm token list
 ```
 
-#### 8 kubeconfig 配置文件
+## 8. kubeconfig 配置文件
 默认生成的 kubeconfig 文件在 /etc/kubernetes/admin.conf
 
 ```sh
@@ -187,16 +188,19 @@ cp /etc/kubernetes/admin.conf $HOME/.kube/config
 kubectl get no
 ```
 
-#### 9. 安装网络插件
+## 9. 安装网络插件
+{% note danger %}
+不安装官方插件会报错，忘记了什么原因导致的。
+{% endnote %}
 
-##### 9.1 先安装官方插件
+### 9.1 先安装官方插件
 [下载地址](https://github.com/containernetworking/plugins/releases)
 ```sh
 wget https://github.com/containernetworking/plugins/releases/download/v1.3.0/cni-plugins-linux-amd64-v1.3.0.tgz
 tar -zxvf cni-plugins-linux-amd64-v1.3.0.tgz -C /opt/cni/bin
 rm -f cni-plugins-linux-amd64-v1.3.0.tgz
 ```
-#### 9.2 安装 flannel 或 calico
+### 9.2 安装 flannel 或 calico
 ```sh
 # flannel
 kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
@@ -206,11 +210,11 @@ kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documen
 kubectl apply -f https://docs.projectcalico.org/manifests/calico.yaml
 ```
 
-安装完`cni`后，此时`coredns`应该为`running`
+安装完{% label default @cni %}后，此时{% label default @coredns %}应该为 {% label success @running %}
 
 #### 9.2.1 查看flannel模式
 
-`flannel` 默认的模式为 `vxlan`，如果需要修改，可以修改`configmap` `kube-flannel-cfg`
+{% label success @flannel %} 默认的模式为 {% label primary @vxlan %}，如果需要修改，可以修改 {% label default @configmap %}  {% label default @kube-flannel-cfg %}
 
 ```sh
 kubectl -n kube-flannel get configmap kube-flannel-cfg -oyaml

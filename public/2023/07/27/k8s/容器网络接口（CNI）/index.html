@@ -16,12 +16,12 @@
   <meta name="author" content="oldwang12">
   <meta name="keywords" content="">
   
-    <meta name="description" content="CNI1. 交互逻辑1.1 Pod IP地址分配机制 1.2 CRI插件与CNI插件的交互 1.3 CNI插件间的交互 2. flannel 3种模式 UDP、VXLAN模式基于三层网络，host-gateway需要在二层网络同一个交换机下才能实现。 2.1 vxlan模式VXLAN是Flannel默认和推荐的模式。当我们使用默认配置安装Flannel时，它会为每个节点分配一个24位子网，并在每个">
+    <meta name="description" content="1. CNI交互逻辑1.1 Pod IP地址分配机制 1.2 CRI插件与CNI插件的交互 1.3 CNI插件间的交互 2. flannel 3种模式 UDP、VXLAN模式基于三层网络，host-gateway需要在二层网络同一个交换机下才能实现。 2.1 vxlan模式VXLAN是Flannel默认和推荐的模式。当我们使用默认配置安装Flannel时，它会为每个节点分配一个24位子网，并在每个">
 <meta property="og:type" content="article">
 <meta property="og:title" content="容器网络接口（CNI）">
 <meta property="og:url" content="http://blog.caiplus.pro/2023/07/27/k8s/%E5%AE%B9%E5%99%A8%E7%BD%91%E7%BB%9C%E6%8E%A5%E5%8F%A3%EF%BC%88CNI%EF%BC%89/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="CNI1. 交互逻辑1.1 Pod IP地址分配机制 1.2 CRI插件与CNI插件的交互 1.3 CNI插件间的交互 2. flannel 3种模式 UDP、VXLAN模式基于三层网络，host-gateway需要在二层网络同一个交换机下才能实现。 2.1 vxlan模式VXLAN是Flannel默认和推荐的模式。当我们使用默认配置安装Flannel时，它会为每个节点分配一个24位子网，并在每个">
+<meta property="og:description" content="1. CNI交互逻辑1.1 Pod IP地址分配机制 1.2 CRI插件与CNI插件的交互 1.3 CNI插件间的交互 2. flannel 3种模式 UDP、VXLAN模式基于三层网络，host-gateway需要在二层网络同一个交换机下才能实现。 2.1 vxlan模式VXLAN是Flannel默认和推荐的模式。当我们使用默认配置安装Flannel时，它会为每个节点分配一个24位子网，并在每个">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://blog.caiplus.pro/2023/07/27/k8s/%E5%AE%B9%E5%99%A8%E7%BD%91%E7%BB%9C%E6%8E%A5%E5%8F%A3%EF%BC%88CNI%EF%BC%89/pod-allow-ip.png">
 <meta property="og:image" content="http://blog.caiplus.pro/2023/07/27/k8s/%E5%AE%B9%E5%99%A8%E7%BD%91%E7%BB%9C%E6%8E%A5%E5%8F%A3%EF%BC%88CNI%EF%BC%89/cri-cni.png">
@@ -35,7 +35,7 @@
 <meta property="og:image" content="http://blog.caiplus.pro/2023/07/27/k8s/%E5%AE%B9%E5%99%A8%E7%BD%91%E7%BB%9C%E6%8E%A5%E5%8F%A3%EF%BC%88CNI%EF%BC%89/calico-ipip-2.png">
 <meta property="og:image" content="http://blog.caiplus.pro/2023/07/27/k8s/%E5%AE%B9%E5%99%A8%E7%BD%91%E7%BB%9C%E6%8E%A5%E5%8F%A3%EF%BC%88CNI%EF%BC%89/calico-bgp-1.png">
 <meta property="article:published_time" content="2023-07-27T06:31:00.000Z">
-<meta property="article:modified_time" content="2023-08-16T10:33:51.300Z">
+<meta property="article:modified_time" content="2023-08-17T05:54:48.964Z">
 <meta property="article:author" content="oldwang12">
 <meta property="article:tag" content="k8s">
 <meta name="twitter:card" content="summary_large_image">
@@ -81,7 +81,7 @@
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
     Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"blog.caiplus.pro","root":"/","version":"1.9.5","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":false,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+    var CONFIG = {"hostname":"blog.caiplus.pro","root":"/","version":"1.9.5","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":false,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"left","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":6},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
 
     if (CONFIG.web_analytics.follow_dnt) {
       var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
@@ -236,7 +236,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="容器网络接口（CNI）"></span>
+            <span id="subtitle">容器网络接口（CNI）</span>
           
         </div>
 
@@ -300,6 +300,19 @@
   <div class="row nomargin-x">
     <div class="side-col d-none d-lg-block col-lg-2">
       
+  <aside class="sidebar" style="padding-left: 2rem; margin-right: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
 
     </div>
 
@@ -312,21 +325,24 @@
             
               <div class="markdown-body">
                 
-                <h1 id="CNI"><a href="#CNI" class="headerlink" title="CNI"></a>CNI</h1><h2 id="1-交互逻辑"><a href="#1-交互逻辑" class="headerlink" title="1. 交互逻辑"></a>1. 交互逻辑</h2><h4 id="1-1-Pod-IP地址分配机制"><a href="#1-1-Pod-IP地址分配机制" class="headerlink" title="1.1 Pod IP地址分配机制"></a>1.1 Pod IP地址分配机制</h4><p><img src="pod-allow-ip.png" srcset="/img/loading.gif" lazyload alt="image"></p>
-<h4 id="1-2-CRI插件与CNI插件的交互"><a href="#1-2-CRI插件与CNI插件的交互" class="headerlink" title="1.2 CRI插件与CNI插件的交互"></a>1.2 CRI插件与CNI插件的交互</h4><p><img src="cri-cni.png" srcset="/img/loading.gif" lazyload alt="cri-cni"></p>
-<h4 id="1-3-CNI插件间的交互"><a href="#1-3-CNI插件间的交互" class="headerlink" title="1.3 CNI插件间的交互"></a>1.3 CNI插件间的交互</h4><p><img src="cni-plugins.png" srcset="/img/loading.gif" lazyload alt="cni"></p>
+                <h1 id="1-CNI交互逻辑"><a href="#1-CNI交互逻辑" class="headerlink" title="1. CNI交互逻辑"></a>1. CNI交互逻辑</h1><h2 id="1-1-Pod-IP地址分配机制"><a href="#1-1-Pod-IP地址分配机制" class="headerlink" title="1.1 Pod IP地址分配机制"></a>1.1 Pod IP地址分配机制</h2><p><img src="pod-allow-ip.png" srcset="/img/loading.gif" lazyload alt="image"></p>
+<h2 id="1-2-CRI插件与CNI插件的交互"><a href="#1-2-CRI插件与CNI插件的交互" class="headerlink" title="1.2 CRI插件与CNI插件的交互"></a>1.2 CRI插件与CNI插件的交互</h2><p><img src="cri-cni.png" srcset="/img/loading.gif" lazyload alt="cri-cni"></p>
+<h2 id="1-3-CNI插件间的交互"><a href="#1-3-CNI插件间的交互" class="headerlink" title="1.3 CNI插件间的交互"></a>1.3 CNI插件间的交互</h2><p><img src="cni-plugins.png" srcset="/img/loading.gif" lazyload alt="cni"></p>
 <h1 id="2-flannel-3种模式"><a href="#2-flannel-3种模式" class="headerlink" title="2. flannel 3种模式"></a>2. flannel 3种模式</h1><p><img src="flannel-modes.jpg" srcset="/img/loading.gif" lazyload alt="flannel"></p>
 <p>UDP、VXLAN模式基于三层网络，host-gateway需要在二层网络同一个交换机下才能实现。</p>
 <h2 id="2-1-vxlan模式"><a href="#2-1-vxlan模式" class="headerlink" title="2.1 vxlan模式"></a>2.1 vxlan模式</h2><p>VXLAN是Flannel默认和推荐的模式。当我们使用默认配置安装Flannel时，它会为每个节点分配一个24位子网，并在每个节点上创建两张虚机网卡： cni0 和 flannel.1 。 cni0 是一个网桥设备，类似于 docker0 ，节点上所有的Pod都通过veth pair的形式与 cni0 相连。 flannel.1 则是一个VXLAN类型的设备，充当VTEP的角色，实现对VXLAN报文的封包解包。</p>
 <h3 id="2-1-1-节点内通信"><a href="#2-1-1-节点内通信" class="headerlink" title="2.1.1 节点内通信"></a>2.1.1 节点内通信</h3><p><img src="flannel-vxlan-1.png" srcset="/img/loading.gif" lazyload alt="flannel-vxlan-1"></p>
 <h3 id="2-1-2-跨节点通信"><a href="#2-1-2-跨节点通信" class="headerlink" title="2.1.2 跨节点通信"></a>2.1.2 跨节点通信</h3><p><img src="flannel-vxlan-2.png" srcset="/img/loading.gif" lazyload alt="flannel-vxlan-2"></p>
-<h4 id="大致过程："><a href="#大致过程：" class="headerlink" title="大致过程："></a>大致过程：</h4><ul>
+<p><strong>大致过程:</strong></p>
+<ul>
 <li>发送端：在PodA中发起 ping 10.244.1.21 ，ICMP 报文经过 cni0 网桥后交由 flannel.1 设备处理。 flannel.1 设备是一个VXLAN类型的设备，负责VXLAN封包解包。 因此，在发送端，flannel.1 将原始L2报文封装成VXLAN UDP报文，然后从 eth0 发送。</li>
 <li>接收端：Node2收到UDP报文，发现是一个VXLAN类型报文，交由 flannel.1 进行解包。根据解包后得到的原始报文中的目的IP，将原始报文经由 cni0 网桥发送给PodB。</li>
 </ul>
-<h4 id="哪些IP要交由-flannel-1-处理"><a href="#哪些IP要交由-flannel-1-处理" class="headerlink" title="哪些IP要交由 flannel.1 处理?"></a>哪些IP要交由 flannel.1 处理?</h4><p>flanneld 从 etcd 中可以获取所有节点的子网情况，以此为依据为各节点配置路由，将属于非本节点的子网IP都路由到 flannel.1 处理，本节点的子网路由到 cni0 网桥处理。</p>
-<h4 id="flannel-封包过程"><a href="#flannel-封包过程" class="headerlink" title="flannel 封包过程"></a>flannel 封包过程</h4><p>VXLAN的封包是将二层以太网帧封装到四层UDP报文中的过程。</p>
-<h4 id="原始L2帧"><a href="#原始L2帧" class="headerlink" title="原始L2帧"></a>原始L2帧</h4><p>要生成原始的L2帧， flannel.1 需要得知：</p>
+<p><strong>哪些IP要交由 flannel.1 处理?</strong></p>
+<p>flanneld 从 etcd 中可以获取所有节点的子网情况，以此为依据为各节点配置路由，将属于非本节点的子网IP都路由到 flannel.1 处理，本节点的子网路由到 cni0 网桥处理。</p>
+<p><strong>flannel 封包过程</strong></p>
+<p>VXLAN的封包是将二层以太网帧封装到四层UDP报文中的过程。</p>
+<p><strong>原始L2帧</strong><br>要生成原始的L2帧， flannel.1 需要得知：</p>
 <ul>
 <li>内层源&#x2F;目的IP地址</li>
 <li>内层源&#x2F;目的MAC地址</li>
@@ -337,7 +353,7 @@
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># 查看ARP表</span><br>[root@Node1 ~]<span class="hljs-comment"># ip n | grep flannel.1</span><br>10.244.1.0 dev flannel.1 lladdr ba:74:f9:db:69:c1 PERMANENT <span class="hljs-comment"># PERMANENT 表示永不过期</span><br></code></pre></td></tr></table></figure>
 <p>有了上面的信息， flannel.1 就可以构造出内层的2层以太网帧：</p>
 <p><img src="flannel-vxlan-3.png" srcset="/img/loading.gif" lazyload alt="flannel_packet_1.png"></p>
-<h4 id="外层VXLAN-UDP报文"><a href="#外层VXLAN-UDP报文" class="headerlink" title="外层VXLAN UDP报文"></a>外层VXLAN UDP报文</h4><p>要将原始L2帧封装成VXLAN UDP报文， flannel.1 还需要填充源&#x2F;目的IP地址。前面提到，VTEP是VXLAN隧道的起点或终点。因此，目的IP地址即为对端VTEP的IP地址，通过FDB表获取。在FDB表③中，dst字段表示的即为VXLAN隧道目的端点（对端VTEP）的IP地址，也就是VXLAN DUP报文的目的IP地址。FDB表也是由 flanneld 在每个节点上预设并负责维护的。</p>
+<p><strong>外层VXLAN UDP报文</strong><br>要将原始L2帧封装成VXLAN UDP报文， flannel.1 还需要填充源&#x2F;目的IP地址。前面提到，VTEP是VXLAN隧道的起点或终点。因此，目的IP地址即为对端VTEP的IP地址，通过FDB表获取。在FDB表③中，dst字段表示的即为VXLAN隧道目的端点（对端VTEP）的IP地址，也就是VXLAN DUP报文的目的IP地址。FDB表也是由 flanneld 在每个节点上预设并负责维护的。</p>
 <p>FDB表（Forwarding database）用于保存二层设备中MAC地址和端口的关联关系，就像交换机中的MAC地址表一样。在二层设备转发二层以太网帧时，根据FDB表项来找到对应的端口。例如cni0网桥上连接了很多veth pair网卡，当网桥要将以太网帧转发给Pod时，FDB表根据Pod网卡的MAC地址查询FDB表，就能找到其对应的veth网卡，从而实现联通。</p>
 <p>可以使用 bridge fdb show 查看FDB表：</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sh">[root@Node1 ~]<span class="hljs-comment"># bridge fdb show | grep flannel.1</span><br>ba:74:f9:db:69:c1 dev flannel.1 dst 192.168.50.3 self permanent<br></code></pre></td></tr></table></figure>
@@ -345,7 +361,7 @@
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs sh">[root@Node1 ~]<span class="hljs-comment"># ip -d a show flannel.1</span><br>6: flannel.1: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1450 qdisc noqueue state UNKNOWN group default<br>    <span class="hljs-built_in">link</span>/ether 32:02:78:2f:02:cb brd ff:ff:ff:ff:ff:ff promiscuity 0<br>    vxlan <span class="hljs-built_in">id</span> 1 <span class="hljs-built_in">local</span> 192.168.50.2 dev eth0 srcport 0 0 dstport 8472 nolearning ageing 300 noudpcsum noudp6zerocsumtx noudp6zerocsumrx numtxqueues 1 numrxqueues 1 gso_max_size 65536 gso_max_segs 65535<br>    inet 10.244.0.0/32 brd 10.244.0.0 scope global flannel.1<br>       valid_lft forever preferred_lft forever<br>    inet6 fe80::3002:78ff:fe2f:2cb/64 scope <span class="hljs-built_in">link</span><br>       valid_lft forever preferred_lft forever<br></code></pre></td></tr></table></figure>
 <p>至此， flannel.1 已经得到了所有完成VXLAN封包所需的信息，最终通过 eth0 发送一个VXLAN UDP报文：</p>
 <p>Flannel的VXLAN模式通过静态配置路由表，ARP表和FDB表的信息，结合VXLAN虚拟网卡 flannel.1 ，实现了一个所有Pod同属一个大二层网络的VXLAN网络模型。</p>
-<h2 id="2-1-host-gw模式"><a href="#2-1-host-gw模式" class="headerlink" title="2.1 host-gw模式"></a>2.1 host-gw模式</h2><p><img src="flannel-host-gw-1.png" srcset="/img/loading.gif" lazyload alt="host-gw模式"></p>
+<h2 id="2-2-host-gw模式"><a href="#2-2-host-gw模式" class="headerlink" title="2.2 host-gw模式"></a>2.2 host-gw模式</h2><p><img src="flannel-host-gw-1.png" srcset="/img/loading.gif" lazyload alt="host-gw模式"></p>
 <p>在host-gw模式下，由于不涉及VXLAN的封包解包，不再需要<code>flannel.1</code>虚机网卡。 <code>flanneld</code> 负责为各节点设置路由 ，将对应节点Pod子网的下一跳地址指向对应的节点的IP，如图中<code>路由表①</code>所示。</p>
 <p>要使用<code>host-gw</code>模式，需要修改 ConfigMap <code>kube-flannel-cfg</code> ，将 <code>Backend.Type</code> 从 <code>vxlan</code>改为<code>host-gw</code>，然后重启所有<code>kube-flannel Pod</code>即可：</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs sh">kubectl -n kube-flannel edit configmap kube-flannel-cfg<br><br>...<br>  net-conf.json: |<br>    &#123;<br>      <span class="hljs-string">&quot;Network&quot;</span>: <span class="hljs-string">&quot;10.244.0.0/16&quot;</span>,<br>      <span class="hljs-string">&quot;Backend&quot;</span>: &#123;<br>        <span class="hljs-string">&quot;Type&quot;</span>: <span class="hljs-string">&quot;host-gw&quot;</span> // &lt;- 改成host-gw<br>      &#125;<br>    &#125;<br>...<br></code></pre></td></tr></table></figure>
@@ -377,27 +393,6 @@
             <hr/>
             <div>
               <div class="post-metas my-3">
-  
-    <div class="post-meta mr-3 d-flex align-items-center">
-      <i class="iconfont icon-category"></i>
-      
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/k8s/" class="category-chain-item">k8s</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-    </div>
   
   
     <div class="post-meta">
@@ -434,7 +429,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>更新于</div>
-          <div>2023年8月16日</div>
+          <div>2023年8月17日</div>
         </div>
       
       
@@ -461,29 +456,6 @@
 
 
               
-                <div class="post-prevnext my-3">
-                  <article class="post-prev col-6">
-                    
-                    
-                      <a href="/2023/07/27/golang/golang-time%E5%8C%85%E7%94%A8%E6%B3%95/" title="golang time包用法">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">golang time包用法</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
-                  </article>
-                  <article class="post-next col-6">
-                    
-                    
-                      <a href="/2023/07/26/k8s/%E4%BD%BF%E7%94%A8kubeadm%E5%AE%89%E8%A3%85%E9%9B%86%E7%BE%A4/" title="使用kubeadm安装集群">
-                        <span class="hidden-mobile">使用kubeadm安装集群</span>
-                        <span class="visible-mobile">下一篇</span>
-                        <i class="iconfont icon-arrowright"></i>
-                      </a>
-                    
-                  </article>
-                </div>
-              
             </div>
 
             
@@ -494,19 +466,6 @@
 
     <div class="side-col d-none d-lg-block col-lg-2">
       
-  <aside class="sidebar" style="margin-left: -1rem">
-    <div id="toc">
-  <p class="toc-header">
-    <i class="iconfont icon-list"></i>
-    <span>目录</span>
-  </p>
-  <div class="toc-body" id="toc-body"></div>
-</div>
-
-
-
-  </aside>
-
 
     </div>
   </div>
@@ -579,7 +538,7 @@
     <div class="footer-inner">
   
     <div class="footer-content">
-       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> <div> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/js/duration.js"></script> </div> 
     </div>
   
   
@@ -608,21 +567,6 @@
 <script  src="/js/events.js" ></script>
 <script  src="/js/plugins.js" ></script>
 
-
-  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
-  <script>
-    (function (window, document) {
-      var typing = Fluid.plugins.typing;
-      var subtitle = document.getElementById('subtitle');
-      if (!subtitle || !typing) {
-        return;
-      }
-      var text = subtitle.getAttribute('data-typed-text');
-      
-        typing(text);
-      
-    })(window, document);
-  </script>
 
 
 

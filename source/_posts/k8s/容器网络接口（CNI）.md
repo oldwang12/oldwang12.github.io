@@ -3,18 +3,15 @@ layout: k8s
 title: 容器网络接口（CNI）
 date: 2023-07-27 14:31:00
 tags: k8s
-categories: k8s
 ---
 
-# CNI
-
-## 1. 交互逻辑
-#### 1.1 Pod IP地址分配机制
+# 1. CNI交互逻辑
+## 1.1 Pod IP地址分配机制
 ![image](pod-allow-ip.png)
-#### 1.2 CRI插件与CNI插件的交互
+## 1.2 CRI插件与CNI插件的交互
 ![cri-cni](cri-cni.png)
 
-#### 1.3 CNI插件间的交互
+## 1.3 CNI插件间的交互
 ![cni](cni-plugins.png)
 
 # 2. flannel 3种模式
@@ -35,19 +32,19 @@ VXLAN是Flannel默认和推荐的模式。当我们使用默认配置安装Flann
 
 ![flannel-vxlan-2](flannel-vxlan-2.png)
 
-#### 大致过程：
+**大致过程:**
 - 发送端：在PodA中发起 ping 10.244.1.21 ，ICMP 报文经过 cni0 网桥后交由 flannel.1 设备处理。 flannel.1 设备是一个VXLAN类型的设备，负责VXLAN封包解包。 因此，在发送端，flannel.1 将原始L2报文封装成VXLAN UDP报文，然后从 eth0 发送。
 - 接收端：Node2收到UDP报文，发现是一个VXLAN类型报文，交由 flannel.1 进行解包。根据解包后得到的原始报文中的目的IP，将原始报文经由 cni0 网桥发送给PodB。
 
-#### 哪些IP要交由 flannel.1 处理?
+**哪些IP要交由 flannel.1 处理?**
 
 flanneld 从 etcd 中可以获取所有节点的子网情况，以此为依据为各节点配置路由，将属于非本节点的子网IP都路由到 flannel.1 处理，本节点的子网路由到 cni0 网桥处理。
 
-#### flannel 封包过程
+**flannel 封包过程**
    
 VXLAN的封包是将二层以太网帧封装到四层UDP报文中的过程。
 
-#### 原始L2帧
+**原始L2帧**
 要生成原始的L2帧， flannel.1 需要得知：
 
 - 内层源/目的IP地址
@@ -69,7 +66,7 @@ VXLAN的封包是将二层以太网帧封装到四层UDP报文中的过程。
 
 ![flannel_packet_1.png](flannel-vxlan-3.png)
 
-#### 外层VXLAN UDP报文
+**外层VXLAN UDP报文**
 要将原始L2帧封装成VXLAN UDP报文， flannel.1 还需要填充源/目的IP地址。前面提到，VTEP是VXLAN隧道的起点或终点。因此，目的IP地址即为对端VTEP的IP地址，通过FDB表获取。在FDB表③中，dst字段表示的即为VXLAN隧道目的端点（对端VTEP）的IP地址，也就是VXLAN DUP报文的目的IP地址。FDB表也是由 flanneld 在每个节点上预设并负责维护的。
 
 FDB表（Forwarding database）用于保存二层设备中MAC地址和端口的关联关系，就像交换机中的MAC地址表一样。在二层设备转发二层以太网帧时，根据FDB表项来找到对应的端口。例如cni0网桥上连接了很多veth pair网卡，当网桥要将以太网帧转发给Pod时，FDB表根据Pod网卡的MAC地址查询FDB表，就能找到其对应的veth网卡，从而实现联通。
@@ -95,7 +92,7 @@ ba:74:f9:db:69:c1 dev flannel.1 dst 192.168.50.3 self permanent
 Flannel的VXLAN模式通过静态配置路由表，ARP表和FDB表的信息，结合VXLAN虚拟网卡 flannel.1 ，实现了一个所有Pod同属一个大二层网络的VXLAN网络模型。
 
 
-## 2.1 host-gw模式
+## 2.2 host-gw模式
 
 ![host-gw模式](flannel-host-gw-1.png)
 
