@@ -8,11 +8,15 @@ categories: k8s
 
 ## 1. 简介
 
-{% note success %}
+{% note primary %}
 k8s 的命令不长，也很好记，但身为一个懒人，我想我可以更简洁、高效。
 
-默认快捷命令保存在 ~/.bashrc 文件。
 {% endnote %}
+
+<!-- more -->
+
+默认快捷命令保存在 ~/.bashrc 文件。
+
 ## 2. 安装
 
 你可以通过该命令一键安装

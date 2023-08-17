@@ -7,6 +7,14 @@ tags: "docker"
 categories: docker
 ---
 
+{% note primary%}
+
+不想记，也记不住
+
+{% endnote %}
+
+<!--more-->
+
 #### 启动一个容器
 
 ```yaml

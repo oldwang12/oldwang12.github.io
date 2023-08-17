@@ -6,17 +6,21 @@ tags: "docker"
 categories: docker
 ---
 
+{% note primary%}
+
+目前大部分使用docker的场景中不单单只是 amd64 平台了有时我们需要再 arm 和 adm64 上都能运行
+
+{% endnote %}
+
 <!--more-->
 
 [参考资料](http://blog.naturelr.cc/2023/06/16/%E4%BD%BF%E7%94%A8buildx%E7%BC%96%E8%AF%91%E5%A4%9A%E5%B9%B3%E5%8F%B0%E9%95%9C%E5%83%8F/)
 
-目前大部分使用docker的场景中不单单只是 amd64 平台了有时我们需要再 arm 和 adm64 上都能运行
+新版本的docker默认自带 buildx
 
-新版本的docker默认自带
+## 1. 创建buildx
 
-#### 创建buildx
-
-- 查看当前buildx实例
+### 1.1 查看当前buildx实例
 
 ```sh
 $ docker buildx ls
@@ -27,7 +31,7 @@ default * docker
 
 > 默认会有个实例叫default，default实例下有一个default的node，一个实例下可以有多个node,星号是默认使用的实例,node有很多种类型
 
-- 创建buildx
+### 1.2 创建buildx
 
 ```shell
 docker buildx create --name all --node local --driver docker-container --platform linux/amd64,linux/arm64,linux/arm/v8 --use
@@ -41,11 +45,11 @@ docker buildx use all
 
 - 当我们执行编译的时候会先下载buildx镜像并运行起来，然后使用这个容器运行的buildx来编译镜像
 
-#### 编译
+## 2. 编译
 
-- --platform执行要编译的平台，其他的参数和普通的build差不多
+**--platform执行要编译的平台，其他的参数和普通的build差不多**
 
-```shell
+```sh
 # 直接上传到仓库
 docker buildx build --platform linux/amd64,linux/arm64,linux/arm -t bearking0425/m3u8-downloader -o type=registry .
 

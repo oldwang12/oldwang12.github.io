@@ -6,9 +6,11 @@ tags: golang
 categories: golang
 ---
 
-{% note success %}
-golang是通过 {% label primary @三色标记法 %} 来进行垃圾回收
+{% note primary %}
+golang是通过 {% label primary @三色标记法 %} 来进行垃圾回收。
 {% endnote %}
+
+<!-- more -->
 
 ## 1. 标记过程
 

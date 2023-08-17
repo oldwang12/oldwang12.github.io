@@ -2,9 +2,17 @@
 layout: linux
 title: nas中重命名文件
 date: 2023-08-08 16:29:04
-tags: shell
+tags: [shell,nas,alist]
 categories: linux
 ---
+
+{% note primary%}
+
+目前使用该脚本来将 alist 中某个项目下的文件由 xx.1.xx 改为 xx.01.xx
+
+{% endnote %}
+
+<!-- more -->
 
 ```sh
 #!/bin/bash

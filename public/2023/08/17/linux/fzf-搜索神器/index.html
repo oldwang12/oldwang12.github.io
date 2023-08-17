@@ -16,15 +16,15 @@
   <meta name="author" content="oldwang12">
   <meta name="keywords" content="">
   
-    <meta name="description" content="模糊搜索神器 1. 配合history1history | fzf | awk &amp;#x27;&amp;#123;print $2&amp;#125;&amp;#x27; | xargs -r -I &amp;#123;&amp;#125; sh -c &quot;&amp;#123;&amp;#125;&quot;  2. 搜索到文件后查看内容1ls -l | fzf | awk &amp;#x27;&amp;#123;print $9&amp;#125;&amp;#x27; | x">
+    <meta name="description" content="模糊搜索神器">
 <meta property="og:type" content="article">
 <meta property="og:title" content="fzf-搜索神器">
 <meta property="og:url" content="http://blog.caiplus.pro/2023/08/17/linux/fzf-%E6%90%9C%E7%B4%A2%E7%A5%9E%E5%99%A8/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="模糊搜索神器 1. 配合history1history | fzf | awk &amp;#x27;&amp;#123;print $2&amp;#125;&amp;#x27; | xargs -r -I &amp;#123;&amp;#125; sh -c &quot;&amp;#123;&amp;#125;&quot;  2. 搜索到文件后查看内容1ls -l | fzf | awk &amp;#x27;&amp;#123;print $9&amp;#125;&amp;#x27; | x">
+<meta property="og:description" content="模糊搜索神器">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-08-17T07:12:07.000Z">
-<meta property="article:modified_time" content="2023-08-17T07:19:03.760Z">
+<meta property="article:modified_time" content="2023-08-17T09:47:27.329Z">
 <meta property="article:author" content="oldwang12">
 <meta property="article:tag" content="linux">
 <meta property="article:tag" content="fzf">
@@ -314,7 +314,12 @@
             
               <div class="markdown-body">
                 
-                <p>模糊搜索神器</p>
+                <div class="note note-primary">
+            <p>模糊搜索神器</p>
+          </div>
+
+<span id="more"></span>
+
 <h2 id="1-配合history"><a href="#1-配合history" class="headerlink" title="1. 配合history"></a>1. 配合history</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-built_in">history</span> | fzf | awk <span class="hljs-string">&#x27;&#123;print $2&#125;&#x27;</span> | xargs -r -I &#123;&#125; sh -c <span class="hljs-string">&quot;&#123;&#125;&quot;</span><br></code></pre></td></tr></table></figure>
 
 <h2 id="2-搜索到文件后查看内容"><a href="#2-搜索到文件后查看内容" class="headerlink" title="2. 搜索到文件后查看内容"></a>2. 搜索到文件后查看内容</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-built_in">ls</span> -l | fzf | awk <span class="hljs-string">&#x27;&#123;print $9&#125;&#x27;</span> | xargs -r -I &#123;&#125; sh -c <span class="hljs-string">&quot;cat &#123;&#125;&quot;</span><br></code></pre></td></tr></table></figure>

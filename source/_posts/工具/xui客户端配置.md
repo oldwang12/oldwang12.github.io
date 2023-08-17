@@ -6,7 +6,14 @@ tags: 工具
 categories: 工具
 ---
 
-注意: 只适用于linux环境，下载 [v2ray-core](https://github.com/v2ray/v2ray-core/releases)，解压后替换 config.yaml 如下。执行 ./v2ray
+{% note primary%}
+
+只适用于linux环境，下载 [v2ray-core](https://github.com/v2ray/v2ray-core/releases)，解压后替换 config.yaml 如下。执行 ./v2ray
+
+{% endnote %}
+
+<!-- more -->
+
 ```yaml
 {
     "log": {

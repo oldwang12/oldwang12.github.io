@@ -5,8 +5,13 @@ date: 2023-08-17 15:12:07
 updated:
 tags: [linux,fzf]
 ---
+{% note primary%}
 
 模糊搜索神器
+
+{% endnote %}
+
+<!-- more -->
 
 ## 1. 配合history
 ```sh

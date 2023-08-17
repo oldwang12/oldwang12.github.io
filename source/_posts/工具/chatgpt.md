@@ -6,6 +6,14 @@ tags: 工具
 categories: 工具
 ---
 
+{% note primary%}
+
+测试 API_KEY 脚本
+
+{% endnote %}
+
+<!-- more -->
+
 #### 测试 key
 ```sh
 curl -sfL https://raw.githubusercontent.com/oldwang12/oldwang12.github.io/master/source/shells/chatgpt_test.sh | bash -s $API_KEY

@@ -6,6 +6,14 @@ tags: golang
 categories: golang
 ---
 
+{% note primary %}
+
+grpc 最基本的使用。
+
+{% endnote %}
+
+<!-- more -->
+
 #### 安装grpc
 ```sh
 go get google.golang.org/grpc@latest

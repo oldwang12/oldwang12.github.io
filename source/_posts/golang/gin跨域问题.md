@@ -5,6 +5,13 @@ date: 2023-07-23 00:14:35
 tags: "golang"
 categories: golang
 ---
+{% note primary%}
+
+解决跨域问题
+
+{% endnote %}
+
+<!--more-->
 
 #### 解决跨域问题
 ```go

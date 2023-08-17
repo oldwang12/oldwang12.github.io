@@ -6,7 +6,13 @@ tags: 工具
 categories: 工具
 ---
 
-vscode 插件
+{% note primary%}
+
+vscode 插件推荐
+
+{% endnote %}
+
+<!-- more -->
 
 #### markdone 预览
 ```

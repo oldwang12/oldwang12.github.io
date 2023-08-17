@@ -6,6 +6,14 @@ tags: golang
 categories: golang
 ---
 
+{% note primary %}
+
+viper配置文件，为项目的启动提速。
+
+{% endnote %}
+
+<!-- more -->
+
 #### 配置文件
 ```yaml
 mysql:

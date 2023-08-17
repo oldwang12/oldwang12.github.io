@@ -6,6 +6,14 @@ tags: golang
 categories: golang
 ---
 
+{% note primary %}
+
+日积月累便封神
+
+{% endnote %}
+
+<!-- more -->
+
 ### 目录
  
 [1. 结构体打印时，%v 和 %+v 的区别](#1)

@@ -16,15 +16,15 @@
   <meta name="author" content="oldwang12">
   <meta name="keywords" content="">
   
-    <meta name="description" content="时间格式123456timelocal, err :&#x3D; time.LoadLocation(&quot;Asia&#x2F;Shanghai&quot;)if err !&#x3D; nil &amp;#123;	panic(err)&amp;#125;time.Local &#x3D; timelocalfmt.Println(time.Now().Local().Format(&quot;2006-01-02 15:04:05&quot;">
+    <meta name="description" content="时间格式、超时处理、定时器。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="golang time包用法">
 <meta property="og:url" content="http://blog.caiplus.pro/2023/07/27/golang/golang-time%E5%8C%85%E7%94%A8%E6%B3%95/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="时间格式123456timelocal, err :&#x3D; time.LoadLocation(&quot;Asia&#x2F;Shanghai&quot;)if err !&#x3D; nil &amp;#123;	panic(err)&amp;#125;time.Local &#x3D; timelocalfmt.Println(time.Now().Local().Format(&quot;2006-01-02 15:04:05&quot;">
+<meta property="og:description" content="时间格式、超时处理、定时器。">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-07-27T07:33:31.000Z">
-<meta property="article:modified_time" content="2023-08-16T10:32:32.206Z">
+<meta property="article:modified_time" content="2023-08-17T09:40:47.319Z">
 <meta property="article:author" content="oldwang12">
 <meta property="article:tag" content="golang">
 <meta name="twitter:card" content="summary_large_image">
@@ -313,7 +313,13 @@
             
               <div class="markdown-body">
                 
-                <h4 id="时间格式"><a href="#时间格式" class="headerlink" title="时间格式"></a>时间格式</h4><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs go">timelocal, err := time.LoadLocation(<span class="hljs-string">&quot;Asia/Shanghai&quot;</span>)<br><span class="hljs-keyword">if</span> err != <span class="hljs-literal">nil</span> &#123;<br>	<span class="hljs-built_in">panic</span>(err)<br>&#125;<br>time.Local = timelocal<br>fmt.Println(time.Now().Local().Format(<span class="hljs-string">&quot;2006-01-02 15:04:05&quot;</span>))<br></code></pre></td></tr></table></figure>
+                <div class="note note-primary">
+            <p>时间格式、超时处理、定时器。</p>
+          </div>
+
+<span id="more"></span>
+
+<h4 id="时间格式"><a href="#时间格式" class="headerlink" title="时间格式"></a>时间格式</h4><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs go">timelocal, err := time.LoadLocation(<span class="hljs-string">&quot;Asia/Shanghai&quot;</span>)<br><span class="hljs-keyword">if</span> err != <span class="hljs-literal">nil</span> &#123;<br>	<span class="hljs-built_in">panic</span>(err)<br>&#125;<br>time.Local = timelocal<br>fmt.Println(time.Now().Local().Format(<span class="hljs-string">&quot;2006-01-02 15:04:05&quot;</span>))<br></code></pre></td></tr></table></figure>
 
 <h4 id="超时处理"><a href="#超时处理" class="headerlink" title="超时处理"></a>超时处理</h4><ul>
 <li><ol>
@@ -399,7 +405,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>更新于</div>
-          <div>2023年8月16日</div>
+          <div>2023年8月17日</div>
         </div>
       
       

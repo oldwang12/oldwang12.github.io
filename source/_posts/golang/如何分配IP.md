@@ -7,12 +7,15 @@ categories: golang
 ---
 
 
-#### 介绍
+{% note primary%}
 
 当我们有一段或者多段IP时，如何从IP池中分配出一个IP？
 
+{% endnote %}
 
-#### 创建配置文件
+<!-- more -->
+
+## 创建配置文件
 
 ```sh
 cat <<EOF > ipam.json
@@ -31,6 +34,6 @@ cat <<EOF > ipam.json
 EOF
 ```
 
-#### 代码实现
+## 代码实现
 
 [ipam](https://github.com/oldwang12/ipam)

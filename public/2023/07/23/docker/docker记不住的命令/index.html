@@ -16,15 +16,15 @@
   <meta name="author" content="oldwang12">
   <meta name="keywords" content="">
   
-    <meta name="description" content="启动一个容器1234# -p: 8888为主机端口，3306为容器端口# -e: 环境变量设置# 最后的 mysql 为镜像 docker run -itd --name mysql-test -p 8888:3306 -e MYSQL_ROOT_PASSWORD&#x3D;123456 mysql 列出所有的容器 ID1docker ps -aq  停止所有的容器1docker stop $(docker">
+    <meta name="description" content="不想记，也记不住">
 <meta property="og:type" content="article">
 <meta property="og:title" content="docker记不住的命令">
 <meta property="og:url" content="http://blog.caiplus.pro/2023/07/23/docker/docker%E8%AE%B0%E4%B8%8D%E4%BD%8F%E7%9A%84%E5%91%BD%E4%BB%A4/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="启动一个容器1234# -p: 8888为主机端口，3306为容器端口# -e: 环境变量设置# 最后的 mysql 为镜像 docker run -itd --name mysql-test -p 8888:3306 -e MYSQL_ROOT_PASSWORD&#x3D;123456 mysql 列出所有的容器 ID1docker ps -aq  停止所有的容器1docker stop $(docker">
+<meta property="og:description" content="不想记，也记不住">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-07-22T16:20:28.000Z">
-<meta property="article:modified_time" content="2023-08-16T10:32:57.699Z">
+<meta property="article:modified_time" content="2023-08-17T10:01:21.769Z">
 <meta property="article:author" content="oldwang12">
 <meta property="article:tag" content="docker">
 <meta name="twitter:card" content="summary_large_image">
@@ -313,7 +313,13 @@
             
               <div class="markdown-body">
                 
-                <h4 id="启动一个容器"><a href="#启动一个容器" class="headerlink" title="启动一个容器"></a>启动一个容器</h4><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-comment"># -p: 8888为主机端口，3306为容器端口</span><br><span class="hljs-comment"># -e: 环境变量设置</span><br><span class="hljs-comment"># 最后的 mysql 为镜像 </span><br><span class="hljs-string">docker</span> <span class="hljs-string">run</span> <span class="hljs-string">-itd</span> <span class="hljs-string">--name</span> <span class="hljs-string">mysql-test</span> <span class="hljs-string">-p</span> <span class="hljs-number">8888</span><span class="hljs-string">:3306</span> <span class="hljs-string">-e</span> <span class="hljs-string">MYSQL_ROOT_PASSWORD=123456</span> <span class="hljs-string">mysql</span><br></code></pre></td></tr></table></figure>
+                <div class="note note-primary">
+            <p>不想记，也记不住</p>
+          </div>
+
+<span id="more"></span>
+
+<h4 id="启动一个容器"><a href="#启动一个容器" class="headerlink" title="启动一个容器"></a>启动一个容器</h4><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-comment"># -p: 8888为主机端口，3306为容器端口</span><br><span class="hljs-comment"># -e: 环境变量设置</span><br><span class="hljs-comment"># 最后的 mysql 为镜像 </span><br><span class="hljs-string">docker</span> <span class="hljs-string">run</span> <span class="hljs-string">-itd</span> <span class="hljs-string">--name</span> <span class="hljs-string">mysql-test</span> <span class="hljs-string">-p</span> <span class="hljs-number">8888</span><span class="hljs-string">:3306</span> <span class="hljs-string">-e</span> <span class="hljs-string">MYSQL_ROOT_PASSWORD=123456</span> <span class="hljs-string">mysql</span><br></code></pre></td></tr></table></figure>
 <h4 id="列出所有的容器-ID"><a href="#列出所有的容器-ID" class="headerlink" title="列出所有的容器 ID"></a>列出所有的容器 ID</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">docker ps -aq<br></code></pre></td></tr></table></figure>
 
 <h4 id="停止所有的容器"><a href="#停止所有的容器" class="headerlink" title="停止所有的容器"></a>停止所有的容器</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">docker stop $(docker ps -aq)<br></code></pre></td></tr></table></figure>
@@ -396,7 +402,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>更新于</div>
-          <div>2023年8月16日</div>
+          <div>2023年8月17日</div>
         </div>
       
       

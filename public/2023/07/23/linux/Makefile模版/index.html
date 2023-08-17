@@ -16,15 +16,15 @@
   <meta name="author" content="oldwang12">
   <meta name="keywords" content="">
   
-    <meta name="description" content="123456789101112.PHONY: git_push docker_build all help# 获取 git 项目 COMMIT_HASHCOMMIT_HASH &#x3D; $(shell git rev-parse --short&#x3D;7 HEAD)git_push: ## 上传代码到 Github	git add .	git commit -m &quot;&#96;date &amp;#x27;+%Y&#x2F;%">
+    <meta name="description" content="致力于打造一个最全的makefile模版">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Makefile模版">
 <meta property="og:url" content="http://blog.caiplus.pro/2023/07/23/linux/Makefile%E6%A8%A1%E7%89%88/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="123456789101112.PHONY: git_push docker_build all help# 获取 git 项目 COMMIT_HASHCOMMIT_HASH &#x3D; $(shell git rev-parse --short&#x3D;7 HEAD)git_push: ## 上传代码到 Github	git add .	git commit -m &quot;&#96;date &amp;#x27;+%Y&#x2F;%">
+<meta property="og:description" content="致力于打造一个最全的makefile模版">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-07-22T16:15:50.000Z">
-<meta property="article:modified_time" content="2023-08-16T10:34:29.039Z">
+<meta property="article:modified_time" content="2023-08-17T10:01:38.344Z">
 <meta property="article:author" content="oldwang12">
 <meta property="article:tag" content="linux">
 <meta name="twitter:card" content="summary_large_image">
@@ -247,7 +247,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          530 字
+          552 字
         
       </span>
     
@@ -313,9 +313,15 @@
             
               <div class="markdown-body">
                 
-                <figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs makefile"><span class="hljs-meta"><span class="hljs-keyword">.PHONY</span>: git_push docker_build all help</span><br><br><span class="hljs-comment"># 获取 git 项目 COMMIT_HASH</span><br>COMMIT_HASH = <span class="hljs-variable">$(<span class="hljs-built_in">shell</span> git rev-parse --short=7 HEAD)</span><br><br><span class="hljs-section">git_push: ## 上传代码到 Github</span><br>	git add .<br>	git commit -m <span class="hljs-string">&quot;`date &#x27;+%Y/%m/%d %H:%M:%S&#x27;`&quot;</span><br>	git push origin dev<br><br><span class="hljs-section">help: ## 查看帮助</span><br>	@awk &#x27;BEGIN &#123;FS = <span class="hljs-string">&quot;:.*?## &quot;</span>&#125; /^[a-zA-Z_-]+:.*?<span class="hljs-comment">## / &#123;sub(&quot;\\\\n&quot;,sprintf(&quot;\n%22c&quot;,&quot; &quot;), $$2);printf &quot; \033[36m%-20s\033[0m  %s\n&quot;, $$1, $$2&#125;&#x27; $(MAKEFILE_LIST)</span><br></code></pre></td></tr></table></figure>
+                <div class="note note-primary">
+            <p>致力于打造一个最全的makefile模版</p>
+          </div>
 
-<h4 id="指定参数"><a href="#指定参数" class="headerlink" title="指定参数"></a>指定参数</h4><figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs makefile"><span class="hljs-section">commit: </span><br>	git commit -m <span class="hljs-string">&quot;<span class="hljs-variable">$(msg)</span>&quot;</span><br></code></pre></td></tr></table></figure>
+<span id="more"></span>
+
+<h2 id="模版"><a href="#模版" class="headerlink" title="模版"></a>模版</h2><figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs makefile"><span class="hljs-meta"><span class="hljs-keyword">.PHONY</span>: git_push docker_build all help</span><br><br><span class="hljs-comment"># 获取 git 项目 COMMIT_HASH</span><br>COMMIT_HASH = <span class="hljs-variable">$(<span class="hljs-built_in">shell</span> git rev-parse --short=7 HEAD)</span><br><br><span class="hljs-section">git_push: ## 上传代码到 Github</span><br>	git add .<br>	git commit -m <span class="hljs-string">&quot;`date &#x27;+%Y/%m/%d %H:%M:%S&#x27;`&quot;</span><br>	git push origin dev<br><br><span class="hljs-section">help: ## 查看帮助</span><br>	@awk &#x27;BEGIN &#123;FS = <span class="hljs-string">&quot;:.*?## &quot;</span>&#125; /^[a-zA-Z_-]+:.*?<span class="hljs-comment">## / &#123;sub(&quot;\\\\n&quot;,sprintf(&quot;\n%22c&quot;,&quot; &quot;), $$2);printf &quot; \033[36m%-20s\033[0m  %s\n&quot;, $$1, $$2&#125;&#x27; $(MAKEFILE_LIST)</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="指定参数"><a href="#指定参数" class="headerlink" title="指定参数"></a>指定参数</h2><figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs makefile"><span class="hljs-section">commit: </span><br>	git commit -m <span class="hljs-string">&quot;<span class="hljs-variable">$(msg)</span>&quot;</span><br></code></pre></td></tr></table></figure>
 
 <p>使用如下</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">make commit msg=<span class="hljs-string">&quot;makefile 测试&quot;</span>              <br></code></pre></td></tr></table></figure>
@@ -382,7 +388,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>更新于</div>
-          <div>2023年8月16日</div>
+          <div>2023年8月17日</div>
         </div>
       
       

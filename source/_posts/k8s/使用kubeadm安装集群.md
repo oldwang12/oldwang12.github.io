@@ -6,6 +6,14 @@ tags: k8s
 categories: k8s
 ---
 
+{% note primary%}
+
+目前最主流的安装方式，使用kubeadm安装集群。
+
+{% endnote %}
+
+<!-- more -->
+
 ## 图解k8s
 ![master-worker](master-worker.png)
 ## 1. containerd
@@ -97,7 +105,7 @@ conntrack -L
 
 ## 6. 设置内核参数
 
-{% note warning %}
+{% note primary %}
 如果不设置参数，使用 kubeadm join 时可能会导致报错。
 {% endnote %}
 

@@ -7,7 +7,12 @@ categories: linux
 sticky: 1000
 ---
 
+{% note primary%}
+
 分为文件操作、网络管理、系统管理、进程管理、安全性来归纳linux基本使用
+
+{% endnote %}
+
 <!-- more -->
 
 

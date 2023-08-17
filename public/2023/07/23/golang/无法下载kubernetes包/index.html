@@ -16,17 +16,19 @@
   <meta name="author" content="oldwang12">
   <meta name="keywords" content="">
   
-    <meta name="description" content="如果我们直接 go get k8s.io&#x2F;&amp;#107;&amp;#x75;&amp;#x62;&amp;#x65;&amp;#x72;&amp;#110;&amp;#x65;&amp;#x74;&amp;#x65;&amp;#x73;&amp;#64;&amp;#x76;&amp;#x31;&amp;#x2e;&amp;#x31;&amp;#x39;&amp;#46;&amp;#x32; 下载依赖，会出现以下错误: 1234go get k8s.io&#x2F;kubernetes@v1.19.2go: downloading k">
+    <meta name="description" content="解决无法直接下载 k8s.io&#x2F;kubernetes 包问题">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Golang 无法下载kubernetes包">
 <meta property="og:url" content="http://blog.caiplus.pro/2023/07/23/golang/%E6%97%A0%E6%B3%95%E4%B8%8B%E8%BD%BDkubernetes%E5%8C%85/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="如果我们直接 go get k8s.io&#x2F;&amp;#107;&amp;#x75;&amp;#x62;&amp;#x65;&amp;#x72;&amp;#110;&amp;#x65;&amp;#x74;&amp;#x65;&amp;#x73;&amp;#64;&amp;#x76;&amp;#x31;&amp;#x2e;&amp;#x31;&amp;#x39;&amp;#46;&amp;#x32; 下载依赖，会出现以下错误: 1234go get k8s.io&#x2F;kubernetes@v1.19.2go: downloading k">
+<meta property="og:description" content="解决无法直接下载 k8s.io&#x2F;kubernetes 包问题">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-07-22T16:11:45.000Z">
-<meta property="article:modified_time" content="2023-08-16T10:32:23.992Z">
+<meta property="article:modified_time" content="2023-08-17T09:40:40.067Z">
 <meta property="article:author" content="oldwang12">
+<meta property="article:tag" content="k8s">
 <meta property="article:tag" content="golang">
+<meta property="article:tag" content="mod">
 <meta name="twitter:card" content="summary_large_image">
   
   
@@ -313,7 +315,13 @@
             
               <div class="markdown-body">
                 
-                <p>如果我们直接 go get k8s.io&#x2F;<a href="mailto:&#107;&#x75;&#x62;&#x65;&#x72;&#110;&#x65;&#x74;&#x65;&#x73;&#64;&#x76;&#x31;&#x2e;&#x31;&#x39;&#46;&#x32;">&#107;&#x75;&#x62;&#x65;&#x72;&#110;&#x65;&#x74;&#x65;&#x73;&#64;&#x76;&#x31;&#x2e;&#x31;&#x39;&#46;&#x32;</a> 下载依赖，会出现以下错误:</p>
+                <div class="note note-primary">
+            <p>解决无法直接下载 k8s.io&#x2F;kubernetes 包问题</p>
+          </div>
+
+<span id="more"></span>
+
+<p>如果我们直接 go get k8s.io&#x2F;<a href="mailto:&#107;&#117;&#98;&#101;&#114;&#110;&#101;&#x74;&#101;&#115;&#64;&#x76;&#49;&#46;&#49;&#x39;&#46;&#50;">&#107;&#117;&#98;&#101;&#114;&#110;&#101;&#x74;&#101;&#115;&#64;&#x76;&#49;&#46;&#49;&#x39;&#46;&#50;</a> 下载依赖，会出现以下错误:</p>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-keyword">go</span> get k8s.io/kubernetes@v1<span class="hljs-number">.19</span><span class="hljs-number">.2</span><br><span class="hljs-keyword">go</span>: downloading k8s.io/kubernetes v1<span class="hljs-number">.19</span><span class="hljs-number">.2</span><br><span class="hljs-keyword">go</span>: k8s.io/kubernetes@v1<span class="hljs-number">.19</span><span class="hljs-number">.2</span> requires<br>        k8s.io/api@v0<span class="hljs-number">.0</span><span class="hljs-number">.0</span>: reading k8s.io/api/<span class="hljs-keyword">go</span>.mod at revision v0<span class="hljs-number">.0</span><span class="hljs-number">.0</span>:<br></code></pre></td></tr></table></figure>
 
 <p>错误的原因是在kubernetes主仓中，也使用了公共库，不过go.mod文件中所有公共库版本都指定为了v0.0.0（显然这个版本不存在）， 然后通过Go Module的replace机制，将版本替换为子目录.&#x2F;staging&#x2F;src&#x2F;k8s.io对应的依赖。</p>
@@ -353,7 +361,11 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
+        <a href="/tags/k8s/" class="print-no-link">#k8s</a>
+      
         <a href="/tags/golang/" class="print-no-link">#golang</a>
+      
+        <a href="/tags/mod/" class="print-no-link">#mod</a>
       
     </div>
   
@@ -384,7 +396,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>更新于</div>
-          <div>2023年8月16日</div>
+          <div>2023年8月17日</div>
         </div>
       
       

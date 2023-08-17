@@ -251,15 +251,15 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/2023/08/08/linux/nas%E4%B8%AD%E9%87%8D%E5%91%BD%E5%90%8D%E6%96%87%E4%BB%B6/" target="_self">
-          nas中重命名文件
+        <a href="/2023/08/17/linux/fzf-%E6%90%9C%E7%B4%A2%E7%A5%9E%E5%99%A8/" target="_self">
+          fzf-搜索神器
         </a>
       </h2>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/2023/08/08/linux/nas%E4%B8%AD%E9%87%8D%E5%91%BD%E5%90%8D%E6%96%87%E4%BB%B6/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/2023/08/17/linux/fzf-%E6%90%9C%E7%B4%A2%E7%A5%9E%E5%99%A8/" target="_self">
         <div>
-          12345678910111213#!/bin/bashdir=$1  # 指定目录路径# 进入目录cd &quot;$dir&quot; || exit# 替换文件名中的abcd1至abcd9为abcd01至abcd09for file in *S01E[1-9].*; do  new_file=$(echo &quot;$file&quot; | sed &#x27;s/S01E\([1-9]
+          模糊搜索神器
         </div>
       </a>
 
@@ -267,69 +267,8 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2023-08-08 16:29" pubdate>
-              2023-08-08
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/linux/" class="category-chain-item">linux</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/shell/">#shell</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h2 class="index-header">
-        
-        <a href="/2023/07/23/linux/Makefile%E6%A8%A1%E7%89%88/" target="_self">
-          Makefile模版
-        </a>
-      </h2>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2023/07/23/linux/Makefile%E6%A8%A1%E7%89%88/" target="_self">
-        <div>
-          123456789101112.PHONY: git_push docker_build all help# 获取 git 项目 COMMIT_HASHCOMMIT_HASH = $(shell git rev-parse --short=7 HEAD)git_push: ## 上传代码到 Github	git add .	git commit -m &quot;`date &#x27;+%Y/%
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2023-07-23 00:15" pubdate>
-              2023-07-23
+            <time datetime="2023-08-17 15:12" pubdate>
+              2023-08-17
             </time>
           </div>
         
@@ -361,6 +300,8 @@
             
               <a href="/tags/linux/">#linux</a>
             
+              <a href="/tags/fzf/">#fzf</a>
+            
           </div>
         
       </div>
@@ -381,7 +322,7 @@
       
       <a class="index-excerpt index-excerpt__noimg" href="/2023/07/23/k8s/k8s%E8%AE%B0%E4%B8%8D%E4%BD%8F%E7%9A%84%E5%91%BD%E4%BB%A4/" target="_self">
         <div>
-          创建pod1kubectl run my-pod --image=nginx:latest 更新镜像1kubectl set image deployment/provider provider=provider:latest  给 node&#x2F;pod 打标签1kubectl label nodes kube-node node=kube-node  通过标签过滤1kubectl get
+          懒人笔记
         </div>
       </a>
 
@@ -434,15 +375,15 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/2023/07/25/k8s/%E4%BD%BF%E7%94%A8client-go%E6%93%8D%E4%BD%9C%E8%87%AA%E5%AE%9A%E4%B9%89CRD/" target="_self">
-          使用client-go操作自定义CRD
+        <a href="/2023/07/27/k8s/%E5%AE%B9%E5%99%A8%E7%BD%91%E7%BB%9C%E6%8E%A5%E5%8F%A3%EF%BC%88CNI%EF%BC%89/" target="_self">
+          容器网络接口（CNI）
         </a>
       </h2>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/2023/07/25/k8s/%E4%BD%BF%E7%94%A8client-go%E6%93%8D%E4%BD%9C%E8%87%AA%E5%AE%9A%E4%B9%89CRD/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/2023/07/27/k8s/%E5%AE%B9%E5%99%A8%E7%BD%91%E7%BB%9C%E6%8E%A5%E5%8F%A3%EF%BC%88CNI%EF%BC%89/" target="_self">
         <div>
-          介绍简洁、高效、无需定义 CR 相关结构体，实现了四种方法： Get、List、Update、Delete 来操作 CR。 个人觉得这只适合对 CR 字段更改不是很多的环境，如果参数过多可能会有些繁琐。 代码实现1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515
+          详解 cni 中 flannel、calico 的原理实现。
         </div>
       </a>
 
@@ -450,373 +391,7 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2023-07-25 17:18" pubdate>
-              2023-07-25
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/k8s/" class="category-chain-item">k8s</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/k8s/">#k8s</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h2 class="index-header">
-        
-        <a href="/2023/08/03/k8s/%E8%BF%9B%E5%85%A5pod%E7%BD%91%E7%BB%9C%E5%91%BD%E5%90%8D%E7%A9%BA%E9%97%B4/" target="_self">
-          进入pod网络命名空间
-        </a>
-      </h2>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2023/08/03/k8s/%E8%BF%9B%E5%85%A5pod%E7%BD%91%E7%BB%9C%E5%91%BD%E5%90%8D%E7%A9%BA%E9%97%B4/" target="_self">
-        <div>
-          1. 找到 pod 所在节点123k get po -owidessh root@xx.xx.xx.xx  2. 获取容器 pid12345# dockerdocker inspect --format &#x27;&#123;&#123; .State.Pid &#125;&#125;&#x27; 容器名/ID# containerdcrictl inspect 容器ID | grep pid
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2023-08-03 16:35" pubdate>
-              2023-08-03
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/k8s/" class="category-chain-item">k8s</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/k8s/">#k8s</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h2 class="index-header">
-        
-        <a href="/2023/07/28/%E5%B7%A5%E5%85%B7/xui%E5%AE%A2%E6%88%B7%E7%AB%AF%E9%85%8D%E7%BD%AE/" target="_self">
-          xui客户端配置
-        </a>
-      </h2>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2023/07/28/%E5%B7%A5%E5%85%B7/xui%E5%AE%A2%E6%88%B7%E7%AB%AF%E9%85%8D%E7%BD%AE/" target="_self">
-        <div>
-          注意: 只适用于linux环境，下载 v2ray-core，解压后替换 config.yaml 如下。执行 .&#x2F;v2ray 1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950&#123;    &quot;log&quot;: &#123;        &
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2023-07-28 15:46" pubdate>
-              2023-07-28
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/%E5%B7%A5%E5%85%B7/" class="category-chain-item">工具</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E5%B7%A5%E5%85%B7/">#工具</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h2 class="index-header">
-        
-        <a href="/2023/07/23/%E5%B7%A5%E5%85%B7/vscode%E5%BF%85%E5%A4%87%E6%8F%92%E4%BB%B6/" target="_self">
-          vscode必备插件
-        </a>
-      </h2>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2023/07/23/%E5%B7%A5%E5%85%B7/vscode%E5%BF%85%E5%A4%87%E6%8F%92%E4%BB%B6/" target="_self">
-        <div>
-          vscode 插件 markdone 预览1Markdown Preview Enhanced  git 查看历史提交1Git History  yaml自动补全12* git: line* kubernetes、yaml  自动生成图1markmap  远程开发1Remote - SSH  html 预览1HTML Preview  生成脑图1MarkMap  粘贴图片1Pasts Image
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2023-07-23 00:17" pubdate>
-              2023-07-23
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/%E5%B7%A5%E5%85%B7/" class="category-chain-item">工具</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E5%B7%A5%E5%85%B7/">#工具</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h2 class="index-header">
-        
-        <a href="/2023/07/23/%E5%B7%A5%E5%85%B7/Macos-%E5%A5%BD%E7%94%A8%E5%B7%A5%E5%85%B7%E6%8E%A8%E8%8D%90/" target="_self">
-          Macos 好用工具推荐
-        </a>
-      </h2>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2023/07/23/%E5%B7%A5%E5%85%B7/Macos-%E5%A5%BD%E7%94%A8%E5%B7%A5%E5%85%B7%E6%8E%A8%E8%8D%90/" target="_self">
-        <div>
-          翻译工具1沙拉查词  截屏1snipaste  剪切板（复制多个）1icopy  内存、CPU、磁盘占用1iStat Menus
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2023-07-23 00:17" pubdate>
-              2023-07-23
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/%E5%B7%A5%E5%85%B7/" class="category-chain-item">工具</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E5%B7%A5%E5%85%B7/">#工具</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h2 class="index-header">
-        
-        <a href="/2023/07/23/%E5%B7%A5%E5%85%B7/chrome%E6%B5%8F%E8%A7%88%E5%99%A8%E5%A6%82%E4%BD%95%E5%B1%8F%E8%94%BD%E6%97%A0%E6%95%88%E8%AF%B7%E6%B1%82/" target="_self">
-          chrome浏览器如何屏蔽无效请求
-        </a>
-      </h2>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2023/07/23/%E5%B7%A5%E5%85%B7/chrome%E6%B5%8F%E8%A7%88%E5%99%A8%E5%A6%82%E4%BD%95%E5%B1%8F%E8%94%BD%E6%97%A0%E6%95%88%E8%AF%B7%E6%B1%82/" target="_self">
-        <div>
-          如何屏蔽掉无用的网络请求1-/.*.js|.*.php|.*.png|.*.ico|.*.css|.*.gif/
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2023-07-23 00:19" pubdate>
-              2023-07-23
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/%E5%B7%A5%E5%85%B7/" class="category-chain-item">工具</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E5%B7%A5%E5%85%B7/">#工具</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h2 class="index-header">
-        
-        <a href="/2023/07/27/docker/Dockerfile%E6%A8%A1%E7%89%88/" target="_self">
-          Dockerfile模版
-        </a>
-      </h2>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2023/07/27/docker/Dockerfile%E6%A8%A1%E7%89%88/" target="_self">
-        <div>
-          1. 一个适用于我自己的模板1234567891011121314151617181920212223242526FROM golang:1.20 as builderWORKDIR /root/COPY . .RUN GOOS=linux GOARCH=amd64 CGO_ENABLED=0 GOFLAGS=-mod=vendor go build -o app main.go# =======
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2023-07-27 15:34" pubdate>
+            <time datetime="2023-07-27 14:31" pubdate>
               2023-07-27
             </time>
           </div>
@@ -832,7 +407,7 @@
     
       <span class="category-chain">
         
-  <a href="/categories/docker/" class="category-chain-item">docker</a>
+  <a href="/categories/k8s/" class="category-chain-item">k8s</a>
   
   
 
@@ -847,7 +422,440 @@
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/docker/">#docker</a>
+              <a href="/tags/k8s/">#k8s</a>
+            
+              <a href="/tags/cni/">#cni</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2023/07/23/k8s/%E5%AE%89%E8%A3%85kubectl%E5%BF%AB%E6%8D%B7%E5%91%BD%E4%BB%A4/" target="_self">
+          安装kubectl快捷命令
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2023/07/23/k8s/%E5%AE%89%E8%A3%85kubectl%E5%BF%AB%E6%8D%B7%E5%91%BD%E4%BB%A4/" target="_self">
+        <div>
+          1. 简介             k8s 的命令不长，也很好记，但身为一个懒人，我想我可以更简洁、高效。
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2023-07-23 15:12" pubdate>
+              2023-07-23
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/k8s/" class="category-chain-item">k8s</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/k8s/">#k8s</a>
+            
+              <a href="/tags/kubectl/">#kubectl</a>
+            
+              <a href="/tags/alias/">#alias</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2023/07/29/golang/viper%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/" target="_self">
+          viper配置文件
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2023/07/29/golang/viper%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/" target="_self">
+        <div>
+          viper配置文件，为项目的启动提速。
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2023-07-29 13:08" pubdate>
+              2023-07-29
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/golang/" class="category-chain-item">golang</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/golang/">#golang</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2023/07/31/golang/grpc%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8/" target="_self">
+          grpc如何使用
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2023/07/31/golang/grpc%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8/" target="_self">
+        <div>
+          grpc 最基本的使用。
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2023-07-31 17:04" pubdate>
+              2023-07-31
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/golang/" class="category-chain-item">golang</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/golang/">#golang</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2023/07/29/golang/golang%E9%9D%A2%E8%AF%95/" target="_self">
+          golang面试
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2023/07/29/golang/golang%E9%9D%A2%E8%AF%95/" target="_self">
+        <div>
+          日积月累便封神
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2023-07-29 13:20" pubdate>
+              2023-07-29
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/golang/" class="category-chain-item">golang</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/golang/">#golang</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2023/08/16/golang/golang%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6/" target="_self">
+          golang垃圾回收
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2023/08/16/golang/golang%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6/" target="_self">
+        <div>
+          golang是通过 三色标记法 来进行垃圾回收。
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2023-08-16 17:17" pubdate>
+              2023-08-16
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/golang/" class="category-chain-item">golang</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/golang/">#golang</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2023/07/27/golang/golang-time%E5%8C%85%E7%94%A8%E6%B3%95/" target="_self">
+          golang time包用法
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2023/07/27/golang/golang-time%E5%8C%85%E7%94%A8%E6%B3%95/" target="_self">
+        <div>
+          时间格式、超时处理、定时器。
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2023-07-27 15:33" pubdate>
+              2023-07-27
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/golang/" class="category-chain-item">golang</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/golang/">#golang</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2023/07/23/golang/gin%E8%B7%A8%E5%9F%9F%E9%97%AE%E9%A2%98/" target="_self">
+          gin跨域问题
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2023/07/23/golang/gin%E8%B7%A8%E5%9F%9F%E9%97%AE%E9%A2%98/" target="_self">
+        <div>
+          解决跨域问题
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2023-07-23 00:14" pubdate>
+              2023-07-23
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/golang/" class="category-chain-item">golang</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/golang/">#golang</a>
             
           </div>
         

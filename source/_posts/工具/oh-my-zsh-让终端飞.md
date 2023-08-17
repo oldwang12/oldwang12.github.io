@@ -6,6 +6,14 @@ tags: [工具,oh my zsh]
 categories: 工具
 ---
 
+{% note primary%}
+
+oh my zsh 让终端飞。
+
+{% endnote %}
+
+<!-- more -->
+
 
 ```sh
 # yum先安装，如果是ubuntu使用 apt-get install zsh 

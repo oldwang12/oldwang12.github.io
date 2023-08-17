@@ -6,6 +6,13 @@ tags: 工具
 categories: 工具
 ---
 
+{% note primary%}
+
+重在收集，纯粹个人认为好用。
+
+{% endnote %}
+
+<!-- more -->
 #### 翻译工具
 ```
 沙拉查词

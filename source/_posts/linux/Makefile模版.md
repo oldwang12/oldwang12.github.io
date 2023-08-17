@@ -6,6 +6,16 @@ tags: linux
 categories: linux
 ---
 
+{% note primary%}
+
+致力于打造一个最全的makefile模版
+
+{% endnote %}
+
+<!-- more -->
+
+## 模版
+
 ```makefile
 .PHONY: git_push docker_build all help
 
@@ -21,7 +31,7 @@ help: ## 查看帮助
 	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_-]+:.*?## / {sub("\\\\n",sprintf("\n%22c"," "), $$2);printf " \033[36m%-20s\033[0m  %s\n", $$1, $$2}' $(MAKEFILE_LIST)
 ```
 
-#### 指定参数
+## 指定参数
 
 ```makefile
 commit: 

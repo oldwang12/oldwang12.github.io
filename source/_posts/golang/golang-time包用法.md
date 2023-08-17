@@ -6,6 +6,14 @@ tags: golang
 categories: golang
 ---
 
+{% note primary %}
+
+时间格式、超时处理、定时器。
+
+{% endnote %}
+
+<!--more-->
+
 #### 时间格式
 ```go
 	timelocal, err := time.LoadLocation("Asia/Shanghai")

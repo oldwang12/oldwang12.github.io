@@ -8,7 +8,7 @@ sticky: 999
 # index_img: /img/titles/markdown.png
 ---
 
-{% note warning%}
+{% note primary%}
 
 有一些语法可能只能在 hexo fluid 主题中使用。
 

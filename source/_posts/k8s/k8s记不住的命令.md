@@ -6,26 +6,32 @@ tags: k8s
 categories: k8s
 ---
 
-#### 创建pod
+{% note primary%}
+懒人笔记
+{% endnote %}
+
+
+<!-- more -->
+## 创建pod
 ```sh
 kubectl run my-pod --image=nginx:latest
 ```
-#### 更新镜像
+## 更新镜像
 ```sh
 kubectl set image deployment/provider provider=provider:latest
 ```
 
-#### 给 node/pod 打标签
+## 给 node/pod 打标签
 ```sh
 kubectl label nodes kube-node node=kube-node
 ```
 
-#### 通过标签过滤
+## 通过标签过滤
 ```sh
 kubectl get node -l "node=kube-node"
 ```
 
-#### kubectl cp
+## kubectl cp
 ```sh
 # 拷贝pod数据到本地
 kubectl cp <some-namespace>/<some-pod>:/tmp/foo /tmp/foo
@@ -34,7 +40,7 @@ kubectl cp <some-namespace>/<some-pod>:/tmp/foo /tmp/foo
 kubectl cp /tmp/foo <some-namespace>/<some-pod>:/tmp/foo
 ```
 
-#### 回滚版本
+## 回滚版本
 ```sh
 # 查看历史版本
 kubectl rollout history deployment provider
@@ -46,7 +52,7 @@ kubectl rollout undo deployment provider
 kubectl rollout undo deployment provider --to-revision=2
 ```
 
-#### 污点
+## 污点
 ```sh
 # <node-name> 是要添加污点的节点的名称。
 # <taint-key> 是污点的键。
@@ -58,7 +64,7 @@ kubectl rollout undo deployment provider --to-revision=2
 kubectl taint nodes <node-name> <taint-key>=<taint-value>:<taint-effect>
 ```
 
-#### 探测
+## 探测
 * livenessProbe: 存活探测
     * failureThreshold: 表示连续失败探测的次数，认为容器已经死亡，默认为3次
     * initialDelaySeconds: 表示在容器启动后多少秒开始进行探测，默认值为10秒。
@@ -87,4 +93,27 @@ readinessProbe:
   periodSeconds: 5
   successThreshold: 1
   timeoutSeconds: 3
+```
+
+## 进入pod命名空间
+**1. 找到 pod 所在节点**
+```sh
+k get po -owide
+
+ssh root@xx.xx.xx.xx
+```
+
+**2. 获取容器 pid**
+
+```sh
+# docker
+docker inspect --format '{{ .State.Pid }}' 容器名/ID
+
+# containerd
+crictl inspect 容器ID | grep pid
+```
+
+**3. 进入容器网络**
+```sh
+nsenter -t $PID -n
 ```

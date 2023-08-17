@@ -2,9 +2,17 @@
 layout: k8s
 title: 容器网络接口（CNI）
 date: 2023-07-27 14:31:00
-tags: k8s
+tags: [k8s,cni]
 categories: k8s
 ---
+
+{% note primary %}
+
+详解 cni 中 flannel、calico 的原理实现。
+
+{% endnote %}
+
+<!-- more -->
 
 # 1. CNI交互逻辑
 ## 1.1 Pod IP地址分配机制
@@ -149,6 +157,6 @@ Calico使用的这个tunl0设备，是一个IP隧道（IP tunnel）设备
 #### 3.2.2 工作原理
 ![bgp](calico-bgp-1.png)
 
-## 参考文章
+# 参考文章
 https://ost.51cto.com/posts/15845
 https://juejin.cn/post/6994825163757846565

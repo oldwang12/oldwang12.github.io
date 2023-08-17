@@ -16,22 +16,22 @@
   <meta name="author" content="oldwang12">
   <meta name="keywords" content="">
   
-    <meta name="description" content="1. 一个适用于我自己的模板1234567891011121314151617181920212223242526FROM golang:1.20 as builderWORKDIR &#x2F;root&#x2F;COPY . .RUN GOOS&#x3D;linux GOARCH&#x3D;amd64 CGO_ENABLED&#x3D;0 GOFLAGS&#x3D;-mod&#x3D;vendor go build -o app main.go# &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;">
+    <meta name="description" content="一个适用于我自己的模板，附带一些命令讲解。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Dockerfile模版">
+<meta property="og:title" content="Dockerfile 概括">
 <meta property="og:url" content="http://blog.caiplus.pro/2023/07/27/docker/Dockerfile%E6%A8%A1%E7%89%88/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="1. 一个适用于我自己的模板1234567891011121314151617181920212223242526FROM golang:1.20 as builderWORKDIR &#x2F;root&#x2F;COPY . .RUN GOOS&#x3D;linux GOARCH&#x3D;amd64 CGO_ENABLED&#x3D;0 GOFLAGS&#x3D;-mod&#x3D;vendor go build -o app main.go# &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;">
+<meta property="og:description" content="一个适用于我自己的模板，附带一些命令讲解。">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-07-27T07:34:10.000Z">
-<meta property="article:modified_time" content="2023-08-16T10:33:01.110Z">
+<meta property="article:modified_time" content="2023-08-17T10:01:20.067Z">
 <meta property="article:author" content="oldwang12">
 <meta property="article:tag" content="docker">
 <meta name="twitter:card" content="summary_large_image">
   
   
   
-  <title>Dockerfile模版 - Hexo</title>
+  <title>Dockerfile 概括 - Hexo</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -224,7 +224,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle">Dockerfile模版</span>
+            <span id="subtitle">Dockerfile 概括</span>
           
         </div>
 
@@ -308,17 +308,26 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">Dockerfile模版</h1>
+            <h1 id="seo-header">Dockerfile 概括</h1>
             
             
               <div class="markdown-body">
                 
-                <h4 id="1-一个适用于我自己的模板"><a href="#1-一个适用于我自己的模板" class="headerlink" title="1. 一个适用于我自己的模板"></a>1. 一个适用于我自己的模板</h4><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs dockerfile"><span class="hljs-keyword">FROM</span> golang:<span class="hljs-number">1.20</span> as builder<br><span class="hljs-keyword">WORKDIR</span><span class="language-bash"> /root/</span><br><span class="hljs-keyword">COPY</span><span class="language-bash"> . .</span><br><span class="hljs-keyword">RUN</span><span class="language-bash"> GOOS=linux GOARCH=amd64 CGO_ENABLED=0 GOFLAGS=-mod=vendor go build -o app main.go</span><br><br><span class="hljs-comment"># =================================== 分层编译 ==============================================</span><br><span class="hljs-keyword">FROM</span> alpine AS final<br><br><span class="hljs-comment"># 国内使用的goproxy</span><br><span class="hljs-keyword">ENV</span> GOPROXY=https://goproxy.cn<br><br><span class="hljs-comment"># 设置时区</span><br><span class="hljs-keyword">ENV</span> TZ=Asia/Shanghai<br><span class="hljs-keyword">RUN</span><span class="language-bash"> apk add --update tzdata \</span><br><span class="language-bash">    &amp;&amp; <span class="hljs-built_in">cp</span> /usr/share/zoneinfo/<span class="hljs-variable">$TZ</span> /etc/localtime \</span><br><span class="language-bash">    &amp;&amp; <span class="hljs-built_in">echo</span> <span class="hljs-variable">$TZ</span> &gt; /etc/timezone \</span><br><span class="language-bash">    &amp;&amp; <span class="hljs-built_in">rm</span> -rf /var/cache/apk/*</span><br><br><span class="hljs-keyword">WORKDIR</span><span class="language-bash"> /root/</span><br><span class="hljs-keyword">COPY</span><span class="language-bash"> --from=builder /root/app .</span><br><span class="hljs-keyword">COPY</span><span class="language-bash"> ./mydir/  ./mydir/</span><br><span class="hljs-keyword">RUN</span><span class="language-bash"> <span class="hljs-built_in">chmod</span> +x app \</span><br><span class="language-bash">    &amp;&amp; wget  https://storage.googleapis.com/kubernetes-release/release/v1.14.7/bin/linux/amd64/kubectl \</span><br><span class="language-bash">    &amp;&amp; <span class="hljs-built_in">chmod</span> +x kubectl</span><br><span class="hljs-keyword">EXPOSE</span> <span class="hljs-number">8080</span><br><span class="hljs-keyword">ENTRYPOINT</span><span class="language-bash"> [<span class="hljs-string">&quot;/root/app&quot;</span>]</span><br></code></pre></td></tr></table></figure>
+                <div class="note note-primary">
+            <p>一个适用于我自己的模板，附带一些命令讲解。</p>
+          </div>
 
-<h4 id="2-COPY-vs-ADD"><a href="#2-COPY-vs-ADD" class="headerlink" title="2. COPY vs ADD"></a>2. COPY vs ADD</h4><p>没有特殊需求情况下，建议使用COPY</p>
-<h6 id="1-ADD-会自动解压压缩文件。"><a href="#1-ADD-会自动解压压缩文件。" class="headerlink" title="1. ADD 会自动解压压缩文件。"></a>1. ADD 会自动解压压缩文件。</h6><h6 id="2-ADD-支持源文件URL形式。"><a href="#2-ADD-支持源文件URL形式。" class="headerlink" title="2. ADD 支持源文件URL形式。"></a>2. ADD 支持源文件URL形式。</h6><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs dockerfile"><span class="hljs-keyword">ADD</span><span class="language-bash"> http://example.com/example.txt /app/</span><br></code></pre></td></tr></table></figure>
+<span id="more"></span>
+<h2 id="1-模板"><a href="#1-模板" class="headerlink" title="1. 模板"></a>1. 模板</h2><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs dockerfile"><span class="hljs-keyword">FROM</span> golang:<span class="hljs-number">1.20</span> as builder<br><span class="hljs-keyword">WORKDIR</span><span class="language-bash"> /root/</span><br><span class="hljs-keyword">COPY</span><span class="language-bash"> . .</span><br><span class="hljs-keyword">RUN</span><span class="language-bash"> GOOS=linux GOARCH=amd64 CGO_ENABLED=0 GOFLAGS=-mod=vendor go build -o app main.go</span><br><br><span class="hljs-comment"># =================================== 分层编译 ==============================================</span><br><span class="hljs-keyword">FROM</span> alpine AS final<br><br><span class="hljs-comment"># 国内使用的goproxy</span><br><span class="hljs-keyword">ENV</span> GOPROXY=https://goproxy.cn<br><br><span class="hljs-comment"># 设置时区</span><br><span class="hljs-keyword">ENV</span> TZ=Asia/Shanghai<br><span class="hljs-keyword">RUN</span><span class="language-bash"> apk add --update tzdata \</span><br><span class="language-bash">    &amp;&amp; <span class="hljs-built_in">cp</span> /usr/share/zoneinfo/<span class="hljs-variable">$TZ</span> /etc/localtime \</span><br><span class="language-bash">    &amp;&amp; <span class="hljs-built_in">echo</span> <span class="hljs-variable">$TZ</span> &gt; /etc/timezone \</span><br><span class="language-bash">    &amp;&amp; <span class="hljs-built_in">rm</span> -rf /var/cache/apk/*</span><br><br><span class="hljs-keyword">WORKDIR</span><span class="language-bash"> /root/</span><br><span class="hljs-keyword">COPY</span><span class="language-bash"> --from=builder /root/app .</span><br><span class="hljs-keyword">COPY</span><span class="language-bash"> ./mydir/  ./mydir/</span><br><span class="hljs-keyword">RUN</span><span class="language-bash"> <span class="hljs-built_in">chmod</span> +x app \</span><br><span class="language-bash">    &amp;&amp; wget  https://storage.googleapis.com/kubernetes-release/release/v1.14.7/bin/linux/amd64/kubectl \</span><br><span class="language-bash">    &amp;&amp; <span class="hljs-built_in">chmod</span> +x kubectl</span><br><span class="hljs-keyword">EXPOSE</span> <span class="hljs-number">8080</span><br><span class="hljs-keyword">ENTRYPOINT</span><span class="language-bash"> [<span class="hljs-string">&quot;/root/app&quot;</span>]</span><br></code></pre></td></tr></table></figure>
 
-<h4 id="3-CMD-vs-ENTRYPOINT"><a href="#3-CMD-vs-ENTRYPOINT" class="headerlink" title="3. CMD vs ENTRYPOINT"></a>3. CMD vs ENTRYPOINT</h4><h6 id="1-docker-run-如果指定了命令会覆盖"><a href="#1-docker-run-如果指定了命令会覆盖" class="headerlink" title="1. docker run 如果指定了命令会覆盖"></a>1. docker run 如果指定了命令会覆盖</h6><h6 id="2-下面是等价的"><a href="#2-下面是等价的" class="headerlink" title="2. 下面是等价的"></a>2. 下面是等价的</h6><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs dockerfile"><span class="hljs-keyword">CMD</span><span class="language-bash"> [<span class="hljs-string">&quot;python&quot;</span>, <span class="hljs-string">&quot;app.py&quot;</span>]</span><br></code></pre></td></tr></table></figure>
+<h2 id="2-COPY-vs-ADD"><a href="#2-COPY-vs-ADD" class="headerlink" title="2. COPY vs ADD"></a>2. COPY vs ADD</h2><p>没有特殊需求情况下，建议使用<code>COPY</code></p>
+<p><strong>ADD会自动解压压缩文件</strong></p>
+<p><strong>ADD 支持源文件URL形式</strong></p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs dockerfile"><span class="hljs-keyword">ADD</span><span class="language-bash"> http://example.com/example.txt /app/</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="3-CMD-vs-ENTRYPOINT"><a href="#3-CMD-vs-ENTRYPOINT" class="headerlink" title="3. CMD vs ENTRYPOINT"></a>3. CMD vs ENTRYPOINT</h2><p><strong>docker run 如果指定了命令会覆盖</strong></p>
+<p><strong>下面是等价的</strong></p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs dockerfile"><span class="hljs-keyword">CMD</span><span class="language-bash"> [<span class="hljs-string">&quot;python&quot;</span>, <span class="hljs-string">&quot;app.py&quot;</span>]</span><br></code></pre></td></tr></table></figure>
 
 <figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs dockerfile"><span class="hljs-keyword">ENTRYPOINT</span><span class="language-bash"> [<span class="hljs-string">&quot;python&quot;</span>, <span class="hljs-string">&quot;app.py&quot;</span>]</span><br></code></pre></td></tr></table></figure>
 
@@ -367,7 +376,7 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>Dockerfile模版</div>
+      <div>Dockerfile 概括</div>
       <div>http://blog.caiplus.pro/2023/07/27/docker/Dockerfile模版/</div>
     </div>
     <div class="license-meta">
@@ -386,7 +395,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>更新于</div>
-          <div>2023年8月16日</div>
+          <div>2023年8月17日</div>
         </div>
       
       
