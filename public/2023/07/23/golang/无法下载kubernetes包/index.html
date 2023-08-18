@@ -260,7 +260,7 @@
         
         
         
-          11 分钟
+          4 分钟
         
       </span>
     
@@ -321,7 +321,7 @@
 
 <span id="more"></span>
 
-<p>如果我们直接 go get k8s.io&#x2F;<a href="mailto:&#107;&#117;&#98;&#101;&#114;&#110;&#101;&#x74;&#101;&#115;&#64;&#x76;&#49;&#46;&#49;&#x39;&#46;&#50;">&#107;&#117;&#98;&#101;&#114;&#110;&#101;&#x74;&#101;&#115;&#64;&#x76;&#49;&#46;&#49;&#x39;&#46;&#50;</a> 下载依赖，会出现以下错误:</p>
+<p>如果我们直接 go get k8s.io&#x2F;<a href="mailto:&#x6b;&#117;&#x62;&#101;&#x72;&#110;&#x65;&#x74;&#101;&#x73;&#x40;&#x76;&#49;&#x2e;&#49;&#x39;&#x2e;&#50;">&#x6b;&#117;&#x62;&#101;&#x72;&#110;&#x65;&#x74;&#101;&#x73;&#x40;&#x76;&#49;&#x2e;&#49;&#x39;&#x2e;&#50;</a> 下载依赖，会出现以下错误:</p>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-keyword">go</span> get k8s.io/kubernetes@v1<span class="hljs-number">.19</span><span class="hljs-number">.2</span><br><span class="hljs-keyword">go</span>: downloading k8s.io/kubernetes v1<span class="hljs-number">.19</span><span class="hljs-number">.2</span><br><span class="hljs-keyword">go</span>: k8s.io/kubernetes@v1<span class="hljs-number">.19</span><span class="hljs-number">.2</span> requires<br>        k8s.io/api@v0<span class="hljs-number">.0</span><span class="hljs-number">.0</span>: reading k8s.io/api/<span class="hljs-keyword">go</span>.mod at revision v0<span class="hljs-number">.0</span><span class="hljs-number">.0</span>:<br></code></pre></td></tr></table></figure>
 
 <p>错误的原因是在kubernetes主仓中，也使用了公共库，不过go.mod文件中所有公共库版本都指定为了v0.0.0（显然这个版本不存在）， 然后通过Go Module的replace机制，将版本替换为子目录.&#x2F;staging&#x2F;src&#x2F;k8s.io对应的依赖。</p>

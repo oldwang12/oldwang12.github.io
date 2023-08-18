@@ -35,6 +35,248 @@ ls -l example.txt
 # 在这个例子中，-rw-r--r-- 表示文件所有者有读、写权限，所属组和其他人只有读权限。
 ```
 
+## 解压、压缩
+```sh
+# 压缩
+tar -czvf test.tar.gz README.md
+
+# 解压
+tar -xzvf test.tar.gz
+
+# 解压到指定文件夹
+tar -xzvf test.tar.gz -C /home/test
+
+# 列出压缩文件内容
+tar -tzvf test.tar.gz 
+```
+
+{% note warning %}
+**参数说明**
+* -v 显示指令执行过程。
+* -c 建立新的备份文件。
+* -f 指定备份文件。
+* -z 通过gzip指令处理备份文件。
+* -x 从备份文件中还原文件。
+{% endnote %}
+
+**加密压缩**
+
+```sh
+# 将当前目录下的files文件夹打包压缩，密码为password
+tar -czvf - files | openssl des3 -salt -k password -out files.tar.gz
+
+# 将当前目录下的files.tar.gz进行解密解压
+openssl des3 -d -k password -salt -in files.tar.gz | tar xzvf -
+```
+
+## 内存、cpu、io
+
+**内存**
+
+1. 输入 `top` 命令，按下 `M` 键可以按照内存使用量进行排序。
+2. 查看内存使用最多的5个进程
+
+```sh
+ps aux --sort=-%mem | head -n 6
+```
+
+**CPU**
+
+1. 输入 `top` 命令，按下 `P` 键可以按照内存使用量进行排序。
+2. 查看CPU使用最多的5个进程
+
+```sh
+ps aux --sort=-%cpu | head -n 6
+```
+
+**IO**
+
+{% note warning %}
+请注意，`iotop` 和 `pidstat` 可能需要先安装，在终端输入以下命令可以安装它们：
+{% endnote %}
+
+```sh
+# centos
+yum -y install iotop
+
+# ubuntu
+apt-get install iotop sysstat
+```
+
+1. {% label primary @iotop %} 命令可以 {% label danger @实时 %} 显示系统中进程的磁盘IO使用情况。打开终端并输入 iotop 命令，然后按下O键可以按照IO使用量进行排序。按q可以退出iotop 命令
+2. {% label success @pidstat %} 命令可以显示特定进程的IO使用情况。输入以下命令来查看IO使用最多的5个进程：
+
+```sh
+pidstat -d | sort -nrk 2 | head -n 6
+```
+3. {% label primary @iostat %} 命令可以提供关于系统设备和分区的IO统计信息。输入以下命令来查看整个系统的IO情况：
+
+```sh
+# 瞬时数据
+iostat -d
+
+# 每隔5s采样一次
+iostat -d -t 5
+
+# 输出
+Linux 4.19.xxx.x86_64 (10-11-xx-xx) 	202x年0x月1x日 	_x86_64_	(2 CPU)
+
+Device:            tps    kB_read/s    kB_wrtn/s    kB_read    kB_wrtn
+vda               2.70        19.13        36.54  102409528  195610326
+```
+
+{% note warning %}
+
+设备名称：显示连接到系统的硬盘和存储设备的设备名称。
+
+tps（Transactions Per Second）：每秒处理的 I/O 事务数。
+
+kB_read/s 和 kB_wrtn/s：每秒从设备读取和写入的数据量（以 KB 为单位）。
+
+kB_read 和 kB_wrtn：自系统启动以来已经读取和写入的总数据量（以 KB 为单位）。
+
+kB_read/s 和 kB_wrtn/s：每秒从设备读取和写入的数据量（以 KB 为单位）。
+
+svctm（Service Time）：每个 I/O 操作花费的平均时间。
+
+%util：设备使用率的百分比，即设备每秒钟的 I/O 请求占总容量的百分比。
+{% endnote %}
+
+
+## top
+{% note success %}
+**第一部分**
+
+前五行
+{% endnote %}
+
+![Alt text](top-01.png)
+
+**第一行：输出系统任务队列信息**
+
+{% note warning %}
+
+**10:38:45**：系统当前时间 
+**up 2days 18:57**：系统开机后到现在的总运行时间
+**1 user**：当前登录用户数
+**load average**: 0.10, 0.12, 0.09：系统负载，系统运行队列的平均利用率，可认为是可运行进程的平均数；三个数值分别为 1分钟、5分钟、15分钟前到现在的平均值；单核CPU中load average的值=1时表示满负荷状态，多核CPU中满负载的load average值为1*CPU核数
+{% endnote %}
+
+**第二行：任务进程信息**
+
+{% note warning %}
+**total**：系统全部进程的数量
+**running**：运行状态的进程数量
+**sleeping**：睡眠状态的进程数量
+**stoped**：停止状态的进程数量
+**zombie**：僵尸进程数量
+{% endnote %}
+
+**第三行：CPU信息**
+
+{% note warning %}
+**us**：用户空间占用CPU百分比
+**sy**：内核空间占用CPU百分比
+**ni**：已调整优先级的用户进程的CPU百分比
+**id**：空闲CPU百分比，越低说明CPU使用率越高
+**wa**：等待IO完成的CPU百分比
+**hi**：处理硬件中断的占用CPU百分比
+**si**：处理软中断占用CPU百分比
+**st**：虚拟机占用CPU百分比
+{% endnote %}
+
+**第四行：物理内存信息**
+
+{% note warning %}
+以下内存单位均为MB
+
+在 top 命令界面上，可以按下 e 键来进入设置界面，然后按下 E 键来切换内存单位为 GB。你可以在 top 的设置界面中选择其他显示选项，按需进行更改。
+
+在设置界面中，你也可以使用 W 命令将当前的设置保存为个人配置文件，以便下次启动 top 时自动应用这些设置。
+
+**total**：物理内存总量
+**free**：空闲内存总量
+**used**：使用中内存总量
+**buff/cache**：用于内核缓存的内存量
+{% endnote %}
+
+{% note info %}
+提示:
+
+在 top 命令界面上，可以按下 e 键来进入设置界面，然后按下 E 键来切换内存单位为 GB。你可以在 top 的设置界面中选择其他显示选项，按需进行更改。
+
+在设置界面中，你也可以使用 W 命令将当前的设置保存为个人配置文件，以便下次启动 top 时自动应用这些设置。
+{% endnote %}
+
+**第五行：交互区内存信息**
+
+swap 分区通常被称为交换分区，这是一块特殊的硬盘空间，即当实际内存不够用的时候，操作系统会从内存中取出一部分暂时不用的数据，放在交换分区中，从而为当前运行的程序腾出足够的内存空间。
+
+{% note warning %}
+**total**：交换区总量
+**free**：空闲交换区总量
+**used**：使用的交换区总量
+**avail Mem**：可用交换区总量
+{% endnote %}
+
+{% note success %}
+**第二部分**
+
+进程信息区（进程列表）
+{% endnote %}
+
+![](top-02.png)
+{% note warning %}
+**PID**：进程号
+**USER**：运行进程的用户
+**PR**：优先级
+**NI**：nice值。负值表示高优先级，正值表示低优先级
+**VIRT**：占用虚拟内存，单位kb。VIRT=SWAP+RES 
+**RES**：占用真实内存，单位kb
+**SHR**：共享内存大小，单位kb
+**S**：进程状态（I=空闲状态，R=运行状态，S=睡眠状态，D=不可中断的睡眠状态，T=跟踪/停止，Z=僵尸进程）
+**%CPU**：占用CPU百分比
+**%MEM**：占用内存百分比
+**TIME+**：上次启动后至今的总运行时间
+**COMMAND**：命令名or命令行
+{% endnote %}
+## du
+
+```sh
+# 只能查看文件夹
+
+# 查看当前目录
+du -h --max-depth=1 | sort -h
+
+# 查看指定目录
+du -h $DIR --max-depth=1 | sort -h
+
+# 参数解析
+# --max-depth 深度
+# sort -h 从小到大排序
+# sort -rh 从大到小排序
+```
+
+## 磁盘
+
+1. 显示系统中每个文件系统的磁盘使用情况
+
+```sh
+df -h
+```
+
+2. 显示系统中所有的块设备，包括硬盘和分区。通常，系统盘的挂载点是根目录 /，而数据盘则可能挂载在其他目录上，如/home、/mnt等。
+
+```sh
+lsblk
+```
+
+3. 显示所有在启动时挂载的文件系统，包括系统盘和数据盘的信息。一般情况下，系统盘的挂载信息会在此文件中。
+   
+```sh
+cat /etc/fstab
+```
+
 ## 命令行快捷键
 {% note warning %}
 请注意，某些快捷键可能会因终端和操作系统的不同而有所差异。
@@ -56,78 +298,12 @@ ls -l example.txt
 | history      | 显示部分历史命令                                |
 
 
-## 解压、压缩
-```sh
-# 压缩
-tar -czvf test.tar.gz README.md
-
-# 解压
-tar -xzvf test.tar.gz
-
-# 解压到指定文件夹
-tar -xzvf test.tar.gz -C /home/test
-
-# 列出压缩文件内容
-tar -tzvf test.tar.gz 
-```
-{% note warning %}
-**参数说明**
-* -v 显示指令执行过程。
-* -c 建立新的备份文件。
-* -f 指定备份文件。
-* -z 通过gzip指令处理备份文件。
-* -x 从备份文件中还原文件。
-{% endnote %}
-
-**加密压缩**
-```sh
-# 将当前目录下的files文件夹打包压缩，密码为password
-tar -czvf - files | openssl des3 -salt -k password -out files.tar.gz
-
-# 将当前目录下的files.tar.gz进行解密解压
-openssl des3 -d -k password -salt -in files.tar.gz | tar xzvf -
-```
-
-## du命令
-
-```sh
-# 只能查看文件夹
-
-# 查看当前目录
-du -h --max-depth=1 | sort -h
-
-# 查看指定目录
-du -h $DIR --max-depth=1 | sort -h
-
-# 参数解析
-# --max-depth 深度
-# sort -h 从小到大排序
-# sort -rh 从大到小排序
-```
-
-## 查看磁盘
-
-1. 显示系统中每个文件系统的磁盘使用情况
-
-```sh
-df -h
-```
-
-2. 显示系统中所有的块设备，包括硬盘和分区。通常，系统盘的挂载点是根目录 /，而数据盘则可能挂载在其他目录上，如/home、/mnt等。
-
-```sh
-lsblk
-```
-
-3. 显示所有在启动时挂载的文件系统，包括系统盘和数据盘的信息。一般情况下，系统盘的挂载信息会在此文件中。
-   
-```sh
-cat /etc/fstab
-```
-
 # 2. 网络管理
 
-## 查看网络连接信息
+## 端口查看
+
+**netstat**
+
 ```sh
 netstat -nplt
 ```
@@ -145,25 +321,43 @@ netstat -nplt
 -a 查看全部协议(netstat -an)
 {% endnote %}
 
+**lsof**
 
-## 路由追踪
+{% note warning %}
+
+如果 lsof 命令在连接出现之前执行，那么就不会显示任何输出。请确保在运行 lsof 命令之前已经建立了连接。
+
+{% endnote %}
+
 ```sh
-traceroute 8.8.8.8
+lsof -i :30001
 ```
 
-## 查看路由表
-```sh
-ip rule
-ip -6 rule 
-ip rule list
-```
-## 查看默认路由表信息
+## 路由
+
+**查看默认路由表信息**
 ```sh
 ip r
 ip -6 r
 route
 ```
 
+**查看路由表信息**
+```sh
+ip rule
+ip -6 rule 
+ip rule list
+```
+
+**查看走哪条路由**
+```sh
+ip route get 8.8.8.8
+```
+
+**路由追踪**
+```sh
+traceroute 8.8.8.8
+```
 ## 网速测试
 
 **安装**
