@@ -17,7 +17,7 @@ sticky: 1000
 
 
 # 1. 文件操作
-## 查看文件权限
+## 文件权限
 ```sh
 # 以数字形式输出文件权限，0644
 stat -c '%a' example.txt
@@ -71,7 +71,7 @@ openssl des3 -d -k password -salt -in files.tar.gz | tar xzvf -
 
 ## 内存、cpu、io
 
-**内存**
+### 内存
 
 1. 输入 `top` 命令，按下 `M` 键可以按照内存使用量进行排序。
 2. 查看内存使用最多的5个进程
@@ -80,7 +80,7 @@ openssl des3 -d -k password -salt -in files.tar.gz | tar xzvf -
 ps aux --sort=-%mem | head -n 6
 ```
 
-**CPU**
+### CPU
 
 1. 输入 `top` 命令，按下 `P` 键可以按照内存使用量进行排序。
 2. 查看CPU使用最多的5个进程
@@ -89,7 +89,7 @@ ps aux --sort=-%mem | head -n 6
 ps aux --sort=-%cpu | head -n 6
 ```
 
-**IO**
+### IO
 
 {% note warning %}
 请注意，`iotop` 和 `pidstat` 可能需要先安装，在终端输入以下命令可以安装它们：
@@ -102,14 +102,18 @@ yum -y install iotop
 # ubuntu
 apt-get install iotop sysstat
 ```
-
-1. {% label primary @iotop %} 命令可以 {% label danger @实时 %} 显示系统中进程的磁盘IO使用情况。打开终端并输入 iotop 命令，然后按下O键可以按照IO使用量进行排序。按q可以退出iotop 命令
-2. {% label success @pidstat %} 命令可以显示特定进程的IO使用情况。输入以下命令来查看IO使用最多的5个进程：
+#### iotop
+{% label primary @iotop %} 命令可以 {% label danger @实时 %} 显示系统中进程的磁盘IO使用情况。打开终端并输入 iotop 命令，然后按下O键可以按照IO使用量进行排序。按q可以退出iotop 命令
+   
+#### pidstat
+{% label success @pidstat %} 命令可以显示特定进程的IO使用情况。输入以下命令来查看IO使用最多的5个进程：
 
 ```sh
 pidstat -d | sort -nrk 2 | head -n 6
 ```
-3. {% label primary @iostat %} 命令可以提供关于系统设备和分区的IO统计信息。输入以下命令来查看整个系统的IO情况：
+
+#### iostat
+{% label primary @iostat %} 命令可以提供关于系统设备和分区的IO统计信息。输入以下命令来查看整个系统的IO情况：
 
 ```sh
 # 瞬时数据
@@ -144,15 +148,11 @@ svctm（Service Time）：每个 I/O 操作花费的平均时间。
 
 
 ## top
-{% note success %}
-**第一部分**
-
-前五行
-{% endnote %}
+### 前五行
 
 ![Alt text](top-01.png)
 
-**第一行：输出系统任务队列信息**
+#### 1. 输出系统任务队列信息
 
 {% note warning %}
 
@@ -162,7 +162,7 @@ svctm（Service Time）：每个 I/O 操作花费的平均时间。
 **load average**: 0.10, 0.12, 0.09：系统负载，系统运行队列的平均利用率，可认为是可运行进程的平均数；三个数值分别为 1分钟、5分钟、15分钟前到现在的平均值；单核CPU中load average的值=1时表示满负荷状态，多核CPU中满负载的load average值为1*CPU核数
 {% endnote %}
 
-**第二行：任务进程信息**
+#### 2. 任务进程信息
 
 {% note warning %}
 **total**：系统全部进程的数量
@@ -172,7 +172,7 @@ svctm（Service Time）：每个 I/O 操作花费的平均时间。
 **zombie**：僵尸进程数量
 {% endnote %}
 
-**第三行：CPU信息**
+#### 3. CPU信息
 
 {% note warning %}
 **us**：用户空间占用CPU百分比
@@ -185,7 +185,7 @@ svctm（Service Time）：每个 I/O 操作花费的平均时间。
 **st**：虚拟机占用CPU百分比
 {% endnote %}
 
-**第四行：物理内存信息**
+#### 4. 物理内存信息
 
 {% note warning %}
 以下内存单位均为MB
@@ -200,15 +200,7 @@ svctm（Service Time）：每个 I/O 操作花费的平均时间。
 **buff/cache**：用于内核缓存的内存量
 {% endnote %}
 
-{% note info %}
-提示:
-
-在 top 命令界面上，可以按下 e 键来进入设置界面，然后按下 E 键来切换内存单位为 GB。你可以在 top 的设置界面中选择其他显示选项，按需进行更改。
-
-在设置界面中，你也可以使用 W 命令将当前的设置保存为个人配置文件，以便下次启动 top 时自动应用这些设置。
-{% endnote %}
-
-**第五行：交互区内存信息**
+#### 5. 交互区内存信息
 
 swap 分区通常被称为交换分区，这是一块特殊的硬盘空间，即当实际内存不够用的时候，操作系统会从内存中取出一部分暂时不用的数据，放在交换分区中，从而为当前运行的程序腾出足够的内存空间。
 
@@ -219,13 +211,10 @@ swap 分区通常被称为交换分区，这是一块特殊的硬盘空间，即
 **avail Mem**：可用交换区总量
 {% endnote %}
 
-{% note success %}
-**第二部分**
 
-进程信息区（进程列表）
-{% endnote %}
+### 进程列表
 
-![](top-02.png)
+![进程列表](top-02.png)
 {% note warning %}
 **PID**：进程号
 **USER**：运行进程的用户
@@ -240,41 +229,138 @@ swap 分区通常被称为交换分区，这是一块特殊的硬盘空间，即
 **TIME+**：上次启动后至今的总运行时间
 **COMMAND**：命令名or命令行
 {% endnote %}
-## du
+
+### 使用方法
+#### 更换内存单位
+{% note warning %}
+在 top 命令界面上，可以按下 e 键来进入设置界面，然后按下 E 键来切换内存单位为 GB。你可以在 top 的设置界面中选择其他显示选项，按需进行更改。
+
+在设置界面中，你也可以使用 W 命令将当前的设置保存为个人配置文件，以便下次启动 top 时自动应用这些设置。
+{% endnote %}
+
+## 磁盘
+
+### du
+{% note warning %}
+直接输入 du 没有加任何选项时，则 du 会分析当前所在目录里的子目录所占用的硬盘空间。
+{% endnote %}
+
+选项与参数：
+
+-a ：列出所有的文件与目录容量，因为默认仅统计目录底下的文件量而已。
+-h ：以人们较易读的容量格式 (G/M) 显示；
+-s ：列出总占用量；
+-S ：不包括子目录下的总计，与 -s 有点差别。
+-k ：以 KBytes 列出容量显示；
+-m ：以 MBytes 列出容量显示；
 
 ```sh
-# 只能查看文件夹
-
-# 查看当前目录
-du -h --max-depth=1 | sort -h
-
 # 查看指定目录
+du -sh .
+3.8G	.
+# ====================================
+
+# 查看指定目录下的所有文件大小，深度为1
 du -h $DIR --max-depth=1 | sort -h
 
+# 部分输出
+...
+388M	./k3s
+570M	./.npm
+1.4G	./CAI.bak
+3.8G	.
+
+# ====================================
 # 参数解析
 # --max-depth 深度
 # sort -h 从小到大排序
 # sort -rh 从大到小排序
 ```
 
-## 磁盘
+#### 
 
-1. 显示系统中每个文件系统的磁盘使用情况
+### df
+
+显示系统中每个文件系统的磁盘使用情况
 
 ```sh
 df -h
 ```
 
-2. 显示系统中所有的块设备，包括硬盘和分区。通常，系统盘的挂载点是根目录 /，而数据盘则可能挂载在其他目录上，如/home、/mnt等。
+### lsblk
+
+显示系统中所有的块设备，包括硬盘和分区。通常，系统盘的挂载点是根目录 /，而数据盘则可能挂载在其他目录上，如/home、/mnt等。
 
 ```sh
 lsblk
 ```
 
-3. 显示所有在启动时挂载的文件系统，包括系统盘和数据盘的信息。一般情况下，系统盘的挂载信息会在此文件中。
+显示所有在启动时挂载的文件系统，包括系统盘和数据盘的信息。一般情况下，系统盘的挂载信息会在此文件中。
    
 ```sh
 cat /etc/fstab
+```
+
+### fdisk
+
+列出所有分区信息
+
+```sh
+fdisk
+```
+
+### mount
+
+{% note warning %}
+目的：向linux系统新增一块硬盘，并挂载到指定目录。
+{% endnote %}
+
+1. 进入设备分区
+
+lsblk 查看对应的磁盘名称，比如为 vdb。
+   
+```sh
+fdisk /dev/vdb
+```
+
+2. 进入交互终端后，使用 n 命令创建新分区。根据提示，选择主分区类型（p）。
+
+3. 提供分区号。
+
+4. 提供新分区的结束位置。输入 +250G 以指定分区大小为250GB。默认为全部。
+
+5. 使用 p 命令确认分区表是否正确。
+
+6. 使用 w 命令保存新的分区表。
+
+7. 格式化分区
+
+```sh
+mkfs.ext4 /dev/vdb1
+mkfs.ext4 /dev/vdb2
+```
+
+8. 创建两个挂载点。运行以下命令：
+
+```sh
+sudo mkdir /mnt/partition1
+sudo mkdir /mnt/partition2
+```
+
+9. 挂载分区
+    
+```sh
+sudo mount /dev/vdb1 /mnt/partition1
+sudo mount /dev/vdb2 /mnt/partition2
+```
+
+10.  开机自动挂载
+
+```sh
+vim /etc/fstab
+
+/dev/vdb1   /mnt/partition1   ext4   defaults   0   0
+/dev/vdb2   /mnt/partition2   ext4   defaults   0   0
 ```
 
 ## 命令行快捷键
@@ -302,7 +388,13 @@ cat /etc/fstab
 
 ## 端口查看
 
-**netstat**
+### netstat
+
+{% note success %}
+
+netstat、lsof、nmap可能漏掉某些端口，最直接的就是使用 curl 或者 telnet。
+
+{% endnote %}
 
 ```sh
 netstat -nplt
@@ -321,18 +413,16 @@ netstat -nplt
 -a 查看全部协议(netstat -an)
 {% endnote %}
 
-**lsof**
-
-{% note warning %}
-
-如果 lsof 命令在连接出现之前执行，那么就不会显示任何输出。请确保在运行 lsof 命令之前已经建立了连接。
-
-{% endnote %}
+### lsof
 
 ```sh
 lsof -i :30001
 ```
 
+### telnet
+```sh
+telnet 127.0.0.1 30001
+```
 ## 路由
 
 **查看默认路由表信息**
@@ -409,4 +499,10 @@ crontab -e
 # 每分钟执行一次 ls
 */1 * * * * ls
 ```
+
+## 更换密码
+```sh
+passwd
+```
+
 # 5. 安全性
