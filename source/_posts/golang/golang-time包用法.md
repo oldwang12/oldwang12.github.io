@@ -15,6 +15,7 @@ categories: golang
 <!--more-->
 
 #### 时间格式
+
 ```go
 	timelocal, err := time.LoadLocation("Asia/Shanghai")
 	if err != nil {
@@ -27,6 +28,7 @@ categories: golang
 #### 超时处理
 
 * 1. 使用select
+  
 ```go
     c1 := make(chan string, 1)
     go func() {
@@ -43,6 +45,7 @@ categories: golang
 ```
 
 * 2. 使用 time.Since
+  
 ```go
 	startTime := time.Now()
 	timeout := 5 * time.Second
@@ -56,6 +59,7 @@ categories: golang
 #### 定时器
 
 * 1. timer
+  
 ```go
 func main() {
 	// NewTimer 创建一个 Timer，它会在最少过去时间段 d 后到期，向其自身的 C 字段发送当时的时间

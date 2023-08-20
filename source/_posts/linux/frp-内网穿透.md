@@ -28,7 +28,7 @@ Wants = network.target
 [Service]
 Type = simple
 # 启动frps的命令，需修改为您的frps的安装路径
-ExecStart = /frp/.frp/frps -c /frp/.frp/frps.ini
+ExecStart = /root/frp/frps -c /root/frp/frps.ini
 
 [Install]
 WantedBy = multi-user.target
@@ -60,7 +60,7 @@ Wants = network.target
 
 [Service]
 Type = simple
-# 启动frps的命令，需修改为您的frps的安装路径
+# 启动frps的命令，需修改为您的frpc的安装路径
 ExecStart = /root/frp/frpc -c /root/frp/frpc.ini
 
 [Install]

@@ -13,7 +13,8 @@ categories: golang
 
 <!--more-->
 
-#### 解决跨域问题
+代码加入这一段就可以了
+
 ```go
 r := gin.Default()
 r.Use(Cors())
