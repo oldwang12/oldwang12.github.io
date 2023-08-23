@@ -63,12 +63,19 @@ tar -tzvf test.tar.gz
 
 ```sh
 # 将当前目录下的files文件夹打包压缩，密码为password
-tar -czvf - files | openssl des3 -salt -k password -out files.tar.gz
+# -iter 10000参数来指定迭代次数为10000次。这将提高密钥派生的强度，增加加密的安全性。
+tar -czvf - files | openssl des3 -salt -k password  -iter 10000 -out files.tar.gz
 
 # 将当前目录下的files.tar.gz进行解密解压
 openssl des3 -d -k password -salt -in files.tar.gz | tar xzvf -
 ```
 
+**分割解压压缩**
+
+```sh
+# 每3.5G分割
+tar -czvf - 2023_08_22_照片 | split -b 3500m - 2023_08_22_照片.part.
+```
 ## 内存、cpu、io
 
 ### 内存
@@ -500,9 +507,9 @@ crontab -e
 */1 * * * * ls
 ```
 
+# 5. 安全性
+
 ## 更换密码
 ```sh
 passwd
 ```
-
-# 5. 安全性

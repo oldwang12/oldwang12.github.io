@@ -20,11 +20,11 @@
 <meta property="og:type" content="article">
 <meta property="og:title" content="git使用指南">
 <meta property="og:url" content="http://blog.oldwang.fun/2023/08/16/%E5%B7%A5%E5%85%B7/git%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/index.html">
-<meta property="og:site_name" content="Hexo">
+<meta property="og:site_name" content="oldwang12的博客">
 <meta property="og:description" content="git 不仅仅是 pull 和 push。">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-08-16T02:36:30.000Z">
-<meta property="article:modified_time" content="2023-08-17T09:39:54.538Z">
+<meta property="article:modified_time" content="2023-08-22T08:54:38.381Z">
 <meta property="article:author" content="oldwang12">
 <meta property="article:tag" content="工具">
 <meta property="article:tag" content="git">
@@ -32,7 +32,7 @@
   
   
   
-  <title>git使用指南 - Hexo</title>
+  <title>git使用指南 - oldwang12的博客</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -238,7 +238,7 @@
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
         <time datetime="2023-08-16 10:36" pubdate>
           <!-- 2023年8月16日 上午 -->
-          2023年8月20日 中午
+          2023年8月23日 下午
         </time>
       </span>
     
@@ -249,7 +249,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          358 字
+          3.5k 字
         
       </span>
     
@@ -260,7 +260,7 @@
         
         
         
-          1 分钟
+          9 分钟
         
       </span>
     
@@ -324,7 +324,27 @@
 
 <h2 id="1-一键提交当前分支"><a href="#1-一键提交当前分支" class="headerlink" title="1. 一键提交当前分支"></a>1. 一键提交当前分支</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">git add .;git commit -m <span class="hljs-string">&quot;test&quot;</span>;git push origin $(git symbolic-ref --short HEAD)<br></code></pre></td></tr></table></figure>
 
-<h2 id="2-开发分支落后时，如何同步-master-分支。"><a href="#2-开发分支落后时，如何同步-master-分支。" class="headerlink" title="2. 开发分支落后时，如何同步 master 分支。"></a>2. 开发分支落后时，如何同步 master 分支。</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># 1. 获取master分支的最新变更。可以使用以下命令来更新您本地的master分支</span><br>git checkout master<br>git pull origin master<br><br><span class="hljs-comment"># 2. 切换回开发分支，并将master分支的变更合并到开发分支上：</span><br>git checkout feature/test<br>git merge master<br><br><span class="hljs-comment"># 3. 如果有冲突出现，您需要解决这些冲突后再提交变更。</span><br><br><span class="hljs-comment"># 4. 推送开发分支到远程仓库</span><br>git push origin feature/test<br></code></pre></td></tr></table></figure>
+<h2 id="2-删除分支"><a href="#2-删除分支" class="headerlink" title="2. 删除分支"></a>2. 删除分支</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># 删除本地分支</span><br>git branch -D xxx<br><br><span class="hljs-comment"># 删除远程分支</span><br>git push origin --delete xxx<br></code></pre></td></tr></table></figure>
+
+<h2 id="3-开发分支落后时，如何同步-master-分支。"><a href="#3-开发分支落后时，如何同步-master-分支。" class="headerlink" title="3. 开发分支落后时，如何同步 master 分支。"></a>3. 开发分支落后时，如何同步 master 分支。</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># 1. 获取master分支的最新变更。可以使用以下命令来更新您本地的master分支</span><br>git checkout master<br>git pull origin master<br><br><span class="hljs-comment"># 2. 切换回开发分支，并将master分支的变更合并到开发分支上：</span><br>git checkout feature/test<br>git merge master<br><br><span class="hljs-comment"># 3. 如果有冲突出现，您需要解决这些冲突后再提交变更。</span><br><br><span class="hljs-comment"># 4. 推送开发分支到远程仓库</span><br>git push origin feature/test<br></code></pre></td></tr></table></figure>
+
+<h2 id="4-git-reset"><a href="#4-git-reset" class="headerlink" title="4. git reset"></a>4. git reset</h2><p>放弃所有更改并回到上一次提交的状态：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">git reset --hard HEAD^<br></code></pre></td></tr></table></figure>
+<div class="note note-warning">
+            <p>这将删除所有的未提交更改，将HEAD指向父提交，并将工作区和暂存区恢复到上一次提交的状态。</p>
+          </div>
+
+<p>保留更改但将其从暂存区中移除：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">git reset HEAD<br></code></pre></td></tr></table></figure>
+
+<p>这将将所有已暂存的更改重置，但保留在工作区中，这样你就可以重新提交或进行进一步的更改。</p>
+<div class="note note-warning">
+            <p>请注意，git reset 是一个潜在的危险操作，因为它会从版本历史中移除提交。在执行这些命令之前，请确保你理解这些操作的副作用，并且在对你的代码产生重大影响之前，最好进行备份或咨询团队中的其他成员。</p>
+          </div>
+
+
+<p>curl ‘<a target="_blank" rel="noopener" href="https://api.ucloud.cn/?Action=GetUK8SAvailablePHostList">https://api.ucloud.cn/?Action=GetUK8SAvailablePHostList</a>‘ <br>  -H ‘Accept: application&#x2F;json, text&#x2F;plain, <em>&#x2F;</em>‘ <br>  -H ‘Accept-Language: zh-CN,zh;q&#x3D;0.9’ <br>  -H ‘Connection: keep-alive’ <br>  -H ‘Content-Type: application&#x2F;x-www-form-urlencoded; charset&#x3D;UTF-8’ <br>  -H ‘Cookie: das_session&#x3D;adfd8fd1-b606-4585-98c3-5c9750e47a4d; gr_user_id&#x3D;c1482fd8-2d70-41d3-ae84-2a09ba4a0e5d; Feedback_ID&#x3D;98; SurveyCookieTest&#x3D;1; c_project_lee_wang_ucloud_cn&#x3D;%7B%22ProjectId%22%3A%22org-f4ncln%22%2C%22ProjectName%22%3A%22%E7%8E%8B%E9%9B%84%22%7D; _ga&#x3D;GA1.1.101168770.1690783229; _ga_DZSMXQ3P9N&#x3D;GS1.1.1690783228.1.1.1690783294.0.0.0; Hm_lvt_413fdc5943040809ed0703eabd01f173&#x3D;1691809812,1692065605,1692502931,1692584368; U_CHANNEL_ID&#x3D;1; c_region_806459794_qq_com&#x3D;%7B%22Zone%22%3A%22cn-sh2-01%22%2C%22Region%22%3A%22cn-sh2%22%7D; c_last_region_806459794_qq_com&#x3D;%7B%22region%22%3A%22cn-sh2%22%2C%22zone%22%3A%22cn-sh2-01%22%7D; U_USER_EMAIL&#x3D;lee.wang%40ucloud.cn; U_COMPANY_ID&#x3D;65906048; U_USER_ID&#x3D;150829537; U_MANAGER&#x3D;janey.deng%40ucloud.cn; hb_MA-B701-2FC93ACD9328_source&#x3D;mail.qiye.163.com; U_JWT_TOKEN&#x3D;eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2OTI3MTkzNjgsImp0aSI6IkF1NTNOMkpya2xYRU5mZ2ZKSFR6UTQiLCJpYXQiOjE2OTI2NzYxNjgsInN1YiI6InVjczppYW06OjY1OTA2MDQ4OnVzZXIvMTUwODI5NTM3In0.ZRlNLSnGw3tNae6PRdvuiDE6HKWHaANKrnrf1TqrVadMh2ERkALvGwJaXJR0lG_IrjGYSi0cDopOYHv0brmllQ; U_CSRF_TOKEN&#x3D;227126c8c8ef8ebe49a383472a03cc65; gr_session_id_6b767e7fa13640a48f97e18e8045c9dc&#x3D;4e5035dc-b5fe-454c-8fc8-d50642a4acbe; gr_cs1_4e5035dc-b5fe-454c-8fc8-d50642a4acbe&#x3D;U_USER_ID%3A150829537; gr_session_id_6b767e7fa13640a48f97e18e8045c9dc_4e5035dc-b5fe-454c-8fc8-d50642a4acbe&#x3D;true; Hm_lpvt_413fdc5943040809ed0703eabd01f173&#x3D;1692693583; c_last_region_lee_wang_ucloud_cn&#x3D;%7B%22region%22%3A%22cn-sh2%22%2C%22zone%22%3A%22cn-sh2-01%22%7D; c_region_lee_wang_ucloud_cn&#x3D;%7B%22Zone%22%3A%22%24%22%2C%22Region%22%3A%22cn-sh2%22%7D’ <br>  -H ‘Origin: <a target="_blank" rel="noopener" href="https://console.ucloud.cn/">https://console.ucloud.cn</a>‘ <br>  -H ‘Referer: <a target="_blank" rel="noopener" href="https://console.ucloud.cn/uk8s/detail/Node/uk8s-mr5q77pbzbg?clusterName=UKubernetes">https://console.ucloud.cn/uk8s/detail/Node/uk8s-mr5q77pbzbg?clusterName=UKubernetes</a>‘ <br>  -H ‘Sec-Fetch-Dest: empty’ <br>  -H ‘Sec-Fetch-Mode: cors’ <br>  -H ‘Sec-Fetch-Site: same-site’ <br>  -H ‘U-CSRF-Token: 227126c8c8ef8ebe49a383472a03cc65’ <br>  -H ‘User-Agent: Mozilla&#x2F;5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit&#x2F;537.36 (KHTML, like Gecko) Chrome&#x2F;115.0.0.0 Safari&#x2F;537.36’ <br>  -H ‘sec-ch-ua: “Not&#x2F;A)Brand”;v&#x3D;”99”, “Google Chrome”;v&#x3D;”115”, “Chromium”;v&#x3D;”115”‘ <br>  -H ‘sec-ch-ua-mobile: ?0’ <br>  -H ‘sec-ch-ua-platform: “macOS”‘ <br>  –data-raw ‘Action&#x3D;GetUK8SAvailablePHostList&amp;Region&#x3D;cn-sh2&amp;Zone&#x3D;cn-sh2-01&amp;ProjectId&#x3D;org-f4ncln&amp;ClusterId&#x3D;uk8s-mr5q77pbzbg&amp;Offset&#x3D;0&amp;Limit&#x3D;100&amp;user_email&#x3D;<a href="mailto:&#x6c;&#x65;&#x65;&#46;&#119;&#x61;&#110;&#x67;&#64;&#x75;&#x63;&#x6c;&#111;&#117;&#x64;&#46;&#99;&#x6e;">&#x6c;&#x65;&#x65;&#46;&#119;&#x61;&#110;&#x67;&#64;&#x75;&#x63;&#x6c;&#111;&#117;&#x64;&#46;&#99;&#x6e;</a>‘ <br>  –compressed</p>
+
                 
               </div>
             
@@ -390,7 +410,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>更新于</div>
-          <div>2023年8月17日</div>
+          <div>2023年8月22日</div>
         </div>
       
       
