@@ -295,7 +295,7 @@ web_analytics:  # 网页访问统计
 # 对页面中的图片和评论插件进行懒加载处理，可见范围外的元素不会提前加载
 # Lazy loading of images and comment plugin on the page
 lazyload:
-  enable: true
+  enable: false
 
   # 加载时的占位图片
   # The placeholder image when loading
