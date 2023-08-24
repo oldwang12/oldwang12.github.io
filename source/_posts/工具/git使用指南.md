@@ -67,3 +67,43 @@ git reset HEAD
 {% note warning%}
 请注意，git reset 是一个潜在的危险操作，因为它会从版本历史中移除提交。在执行这些命令之前，请确保你理解这些操作的副作用，并且在对你的代码产生重大影响之前，最好进行备份或咨询团队中的其他成员。
 {% endnote %}
+
+## 5. git stash
+
+`git stash` 是一个Git命令，用于将当前未提交的修改保存为一个临时的存储状态，以便你可以切换到其他分支或执行其他操作。
+
+{% note warning%}
+当你在进行代码开发时，可能会遇到以下情况之一：
+
+你正在一个分支上进行开发，但突然需要切换到另一个分支上处理紧急修复或其他任务。
+你正在进行一些尝试性的修改，但暂时不想提交它们。
+在这些情况下，你可以使用 git stash 命令将当前的修改保存起来，以便稍后恢复。
+{% endnote %}
+
+使用 `git stash` 命令时，Git会将未提交的修改保存为一个堆栈（stack），每次调用 `git stash` 都会将当前的修改添加到堆栈的栈顶。可以使用 `git stash list` 命令查看当前所有的存储状态。
+
+```sh
+# 将当前的未提交修改保存为一个新的存储状态。
+git stash
+
+# 恢复保存的修改
+git stash apply
+
+# 查看所有状态
+git stash list
+
+# 恢复特定的存储状态
+git stash apply stash@{number}
+
+# 删除存储状态
+git stash drop
+
+# 可以给存储状态添加一个描述
+git stash save
+
+# 可以直接将保存的修改应用到一个新的分支上
+git stash branch
+
+# 命令查看所有可用的选项和详细的说明
+git stash --help
+```
