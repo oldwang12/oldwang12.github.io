@@ -26,7 +26,7 @@
 <meta property="og:image" content="http://blog.oldwang.fun/2023/08/16/linux/linux-%E5%91%BD%E4%BB%A4%E5%A4%A7%E5%85%A8/top-01.png">
 <meta property="og:image" content="http://blog.oldwang.fun/2023/08/16/linux/linux-%E5%91%BD%E4%BB%A4%E5%A4%A7%E5%85%A8/top-02.png">
 <meta property="article:published_time" content="2023-08-16T06:40:47.000Z">
-<meta property="article:modified_time" content="2023-08-28T10:27:47.822Z">
+<meta property="article:modified_time" content="2023-08-28T10:40:12.063Z">
 <meta property="article:author" content="oldwang12">
 <meta property="article:tag" content="linux">
 <meta name="twitter:card" content="summary_large_image">
@@ -343,9 +343,9 @@
 <h3 id="分割文件"><a href="#分割文件" class="headerlink" title="分割文件"></a>分割文件</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># 分割</span><br><span class="hljs-built_in">split</span> -b 1M file.tar.gz file_bakcup.<br><br><span class="hljs-comment"># 合并</span><br><span class="hljs-built_in">cat</span> file_backup* &gt; file.tar.gz<br></code></pre></td></tr></table></figure>
 
 <h2 id="软、硬链接"><a href="#软、硬链接" class="headerlink" title="软、硬链接"></a>软、硬链接</h2><p>删除源文件，硬链接没有影响，软链接不可用。</p>
-<h3 id="软链接"><a href="#软链接" class="headerlink" title="软链接"></a>软链接</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-built_in">ls</span> -s README.md README.soft.md<br></code></pre></td></tr></table></figure>
+<h3 id="软链接"><a href="#软链接" class="headerlink" title="软链接"></a>软链接</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-built_in">ln</span> -s README.md README.soft.md<br></code></pre></td></tr></table></figure>
 
-<h3 id="硬链接"><a href="#硬链接" class="headerlink" title="硬链接"></a>硬链接</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-built_in">ls</span> README.md README.hard.md<br></code></pre></td></tr></table></figure>
+<h3 id="硬链接"><a href="#硬链接" class="headerlink" title="硬链接"></a>硬链接</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-built_in">ln</span> README.md README.hard.md<br></code></pre></td></tr></table></figure>
 
 <h2 id="内存、cpu、io"><a href="#内存、cpu、io" class="headerlink" title="内存、cpu、io"></a>内存、cpu、io</h2><h3 id="内存"><a href="#内存" class="headerlink" title="内存"></a>内存</h3><ol>
 <li>输入 <code>top</code> 命令，按下 <code>M</code> 键可以按照内存使用量进行排序。</li>

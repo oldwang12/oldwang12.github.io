@@ -91,12 +91,12 @@ cat file_backup* > file.tar.gz
 
 ### 软链接
 ```sh
-ls -s README.md README.soft.md
+ln -s README.md README.soft.md
 ```
 
 ### 硬链接
 ```sh
-ls README.md README.hard.md
+ln README.md README.hard.md
 ```
 
 ## 内存、cpu、io
