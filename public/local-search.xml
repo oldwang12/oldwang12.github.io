@@ -4,6 +4,31 @@
   
   
   <entry>
+    <title>Sql 操作</title>
+    <link href="/2023/08/28/linux/Sql-%E6%93%8D%E4%BD%9C/"/>
+    <url>/2023/08/28/linux/Sql-%E6%93%8D%E4%BD%9C/</url>
+    
+    <content type="html"><![CDATA[<h2 id="Postgres"><a href="#Postgres" class="headerlink" title="Postgres"></a>Postgres</h2><h3 id="备份"><a href="#备份" class="headerlink" title="备份"></a>备份</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">pg_dumpall -U postgres &gt; /var/lib/postgresql/dump.sql<br></code></pre></td></tr></table></figure><h3 id="恢复"><a href="#恢复" class="headerlink" title="恢复"></a>恢复</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">psql -U postgres -f /var/lib/postgresql/dump.sql<br></code></pre></td></tr></table></figure><h3 id="删除数据库"><a href="#删除数据库" class="headerlink" title="删除数据库"></a>删除数据库</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">dropdb -U postgres postgres<br></code></pre></td></tr></table></figure><h3 id="新建数据库"><a href="#新建数据库" class="headerlink" title="新建数据库"></a>新建数据库</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">createdb  -U postgres postgres<br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>linux</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>sql</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>frp 内网穿透</title>
     <link href="/2023/08/19/linux/frp-%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/"/>
     <url>/2023/08/19/linux/frp-%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/</url>
