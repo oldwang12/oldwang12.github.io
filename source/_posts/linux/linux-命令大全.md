@@ -36,17 +36,22 @@ ls -l example.txt
 ```
 
 ## 解压、压缩
+
+### 解压
 ```sh
-# 压缩
-tar -czvf test.tar.gz README.md
-
-# 解压
 tar -xzvf test.tar.gz
+```
+### 压缩
+```sh
+tar -czvf test.tar.gz README.md
+```
 
-# 解压到指定文件夹
+### 解压到指定文件夹
+```sh
 tar -xzvf test.tar.gz -C /home/test
-
-# 列出压缩文件内容
+```
+### 列出压缩文件内容
+```sh
 tar -tzvf test.tar.gz 
 ```
 
@@ -59,7 +64,7 @@ tar -tzvf test.tar.gz
 * -x 从备份文件中还原文件。
 {% endnote %}
 
-**加密压缩**
+### 使用密码
 
 ```sh
 # 将当前目录下的files文件夹打包压缩，密码为password
@@ -67,15 +72,33 @@ tar -tzvf test.tar.gz
 tar -czvf - files | openssl des3 -salt -k password  -iter 10000 -out files.tar.gz
 
 # 将当前目录下的files.tar.gz进行解密解压
-openssl des3 -d -k password -salt -in files.tar.gz | tar xzvf -
+openssl des3 -d -salt -k password -iter 10000 -in files.tar.gz | tar -xzf -
 ```
 
-**分割解压压缩**
+### 分割文件
 
 ```sh
-# 每3.5G分割
-tar -czvf - 2023_08_22_照片 | split -b 3500m - 2023_08_22_照片.part.
+# 分割
+split -b 1M file.tar.gz file_bakcup.
+
+# 合并
+cat file_backup* > file.tar.gz
 ```
+
+## 软、硬链接
+
+删除源文件，硬链接没有影响，软链接不可用。
+
+### 软链接
+```sh
+ls -s README.md README.soft.md
+```
+
+### 硬链接
+```sh
+ls README.md README.hard.md
+```
+
 ## 内存、cpu、io
 
 ### 内存
@@ -375,20 +398,20 @@ vim /etc/fstab
 请注意，某些快捷键可能会因终端和操作系统的不同而有所差异。
 {% endnote %}
 
-| 快捷键        | 操作                                       |
-| ------------ | ---------------------------------------- |
-| Ctrl + 左右键  | 在单词之间跳转                                 |
-| Ctrl + a     | 跳到本行的行首                                 |
-| Ctrl + e     | 跳到页尾                                    |
-| Ctrl + u     | 删除当前光标前面的文字 （还有剪切功能）                  |
-| Ctrl + k     | 删除当前光标后面的文字 （还有剪切功能）                  |
-| Ctrl + L     | 进行清屏操作                                  |
-| Ctrl + y     | 粘贴 Ctrl+u 或 Ctrl+k 剪切的内容                 |
-| Ctrl + w     | 删除光标前面的单词的字符（以空格隔开的字符串）             |
-| Alt + d     | 由光标位置开始，往右删除单词，往行尾删                  |
-| Ctrl + r     | 搜索执行过的命令                                |
-| ! + 字符     | 快速执行最近执行过的命令，其中包含该字符                    |
-| history      | 显示部分历史命令                                |
+| 快捷键        | 操作                                           |
+| ------------- | ---------------------------------------------- |
+| Ctrl + 左右键 | 在单词之间跳转                                 |
+| Ctrl + a      | 跳到本行的行首                                 |
+| Ctrl + e      | 跳到页尾                                       |
+| Ctrl + u      | 删除当前光标前面的文字 （还有剪切功能）        |
+| Ctrl + k      | 删除当前光标后面的文字 （还有剪切功能）        |
+| Ctrl + L      | 进行清屏操作                                   |
+| Ctrl + y      | 粘贴 Ctrl+u 或 Ctrl+k 剪切的内容               |
+| Ctrl + w      | 删除光标前面的单词的字符（以空格隔开的字符串） |
+| Alt + d       | 由光标位置开始，往右删除单词，往行尾删         |
+| Ctrl + r      | 搜索执行过的命令                               |
+| ! + 字符      | 快速执行最近执行过的命令，其中包含该字符       |
+| history       | 显示部分历史命令                               |
 
 
 # 2. 网络管理
@@ -507,6 +530,10 @@ crontab -e
 */1 * * * * ls
 ```
 
+**查看日志**
+```sh
+tail -f /var/spool/mail/root
+```
 # 5. 安全性
 
 ## 更换密码

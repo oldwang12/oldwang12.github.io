@@ -18,20 +18,21 @@
   
     <meta name="description" content="一个适用于我自己的模板，附带一些命令讲解。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Dockerfile 概括">
-<meta property="og:url" content="http://blog.oldwang.fun/2023/07/27/docker/Dockerfile%E6%A8%A1%E7%89%88/index.html">
+<meta property="og:title" content="Dockerfile 命令">
+<meta property="og:url" content="http://blog.oldwang.fun/2023/07/27/docker/Dockerfile%E5%91%BD%E4%BB%A4/index.html">
 <meta property="og:site_name" content="oldwang12的博客">
 <meta property="og:description" content="一个适用于我自己的模板，附带一些命令讲解。">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-07-27T07:34:10.000Z">
-<meta property="article:modified_time" content="2023-08-17T10:01:20.067Z">
+<meta property="article:modified_time" content="2023-08-28T09:56:55.834Z">
 <meta property="article:author" content="oldwang12">
 <meta property="article:tag" content="docker">
+<meta property="article:tag" content="dockerfile">
 <meta name="twitter:card" content="summary_large_image">
   
   
   
-  <title>Dockerfile 概括 - oldwang12的博客</title>
+  <title>Dockerfile 命令 - oldwang12的博客</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -224,7 +225,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle">Dockerfile 概括</span>
+            <span id="subtitle">Dockerfile 命令</span>
           
         </div>
 
@@ -237,7 +238,7 @@
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
         <time datetime="2023-07-27 15:34" pubdate>
           <!-- 2023年7月27日 下午 -->
-          2023年8月24日 晚上
+          2023年8月28日 晚上
         </time>
       </span>
     
@@ -248,7 +249,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1k 字
+          326 字
         
       </span>
     
@@ -259,7 +260,7 @@
         
         
         
-          3 分钟
+          1 分钟
         
       </span>
     
@@ -309,7 +310,7 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">Dockerfile 概括</h1>
+            <h1 id="seo-header">Dockerfile 命令</h1>
             
             
               <div class="markdown-body">
@@ -319,9 +320,7 @@
           </div>
 
 <span id="more"></span>
-<h2 id="1-模板"><a href="#1-模板" class="headerlink" title="1. 模板"></a>1. 模板</h2><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs dockerfile"><span class="hljs-keyword">FROM</span> golang:<span class="hljs-number">1.20</span> as builder<br><span class="hljs-keyword">WORKDIR</span><span class="language-bash"> /root/</span><br><span class="hljs-keyword">COPY</span><span class="language-bash"> . .</span><br><span class="hljs-keyword">RUN</span><span class="language-bash"> GOOS=linux GOARCH=amd64 CGO_ENABLED=0 GOFLAGS=-mod=vendor go build -o app main.go</span><br><br><span class="hljs-comment"># =================================== 分层编译 ==============================================</span><br><span class="hljs-keyword">FROM</span> alpine AS final<br><br><span class="hljs-comment"># 国内使用的goproxy</span><br><span class="hljs-keyword">ENV</span> GOPROXY=https://goproxy.cn<br><br><span class="hljs-comment"># 设置时区</span><br><span class="hljs-keyword">ENV</span> TZ=Asia/Shanghai<br><span class="hljs-keyword">RUN</span><span class="language-bash"> apk add --update tzdata \</span><br><span class="language-bash">    &amp;&amp; <span class="hljs-built_in">cp</span> /usr/share/zoneinfo/<span class="hljs-variable">$TZ</span> /etc/localtime \</span><br><span class="language-bash">    &amp;&amp; <span class="hljs-built_in">echo</span> <span class="hljs-variable">$TZ</span> &gt; /etc/timezone \</span><br><span class="language-bash">    &amp;&amp; <span class="hljs-built_in">rm</span> -rf /var/cache/apk/*</span><br><br><span class="hljs-keyword">WORKDIR</span><span class="language-bash"> /root/</span><br><span class="hljs-keyword">COPY</span><span class="language-bash"> --from=builder /root/app .</span><br><span class="hljs-keyword">COPY</span><span class="language-bash"> ./mydir/  ./mydir/</span><br><span class="hljs-keyword">RUN</span><span class="language-bash"> <span class="hljs-built_in">chmod</span> +x app \</span><br><span class="language-bash">    &amp;&amp; wget  https://storage.googleapis.com/kubernetes-release/release/v1.14.7/bin/linux/amd64/kubectl \</span><br><span class="language-bash">    &amp;&amp; <span class="hljs-built_in">chmod</span> +x kubectl</span><br><span class="hljs-keyword">EXPOSE</span> <span class="hljs-number">8080</span><br><span class="hljs-keyword">ENTRYPOINT</span><span class="language-bash"> [<span class="hljs-string">&quot;/root/app&quot;</span>]</span><br></code></pre></td></tr></table></figure>
-
-<h2 id="2-COPY-vs-ADD"><a href="#2-COPY-vs-ADD" class="headerlink" title="2. COPY vs ADD"></a>2. COPY vs ADD</h2><p>没有特殊需求情况下，建议使用<code>COPY</code></p>
+<h2 id="1-模板"><a href="#1-模板" class="headerlink" title="1. 模板"></a>1. 模板</h2><h2 id="2-COPY-vs-ADD"><a href="#2-COPY-vs-ADD" class="headerlink" title="2. COPY vs ADD"></a>2. COPY vs ADD</h2><p>没有特殊需求情况下，建议使用<code>COPY</code></p>
 <p><strong>ADD会自动解压压缩文件</strong></p>
 <p><strong>ADD 支持源文件URL形式</strong></p>
 <figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs dockerfile"><span class="hljs-keyword">ADD</span><span class="language-bash"> http://example.com/example.txt /app/</span><br></code></pre></td></tr></table></figure>
@@ -367,6 +366,8 @@
       
         <a href="/tags/docker/" class="print-no-link">#docker</a>
       
+        <a href="/tags/dockerfile/" class="print-no-link">#dockerfile</a>
+      
     </div>
   
 </div>
@@ -377,8 +378,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>Dockerfile 概括</div>
-      <div>http://blog.oldwang.fun/2023/07/27/docker/Dockerfile模版/</div>
+      <div>Dockerfile 命令</div>
+      <div>http://blog.oldwang.fun/2023/07/27/docker/Dockerfile命令/</div>
     </div>
     <div class="license-meta">
       
@@ -396,7 +397,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>更新于</div>
-          <div>2023年8月17日</div>
+          <div>2023年8月28日</div>
         </div>
       
       

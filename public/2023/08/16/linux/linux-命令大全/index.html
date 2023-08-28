@@ -26,7 +26,7 @@
 <meta property="og:image" content="http://blog.oldwang.fun/2023/08/16/linux/linux-%E5%91%BD%E4%BB%A4%E5%A4%A7%E5%85%A8/top-01.png">
 <meta property="og:image" content="http://blog.oldwang.fun/2023/08/16/linux/linux-%E5%91%BD%E4%BB%A4%E5%A4%A7%E5%85%A8/top-02.png">
 <meta property="article:published_time" content="2023-08-16T06:40:47.000Z">
-<meta property="article:modified_time" content="2023-08-22T06:09:15.113Z">
+<meta property="article:modified_time" content="2023-08-28T10:27:47.822Z">
 <meta property="article:author" content="oldwang12">
 <meta property="article:tag" content="linux">
 <meta name="twitter:card" content="summary_large_image">
@@ -240,7 +240,7 @@
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
         <time datetime="2023-08-16 14:40" pubdate>
           <!-- 2023年8月16日 下午 -->
-          2023年8月24日 晚上
+          2023年8月28日 晚上
         </time>
       </span>
     
@@ -251,7 +251,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          5.6k 字
+          5.7k 字
         
       </span>
     
@@ -262,7 +262,7 @@
         
         
         
-          14 分钟
+          15 分钟
         
       </span>
     
@@ -328,17 +328,25 @@
 
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-built_in">ls</span> -l example.txt<br><br><span class="hljs-comment"># 输出将类似于以下内容：</span><br>-rw-r--r-- 1 user group 12345 Jan 1 10:00 example.txt<br><br><span class="hljs-comment"># 在这个示例中，-rw-r--r--表示文件的权限。</span><br><span class="hljs-comment"># 第一个字符表示文件类型，- 表示普通文件。剩余的九个字符分为三组，每组三个字符表示所有者、所属组和其他人的权限。</span><br><span class="hljs-comment"># 每组中的三个字符表示读（r）、写（w）和执行（x）权限。如果对应位置有权限，字符表示对应的权限，否则用 - 来表示缺少权限。</span><br><span class="hljs-comment"># 在这个例子中，-rw-r--r-- 表示文件所有者有读、写权限，所属组和其他人只有读权限。</span><br></code></pre></td></tr></table></figure>
 
-<h2 id="解压、压缩"><a href="#解压、压缩" class="headerlink" title="解压、压缩"></a>解压、压缩</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># 压缩</span><br>tar -czvf test.tar.gz README.md<br><br><span class="hljs-comment"># 解压</span><br>tar -xzvf test.tar.gz<br><br><span class="hljs-comment"># 解压到指定文件夹</span><br>tar -xzvf test.tar.gz -C /home/test<br><br><span class="hljs-comment"># 列出压缩文件内容</span><br>tar -tzvf test.tar.gz <br></code></pre></td></tr></table></figure>
+<h2 id="解压、压缩"><a href="#解压、压缩" class="headerlink" title="解压、压缩"></a>解压、压缩</h2><h3 id="解压"><a href="#解压" class="headerlink" title="解压"></a>解压</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">tar -xzvf test.tar.gz<br></code></pre></td></tr></table></figure>
+<h3 id="压缩"><a href="#压缩" class="headerlink" title="压缩"></a>压缩</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">tar -czvf test.tar.gz README.md<br></code></pre></td></tr></table></figure>
+
+<h3 id="解压到指定文件夹"><a href="#解压到指定文件夹" class="headerlink" title="解压到指定文件夹"></a>解压到指定文件夹</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">tar -xzvf test.tar.gz -C /home/test<br></code></pre></td></tr></table></figure>
+<h3 id="列出压缩文件内容"><a href="#列出压缩文件内容" class="headerlink" title="列出压缩文件内容"></a>列出压缩文件内容</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">tar -tzvf test.tar.gz <br></code></pre></td></tr></table></figure>
 
 <div class="note note-warning">
             <p><strong>参数说明</strong></p><ul><li>-v 显示指令执行过程。</li><li>-c 建立新的备份文件。</li><li>-f 指定备份文件。</li><li>-z 通过gzip指令处理备份文件。</li><li>-x 从备份文件中还原文件。</li></ul>
           </div>
 
-<p><strong>加密压缩</strong></p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># 将当前目录下的files文件夹打包压缩，密码为password</span><br><span class="hljs-comment"># -iter 10000参数来指定迭代次数为10000次。这将提高密钥派生的强度，增加加密的安全性。</span><br>tar -czvf - files | openssl des3 -salt -k password  -iter 10000 -out files.tar.gz<br><br><span class="hljs-comment"># 将当前目录下的files.tar.gz进行解密解压</span><br>openssl des3 -d -k password -salt -<span class="hljs-keyword">in</span> files.tar.gz | tar xzvf -<br></code></pre></td></tr></table></figure>
+<h3 id="使用密码"><a href="#使用密码" class="headerlink" title="使用密码"></a>使用密码</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># 将当前目录下的files文件夹打包压缩，密码为password</span><br><span class="hljs-comment"># -iter 10000参数来指定迭代次数为10000次。这将提高密钥派生的强度，增加加密的安全性。</span><br>tar -czvf - files | openssl des3 -salt -k password  -iter 10000 -out files.tar.gz<br><br><span class="hljs-comment"># 将当前目录下的files.tar.gz进行解密解压</span><br>openssl des3 -d -salt -k password -iter 10000 -<span class="hljs-keyword">in</span> files.tar.gz | tar -xzf -<br></code></pre></td></tr></table></figure>
 
-<p><strong>分割解压压缩</strong></p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># 每3.5G分割</span><br>tar -czvf - 2023_08_22_照片 | <span class="hljs-built_in">split</span> -b 3500m - 2023_08_22_照片.part.<br></code></pre></td></tr></table></figure>
+<h3 id="分割文件"><a href="#分割文件" class="headerlink" title="分割文件"></a>分割文件</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># 分割</span><br><span class="hljs-built_in">split</span> -b 1M file.tar.gz file_bakcup.<br><br><span class="hljs-comment"># 合并</span><br><span class="hljs-built_in">cat</span> file_backup* &gt; file.tar.gz<br></code></pre></td></tr></table></figure>
+
+<h2 id="软、硬链接"><a href="#软、硬链接" class="headerlink" title="软、硬链接"></a>软、硬链接</h2><p>删除源文件，硬链接没有影响，软链接不可用。</p>
+<h3 id="软链接"><a href="#软链接" class="headerlink" title="软链接"></a>软链接</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-built_in">ls</span> -s README.md README.soft.md<br></code></pre></td></tr></table></figure>
+
+<h3 id="硬链接"><a href="#硬链接" class="headerlink" title="硬链接"></a>硬链接</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-built_in">ls</span> README.md README.hard.md<br></code></pre></td></tr></table></figure>
+
 <h2 id="内存、cpu、io"><a href="#内存、cpu、io" class="headerlink" title="内存、cpu、io"></a>内存、cpu、io</h2><h3 id="内存"><a href="#内存" class="headerlink" title="内存"></a>内存</h3><ol>
 <li>输入 <code>top</code> 命令，按下 <code>M</code> 键可以按照内存使用量进行排序。</li>
 <li>查看内存使用最多的5个进程</li>
@@ -561,6 +569,8 @@
 
 <h1 id="3-进程管理"><a href="#3-进程管理" class="headerlink" title="3. 进程管理"></a>3. 进程管理</h1><h1 id="4-系统管理"><a href="#4-系统管理" class="headerlink" title="4. 系统管理"></a>4. 系统管理</h1><h2 id="cronjob-定时任务"><a href="#cronjob-定时任务" class="headerlink" title="cronjob 定时任务"></a>cronjob 定时任务</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># crontab -e 命令以编辑当前用户的cron表。</span><br>crontab -e<br><br><span class="hljs-comment"># 每分钟执行一次 ls</span><br>*/1 * * * * <span class="hljs-built_in">ls</span><br></code></pre></td></tr></table></figure>
 
+<p><strong>查看日志</strong></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-built_in">tail</span> -f /var/spool/mail/root<br></code></pre></td></tr></table></figure>
 <h1 id="5-安全性"><a href="#5-安全性" class="headerlink" title="5. 安全性"></a>5. 安全性</h1><h2 id="更换密码"><a href="#更换密码" class="headerlink" title="更换密码"></a>更换密码</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">passwd<br></code></pre></td></tr></table></figure>
                 
               </div>
@@ -625,7 +635,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>更新于</div>
-          <div>2023年8月22日</div>
+          <div>2023年8月28日</div>
         </div>
       
       
