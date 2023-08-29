@@ -16,22 +16,25 @@
   <meta name="author" content="oldwang12">
   <meta name="keywords" content="">
   
-    <meta name="description" content="vscode 插件推荐">
+    <meta name="description" content="要想下班早，工具用的好。             iterm2 跳板机避免重复验证比如登陆公司跳板机每次需要输入验证码，对开发很不友好，可以在本地环境 ~&#x2F;.ssh&#x2F;config 文件中加上下面配置 123456789Host ujump     HostName jump1.xxxx.com     Port 22     User lee">
 <meta property="og:type" content="article">
-<meta property="og:title" content="vscode必备插件">
-<meta property="og:url" content="http://blog.oldwang.fun/2023/07/23/%E5%B7%A5%E5%85%B7/vscode%E5%BF%85%E5%A4%87%E6%8F%92%E4%BB%B6/index.html">
+<meta property="og:title" content="工具大全">
+<meta property="og:url" content="http://blog.oldwang.fun/2023/08/29/%E5%B7%A5%E5%85%B7/%E5%B7%A5%E5%85%B7%E5%A4%A7%E5%85%A8/index.html">
 <meta property="og:site_name" content="oldwang12的博客">
-<meta property="og:description" content="vscode 插件推荐">
+<meta property="og:description" content="要想下班早，工具用的好。             iterm2 跳板机避免重复验证比如登陆公司跳板机每次需要输入验证码，对开发很不友好，可以在本地环境 ~&#x2F;.ssh&#x2F;config 文件中加上下面配置 123456789Host ujump     HostName jump1.xxxx.com     Port 22     User lee">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2023-07-22T16:17:38.000Z">
-<meta property="article:modified_time" content="2023-08-17T09:39:42.538Z">
+<meta property="og:image" content="http://blog.oldwang.fun/2023/08/29/%E5%B7%A5%E5%85%B7/%E5%B7%A5%E5%85%B7%E5%A4%A7%E5%85%A8/iterm.png">
+<meta property="article:published_time" content="2023-08-29T09:33:28.000Z">
+<meta property="article:modified_time" content="2023-08-29T09:54:16.598Z">
 <meta property="article:author" content="oldwang12">
 <meta property="article:tag" content="工具">
+<meta property="article:tag" content="ssh">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://blog.oldwang.fun/2023/08/29/%E5%B7%A5%E5%85%B7/%E5%B7%A5%E5%85%B7%E5%A4%A7%E5%85%A8/iterm.png">
   
   
   
-  <title>vscode必备插件 - oldwang12的博客</title>
+  <title>工具大全 - oldwang12的博客</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -224,7 +227,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle">vscode必备插件</span>
+            <span id="subtitle">工具大全</span>
           
         </div>
 
@@ -235,9 +238,9 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2023-07-23 00:17" pubdate>
-          <!-- 2023年7月23日 凌晨 -->
-          2023年8月28日 晚上
+        <time datetime="2023-08-29 17:33" pubdate>
+          <!-- 2023年8月29日 下午 -->
+          2023年8月29日 下午
         </time>
       </span>
     
@@ -248,7 +251,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          183 字
+          837 字
         
       </span>
     
@@ -259,7 +262,7 @@
         
         
         
-          1 分钟
+          3 分钟
         
       </span>
     
@@ -309,18 +312,42 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">vscode必备插件</h1>
+            <h1 id="seo-header">工具大全</h1>
             
             
               <div class="markdown-body">
                 
                 <div class="note note-primary">
-            <p>vscode 插件推荐</p>
+            <p>要想下班早，工具用的好。</p>
           </div>
 
-<span id="more"></span>
+<h1 id="iterm2-跳板机避免重复验证"><a href="#iterm2-跳板机避免重复验证" class="headerlink" title="iterm2 跳板机避免重复验证"></a>iterm2 跳板机避免重复验证</h1><p>比如登陆公司跳板机每次需要输入验证码，对开发很不友好，可以在本地环境 ~&#x2F;.ssh&#x2F;config 文件中加上下面配置</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-string">Host</span> <span class="hljs-string">ujump</span><br>     <span class="hljs-string">HostName</span> <span class="hljs-string">jump1.xxxx.com</span><br>     <span class="hljs-string">Port</span> <span class="hljs-number">22</span><br>     <span class="hljs-string">User</span> <span class="hljs-string">lee</span><br>     <span class="hljs-string">IdentityFile</span> <span class="hljs-string">~/.ssh/id_rsa</span><br>     <span class="hljs-string">ServerAliveInterval</span> <span class="hljs-number">300</span><br>     <span class="hljs-string">ControlMaster</span> <span class="hljs-string">auto</span><br>     <span class="hljs-string">ControlPath</span> <span class="hljs-string">~/.ssh/master-%r@%h:%p</span><br>     <span class="hljs-string">StrictHostKeyChecking</span> <span class="hljs-literal">no</span><br></code></pre></td></tr></table></figure>
 
-<h4 id="markdone-预览"><a href="#markdone-预览" class="headerlink" title="markdone 预览"></a>markdone 预览</h4><figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">Markdown Preview Enhanced</span><br></code></pre></td></tr></table></figure>
+<p>这样就可以免验证登陆，但在使用时还是不友好，因为每次新打开的窗口仍然需要输入ssh xxxx，Mac 可以在iTerm2中进行配置new profile</p>
+<p><img src="iterm.png"></p>
+<h1 id="ssh-免密登陆"><a href="#ssh-免密登陆" class="headerlink" title="ssh 免密登陆"></a>ssh 免密登陆</h1><h2 id="本地"><a href="#本地" class="headerlink" title="本地"></a>本地</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># 生成公钥</span><br>$ ssh-keygen<br></code></pre></td></tr></table></figure>
+
+<p>cat ~&#x2F;.ssh&#x2F;id_rsa.pub</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCkHYTZDNfsSbanDwlJODoGAx9py6sQpdf/bfR<br></code></pre></td></tr></table></figure>
+
+<h2 id="服务器"><a href="#服务器" class="headerlink" title="服务器"></a>服务器</h2><p>将上一步的key 放入 ~&#x2F;.ssh&#x2F;authorized_keys</p>
+<h1 id="屏蔽浏览器网络请求"><a href="#屏蔽浏览器网络请求" class="headerlink" title="屏蔽浏览器网络请求"></a>屏蔽浏览器网络请求</h1><div class="note note-warning">
+            <p>在 F12 调试时很不方便，故屏蔽掉不相关的请求。</p>
+          </div>
+
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">-/.*.js|.*.php|.*.png|.*.ico|.*.css|.*.gif/<br></code></pre></td></tr></table></figure>
+
+<h1 id="Mac-工具推荐"><a href="#Mac-工具推荐" class="headerlink" title="Mac 工具推荐"></a>Mac 工具推荐</h1><h4 id="翻译工具"><a href="#翻译工具" class="headerlink" title="翻译工具"></a>翻译工具</h4><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs">沙拉查词<br></code></pre></td></tr></table></figure>
+
+<h4 id="截屏"><a href="#截屏" class="headerlink" title="截屏"></a>截屏</h4><figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">snipaste</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="剪切板（复制多个）"><a href="#剪切板（复制多个）" class="headerlink" title="剪切板（复制多个）"></a>剪切板（复制多个）</h4><figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">icopy</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="内存、CPU、磁盘占用"><a href="#内存、CPU、磁盘占用" class="headerlink" title="内存、CPU、磁盘占用"></a>内存、CPU、磁盘占用</h4><figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">iStat Menus</span><br></code></pre></td></tr></table></figure>
+
+
+<h1 id="Vscode-插件"><a href="#Vscode-插件" class="headerlink" title="Vscode 插件"></a>Vscode 插件</h1><h4 id="markdone-预览"><a href="#markdone-预览" class="headerlink" title="markdone 预览"></a>markdone 预览</h4><figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">Markdown Preview Enhanced</span><br></code></pre></td></tr></table></figure>
 
 <h4 id="git-查看历史提交"><a href="#git-查看历史提交" class="headerlink" title="git 查看历史提交"></a>git 查看历史提交</h4><figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">Git History</span><br></code></pre></td></tr></table></figure>
 
@@ -371,6 +398,8 @@
       
         <a href="/tags/%E5%B7%A5%E5%85%B7/" class="print-no-link">#工具</a>
       
+        <a href="/tags/ssh/" class="print-no-link">#ssh</a>
+      
     </div>
   
 </div>
@@ -381,8 +410,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>vscode必备插件</div>
-      <div>http://blog.oldwang.fun/2023/07/23/工具/vscode必备插件/</div>
+      <div>工具大全</div>
+      <div>http://blog.oldwang.fun/2023/08/29/工具/工具大全/</div>
     </div>
     <div class="license-meta">
       
@@ -394,13 +423,13 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2023年7月23日</div>
+          <div>2023年8月29日</div>
         </div>
       
       
         <div class="license-meta-item license-meta-date">
           <div>更新于</div>
-          <div>2023年8月17日</div>
+          <div>2023年8月29日</div>
         </div>
       
       

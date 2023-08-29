@@ -110,6 +110,10 @@ ln README.md README.hard.md
 ps aux --sort=-%mem | head -n 6
 ```
 
+#### 查看指定进程内存占用
+
+ps -o rss= -p <pid>
+
 ### CPU
 
 1. 输入 `top` 命令，按下 `P` 键可以按照内存使用量进行排序。
