@@ -73,6 +73,11 @@ docker run -d --net=host --name x-ui -v /etc/x-ui:/etc/x-ui/ xxx/xxx/x-ui:latest
 
 #### 安装最新版 docker
 ```sh
+yum update -y
+```
+你可以单独执行更新。
+
+```sh
 # 删除旧版本的Docker
 sudo yum remove docker docker-client docker-client-latest docker-common docker-latest docker-latest-logrotate docker-logrotate docker-engine
 # 安装依赖软件包

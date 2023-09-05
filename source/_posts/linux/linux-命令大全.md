@@ -99,6 +99,19 @@ ln -s README.md README.soft.md
 ln README.md README.hard.md
 ```
 
+## dd
+
+生成100M文件
+```sh
+dd if=/dev/zero of=file_100M bs=1M count=100
+```
+
+随机生成1百万个1K的文件
+
+```sh
+dd if=/dev/zero of=100M bs=1M count=100
+```
+
 ## 内存、cpu、io
 
 ### 内存
