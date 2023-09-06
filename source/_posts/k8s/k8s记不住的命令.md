@@ -21,6 +21,16 @@ kubectl run my-pod --image=nginx:latest
 kubectl set image deployment/provider provider=provider:latest
 ```
 
+## 调整副本
+```sh
+kubectl scale deployment/provider --replicas=0
+```
+
+或者
+```sh
+kubectl scale deployment my-deployment --replicas=0
+```
+
 ## 给 node/pod 打标签
 ```sh
 kubectl label nodes kube-node node=kube-node
@@ -38,6 +48,11 @@ kubectl cp <some-namespace>/<some-pod>:/tmp/foo /tmp/foo
 
 # 拷贝本地数据到pod之中
 kubectl cp /tmp/foo <some-namespace>/<some-pod>:/tmp/foo
+```
+
+## 查看支持的 apiVersion
+```sh
+kubectl api-versions
 ```
 
 ## 回滚版本
