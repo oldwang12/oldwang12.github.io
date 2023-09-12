@@ -108,3 +108,6 @@ deploy:
   type: git
   repo: https://github.com/oldwang12/oldwang12.github.io
   branch: page
+
+toc:
+  auto_number: true

@@ -633,6 +633,7 @@ post:
   # Table of contents (TOC) in the sidebar
   toc:
     enable: true
+    number: true
 
     # 置于板块的左侧或右侧
     # place in the board
