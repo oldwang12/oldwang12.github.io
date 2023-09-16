@@ -68,7 +68,7 @@
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
     Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"blog.oldwang.fun","root":"/","version":"1.9.5","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":false,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"number":true,"placement":"left","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":1},"lazyload":{"enable":false,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+    var CONFIG = {"hostname":"blog.oldwang.fun","root":"/","version":"1.9.5","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":false,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"left","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":2},"lazyload":{"enable":false,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
 
     if (CONFIG.web_analytics.follow_dnt) {
       var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
@@ -236,7 +236,7 @@
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
         <time datetime="2023-09-06 14:25" pubdate>
           <!-- 2023年9月6日 下午 -->
-          2023年9月12日 中午
+          2023年9月16日 下午
         </time>
       </span>
     
@@ -315,13 +315,13 @@
                 
                 <span id="more"></span>
 
-<h1 id="1-重大变化"><a href="#1-重大变化" class="headerlink" title="1. 重大变化"></a>1. 重大变化</h1><h2 id="1-1-containerd"><a href="#1-1-containerd" class="headerlink" title="1.1 containerd"></a>1.1 containerd</h2><p>1.26 不支持 CRI v1alpha2，并且要求容器运行时必须支持 CRI v1。因此必须要求 Containerd 最低版本为 1.6</p>
+<h1><span id="1-重大变化">1. 重大变化</span></h1><h2><span id="11-containerd">1.1 containerd</span></h2><p>1.26 不支持 CRI v1alpha2，并且要求容器运行时必须支持 CRI v1。因此必须要求 Containerd 最低版本为 1.6</p>
 <div class="note note-warning">
             <p>升级集群时，需先将Containerd升级到1.6.0及以上版本后，才能将节点升级到Kubernetes 1.26。</p>
           </div>
 
-<h2 id="1-2-PodSecurityPolicy"><a href="#1-2-PodSecurityPolicy" class="headerlink" title="1.2 PodSecurityPolicy"></a>1.2 PodSecurityPolicy</h2><p>Kubernetes在1.21版本中弃用PodSecurityPolicy，在Kubernetes 1.25版本中彻底移除。</p>
-<h2 id><a href="#" class="headerlink" title></a></h2>
+<h2><span id="12-podsecuritypolicy">1.2 PodSecurityPolicy</span></h2><p>Kubernetes在1.21版本中弃用PodSecurityPolicy，在Kubernetes 1.25版本中彻底移除。</p>
+<h2><span id></span></h2>
                 
               </div>
             

@@ -25,7 +25,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://blog.oldwang.fun/2023/08/29/%E5%B7%A5%E5%85%B7/%E5%B7%A5%E5%85%B7%E5%A4%A7%E5%85%A8/iterm.png">
 <meta property="article:published_time" content="2023-08-29T09:33:28.000Z">
-<meta property="article:modified_time" content="2023-08-29T09:54:16.598Z">
+<meta property="article:modified_time" content="2023-08-30T13:35:44.710Z">
 <meta property="article:author" content="oldwang12">
 <meta property="article:tag" content="工具">
 <meta property="article:tag" content="ssh">
@@ -72,7 +72,7 @@
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
     Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"blog.oldwang.fun","root":"/","version":"1.9.5","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":false,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"number":true,"placement":"left","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":1},"lazyload":{"enable":false,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+    var CONFIG = {"hostname":"blog.oldwang.fun","root":"/","version":"1.9.5","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":false,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"left","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":2},"lazyload":{"enable":false,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
 
     if (CONFIG.web_analytics.follow_dnt) {
       var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
@@ -240,7 +240,7 @@
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
         <time datetime="2023-08-29 17:33" pubdate>
           <!-- 2023年8月29日 下午 -->
-          2023年9月12日 中午
+          2023年9月16日 下午
         </time>
       </span>
     
@@ -321,49 +321,49 @@
             <p>要想下班早，工具用的好。</p>
           </div>
 
-<h1 id="iterm2-跳板机避免重复验证"><a href="#iterm2-跳板机避免重复验证" class="headerlink" title="iterm2 跳板机避免重复验证"></a>iterm2 跳板机避免重复验证</h1><p>比如登陆公司跳板机每次需要输入验证码，对开发很不友好，可以在本地环境 ~&#x2F;.ssh&#x2F;config 文件中加上下面配置</p>
+<h1><span id="iterm2-跳板机避免重复验证">iterm2 跳板机避免重复验证</span></h1><p>比如登陆公司跳板机每次需要输入验证码，对开发很不友好，可以在本地环境 ~&#x2F;.ssh&#x2F;config 文件中加上下面配置</p>
 <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-string">Host</span> <span class="hljs-string">ujump</span><br>     <span class="hljs-string">HostName</span> <span class="hljs-string">jump1.xxxx.com</span><br>     <span class="hljs-string">Port</span> <span class="hljs-number">22</span><br>     <span class="hljs-string">User</span> <span class="hljs-string">lee</span><br>     <span class="hljs-string">IdentityFile</span> <span class="hljs-string">~/.ssh/id_rsa</span><br>     <span class="hljs-string">ServerAliveInterval</span> <span class="hljs-number">300</span><br>     <span class="hljs-string">ControlMaster</span> <span class="hljs-string">auto</span><br>     <span class="hljs-string">ControlPath</span> <span class="hljs-string">~/.ssh/master-%r@%h:%p</span><br>     <span class="hljs-string">StrictHostKeyChecking</span> <span class="hljs-literal">no</span><br></code></pre></td></tr></table></figure>
 
 <p>这样就可以免验证登陆，但在使用时还是不友好，因为每次新打开的窗口仍然需要输入ssh xxxx，Mac 可以在iTerm2中进行配置new profile</p>
 <p><img src="iterm.png"></p>
-<h1 id="ssh-免密登陆"><a href="#ssh-免密登陆" class="headerlink" title="ssh 免密登陆"></a>ssh 免密登陆</h1><h2 id="本地"><a href="#本地" class="headerlink" title="本地"></a>本地</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># 生成公钥</span><br>$ ssh-keygen<br></code></pre></td></tr></table></figure>
+<h1><span id="ssh-免密登陆">ssh 免密登陆</span></h1><h2><span id="本地">本地</span></h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># 生成公钥</span><br>$ ssh-keygen<br></code></pre></td></tr></table></figure>
 
 <p>cat ~&#x2F;.ssh&#x2F;id_rsa.pub</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCkHYTZDNfsSbanDwlJODoGAx9py6sQpdf/bfR<br></code></pre></td></tr></table></figure>
 
-<h2 id="服务器"><a href="#服务器" class="headerlink" title="服务器"></a>服务器</h2><p>将上一步的key 放入 ~&#x2F;.ssh&#x2F;authorized_keys</p>
-<h1 id="屏蔽浏览器网络请求"><a href="#屏蔽浏览器网络请求" class="headerlink" title="屏蔽浏览器网络请求"></a>屏蔽浏览器网络请求</h1><div class="note note-warning">
+<h2><span id="服务器">服务器</span></h2><p>将上一步的key 放入 ~&#x2F;.ssh&#x2F;authorized_keys</p>
+<h1><span id="屏蔽浏览器网络请求">屏蔽浏览器网络请求</span></h1><div class="note note-warning">
             <p>在 F12 调试时很不方便，故屏蔽掉不相关的请求。</p>
           </div>
 
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">-/.*.js|.*.php|.*.png|.*.ico|.*.css|.*.gif/<br></code></pre></td></tr></table></figure>
 
-<h1 id="Mac-工具推荐"><a href="#Mac-工具推荐" class="headerlink" title="Mac 工具推荐"></a>Mac 工具推荐</h1><h4 id="翻译工具"><a href="#翻译工具" class="headerlink" title="翻译工具"></a>翻译工具</h4><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs">沙拉查词<br></code></pre></td></tr></table></figure>
+<h1><span id="mac-工具推荐">Mac 工具推荐</span></h1><h4><span id="翻译工具">翻译工具</span></h4><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs">沙拉查词<br></code></pre></td></tr></table></figure>
 
-<h4 id="截屏"><a href="#截屏" class="headerlink" title="截屏"></a>截屏</h4><figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">snipaste</span><br></code></pre></td></tr></table></figure>
+<h4><span id="截屏">截屏</span></h4><figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">snipaste</span><br></code></pre></td></tr></table></figure>
 
-<h4 id="剪切板（复制多个）"><a href="#剪切板（复制多个）" class="headerlink" title="剪切板（复制多个）"></a>剪切板（复制多个）</h4><figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">icopy</span><br></code></pre></td></tr></table></figure>
+<h4><span id="剪切板复制多个">剪切板（复制多个）</span></h4><figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">icopy</span><br></code></pre></td></tr></table></figure>
 
-<h4 id="内存、CPU、磁盘占用"><a href="#内存、CPU、磁盘占用" class="headerlink" title="内存、CPU、磁盘占用"></a>内存、CPU、磁盘占用</h4><figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">iStat Menus</span><br></code></pre></td></tr></table></figure>
+<h4><span id="内存-cpu-磁盘占用">内存、CPU、磁盘占用</span></h4><figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">iStat Menus</span><br></code></pre></td></tr></table></figure>
 
 
-<h1 id="Vscode-插件"><a href="#Vscode-插件" class="headerlink" title="Vscode 插件"></a>Vscode 插件</h1><h4 id="markdone-预览"><a href="#markdone-预览" class="headerlink" title="markdone 预览"></a>markdone 预览</h4><figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">Markdown Preview Enhanced</span><br></code></pre></td></tr></table></figure>
+<h1><span id="vscode-插件">Vscode 插件</span></h1><h4><span id="markdone-预览">markdone 预览</span></h4><figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">Markdown Preview Enhanced</span><br></code></pre></td></tr></table></figure>
 
-<h4 id="git-查看历史提交"><a href="#git-查看历史提交" class="headerlink" title="git 查看历史提交"></a>git 查看历史提交</h4><figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">Git History</span><br></code></pre></td></tr></table></figure>
+<h4><span id="git-查看历史提交">git 查看历史提交</span></h4><figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">Git History</span><br></code></pre></td></tr></table></figure>
 
-<h4 id="yaml自动补全"><a href="#yaml自动补全" class="headerlink" title="yaml自动补全"></a>yaml自动补全</h4><figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs asciidoc"><span class="hljs-bullet">* </span>git: line<br><span class="hljs-bullet">* </span>kubernetes、yaml<br></code></pre></td></tr></table></figure>
+<h4><span id="yaml自动补全">yaml自动补全</span></h4><figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs asciidoc"><span class="hljs-bullet">* </span>git: line<br><span class="hljs-bullet">* </span>kubernetes、yaml<br></code></pre></td></tr></table></figure>
 
-<h4 id="自动生成图"><a href="#自动生成图" class="headerlink" title="自动生成图"></a>自动生成图</h4><figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">markmap</span><br></code></pre></td></tr></table></figure>
+<h4><span id="自动生成图">自动生成图</span></h4><figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">markmap</span><br></code></pre></td></tr></table></figure>
 
-<h4 id="远程开发"><a href="#远程开发" class="headerlink" title="远程开发"></a>远程开发</h4><figure class="highlight basic"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs basic"><span class="hljs-comment">Remote - SSH</span><br></code></pre></td></tr></table></figure>
+<h4><span id="远程开发">远程开发</span></h4><figure class="highlight basic"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs basic"><span class="hljs-comment">Remote - SSH</span><br></code></pre></td></tr></table></figure>
 
-<h4 id="html-预览"><a href="#html-预览" class="headerlink" title="html 预览"></a>html 预览</h4><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs css"><span class="hljs-selector-tag">HTML</span> Preview<br></code></pre></td></tr></table></figure>
+<h4><span id="html-预览">html 预览</span></h4><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs css"><span class="hljs-selector-tag">HTML</span> Preview<br></code></pre></td></tr></table></figure>
 
-<h4 id="生成脑图"><a href="#生成脑图" class="headerlink" title="生成脑图"></a>生成脑图</h4><figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">MarkMap</span><br></code></pre></td></tr></table></figure>
+<h4><span id="生成脑图">生成脑图</span></h4><figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">MarkMap</span><br></code></pre></td></tr></table></figure>
 
-<h4 id="粘贴图片"><a href="#粘贴图片" class="headerlink" title="粘贴图片"></a>粘贴图片</h4><figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">Pasts Image</span><br></code></pre></td></tr></table></figure>
+<h4><span id="粘贴图片">粘贴图片</span></h4><figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">Pasts Image</span><br></code></pre></td></tr></table></figure>
 
-<h4 id="坤坤鼓励师"><a href="#坤坤鼓励师" class="headerlink" title="坤坤鼓励师"></a>坤坤鼓励师</h4><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs">坤坤鼓励师<br></code></pre></td></tr></table></figure>
+<h4><span id="坤坤鼓励师">坤坤鼓励师</span></h4><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs">坤坤鼓励师<br></code></pre></td></tr></table></figure>
                 
               </div>
             
@@ -429,7 +429,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>更新于</div>
-          <div>2023年8月29日</div>
+          <div>2023年8月30日</div>
         </div>
       
       

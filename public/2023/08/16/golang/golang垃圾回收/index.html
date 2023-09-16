@@ -25,7 +25,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://blog.oldwang.fun/2023/08/16/golang/golang%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6/1.png">
 <meta property="article:published_time" content="2023-08-16T09:17:32.000Z">
-<meta property="article:modified_time" content="2023-08-17T09:40:51.239Z">
+<meta property="article:modified_time" content="2023-08-23T09:19:05.443Z">
 <meta property="article:author" content="oldwang12">
 <meta property="article:tag" content="golang">
 <meta name="twitter:card" content="summary_large_image">
@@ -71,7 +71,7 @@
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
     Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"blog.oldwang.fun","root":"/","version":"1.9.5","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":false,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"number":true,"placement":"left","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":1},"lazyload":{"enable":false,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+    var CONFIG = {"hostname":"blog.oldwang.fun","root":"/","version":"1.9.5","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":false,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"left","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":2},"lazyload":{"enable":false,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
 
     if (CONFIG.web_analytics.follow_dnt) {
       var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
@@ -239,7 +239,7 @@
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
         <time datetime="2023-08-16 17:17" pubdate>
           <!-- 2023年8月16日 下午 -->
-          2023年9月12日 中午
+          2023年9月16日 下午
         </time>
       </span>
     
@@ -322,7 +322,7 @@
 
 <span id="more"></span>
 
-<h2 id="1-标记过程"><a href="#1-标记过程" class="headerlink" title="1. 标记过程"></a>1. 标记过程</h2><p><img src="1.png" alt="image"></p>
+<h2><span id="1-标记过程">1. 标记过程</span></h2><p><img src="1.png" alt="image"></p>
 <ul>
 <li>初始状态下所有对象都是白色的。</li>
 <li>从根节点开始遍历所有对象，把遍历到的对象变成灰色对象</li>
@@ -331,25 +331,25 @@
 <li>通过写屏障(write-barrier)检测对象有变化，重复以上操作</li>
 <li>回收所有白色对象（垃圾）。</li>
 </ul>
-<h2 id="2-根对象是什么？"><a href="#2-根对象是什么？" class="headerlink" title="2. 根对象是什么？"></a>2. 根对象是什么？</h2><p>根对象在垃圾回收的术语中又叫做根集合，它是垃圾回收器在标记过程时最先检查的对象，包括：</p>
+<h2><span id="2-根对象是什么">2. 根对象是什么？</span></h2><p>根对象在垃圾回收的术语中又叫做根集合，它是垃圾回收器在标记过程时最先检查的对象，包括：</p>
 <ul>
 <li>全局变量：程序在编译期就能确定的那些存在于程序整个生命周期的变量。</li>
 <li>执行栈：每个 goroutine 都包含自己的执行栈，这些执行栈上包含栈上的变量及指向分配的堆内存区块的指针。</li>
 <li>寄存器：寄存器的值可能表示一个指针，参与计算的这些指针可能指向某些赋值器分配的堆内存区块。</li>
 </ul>
-<h2 id="3-STW（Stop-The-World）"><a href="#3-STW（Stop-The-World）" class="headerlink" title="3. STW（Stop The World）"></a>3. STW（Stop The World）</h2><ul>
+<h2><span id="3-stwstop-the-world">3. STW（Stop The World）</span></h2><ul>
 <li>为了避免在 GC 的过程中，对象之间的引用关系发生新的变更，使得GC的结果发生错误（如GC过程中新增了一个引用，但是由于未扫描到该引用导致将被引用的对象清除了），停止所有正在运行的协程。</li>
 <li>STW对性能有一些影响，Golang目前已经可以做到1ms以下的STW。</li>
 </ul>
-<h2 id="4-写屏障-Write-Barrier"><a href="#4-写屏障-Write-Barrier" class="headerlink" title="4. 写屏障(Write Barrier)"></a>4. 写屏障(Write Barrier)</h2><p>为了避免GC的过程中新修改的引用关系到GC的结果发生错误，我们需要进行STW。但是STW会影响程序的性能，所以我们要<span class="label label-danger">通过写屏障技术尽可能地缩短STW的时间。</span></p>
-<h3 id="4-1-写屏障的原理"><a href="#4-1-写屏障的原理" class="headerlink" title="4.1 写屏障的原理"></a>4.1 写屏障的原理</h3><p>造成引用对象丢失的条件:</p>
+<h2><span id="4-写屏障write-barrier">4. 写屏障(Write Barrier)</span></h2><p>为了避免GC的过程中新修改的引用关系到GC的结果发生错误，我们需要进行STW。但是STW会影响程序的性能，所以我们要<span class="label label-danger">通过写屏障技术尽可能地缩短STW的时间。</span></p>
+<h3><span id="41-写屏障的原理">4.1 写屏障的原理</span></h3><p>造成引用对象丢失的条件:</p>
 <ul>
 <li>一个黑色A新增了指向白色C的引用，</li>
 <li>白色C没有其他灰色的引用(除A之外)。</li>
 </ul>
 <p>以上两个条件需要同时满足：满足条件1时说明A已扫描完毕，A指向C的引用无法再被扫描到；满足条件2时说明C无其他灰色的引用了，即扫描结束后会被忽略 。</p>
 <span class="label label-danger">写屏障破坏两个条件其一即可</span>
-<h4 id="4-2-如何破坏？"><a href="#4-2-如何破坏？" class="headerlink" title="4.2 如何破坏？"></a>4.2 如何破坏？</h4><ul>
+<h4><span id="42-如何破坏">4.2 如何破坏？</span></h4><ul>
 <li><strong>Dijistra写屏障</strong></li>
 </ul>
 <p>满足强三色不变性：黑色节点不允许引用白色节点，当黑色节点新增了白色节点的引用时，将对应的白色节点改为灰色</p>
@@ -357,7 +357,7 @@
 <li><strong>Yuasa写屏障</strong></li>
 </ul>
 <p>满足弱三色不变性：黑色节点允许引用白色节点，但是该白色节点有其他灰色节点间接的引用（确保不会被遗漏），当白色节点被删除了一个引用时，悲观地认为它一定会被一个黑色节点新增引用，所以将它置为灰色</p>
-<h2 id="5-GC-触发时机"><a href="#5-GC-触发时机" class="headerlink" title="5. GC 触发时机"></a>5. GC 触发时机</h2><p><strong>内存分配量达到阈值触发GC</strong></p>
+<h2><span id="5-gc-触发时机">5. GC 触发时机</span></h2><p><strong>内存分配量达到阈值触发GC</strong></p>
 <p>每次内存分配时都会检查当前内存分配量是否已达到阈值，如果达到阈值立即启动GC，</p>
 <span class="label label-primary">阈值 = 上次GC内存分配量 × 内存增长率</span>
 
@@ -429,7 +429,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>更新于</div>
-          <div>2023年8月17日</div>
+          <div>2023年8月23日</div>
         </div>
       
       

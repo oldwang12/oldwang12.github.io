@@ -125,7 +125,9 @@ ps aux --sort=-%mem | head -n 6
 
 #### 查看指定进程内存占用
 
+```sh
 ps -o rss= -p <pid>
+```
 
 ### CPU
 

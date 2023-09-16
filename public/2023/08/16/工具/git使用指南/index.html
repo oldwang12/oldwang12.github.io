@@ -70,7 +70,7 @@
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
     Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"blog.oldwang.fun","root":"/","version":"1.9.5","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":false,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"number":true,"placement":"left","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":1},"lazyload":{"enable":false,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+    var CONFIG = {"hostname":"blog.oldwang.fun","root":"/","version":"1.9.5","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":false,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"left","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":2},"lazyload":{"enable":false,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
 
     if (CONFIG.web_analytics.follow_dnt) {
       var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
@@ -238,7 +238,7 @@
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
         <time datetime="2023-08-16 10:36" pubdate>
           <!-- 2023年8月16日 上午 -->
-          2023年9月12日 中午
+          2023年9月16日 下午
         </time>
       </span>
     
@@ -322,13 +322,13 @@
 
 <span id="more"></span>
 
-<h2 id="1-一键提交当前分支"><a href="#1-一键提交当前分支" class="headerlink" title="1. 一键提交当前分支"></a>1. 一键提交当前分支</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">git add .;git commit -m <span class="hljs-string">&quot;test&quot;</span>;git push origin $(git symbolic-ref --short HEAD)<br></code></pre></td></tr></table></figure>
+<h2><span id="1-一键提交当前分支">1. 一键提交当前分支</span></h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">git add .;git commit -m <span class="hljs-string">&quot;test&quot;</span>;git push origin $(git symbolic-ref --short HEAD)<br></code></pre></td></tr></table></figure>
 
-<h2 id="2-删除分支"><a href="#2-删除分支" class="headerlink" title="2. 删除分支"></a>2. 删除分支</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># 删除本地分支</span><br>git branch -D xxx<br><br><span class="hljs-comment"># 删除远程分支</span><br>git push origin --delete xxx<br></code></pre></td></tr></table></figure>
+<h2><span id="2-删除分支">2. 删除分支</span></h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># 删除本地分支</span><br>git branch -D xxx<br><br><span class="hljs-comment"># 删除远程分支</span><br>git push origin --delete xxx<br></code></pre></td></tr></table></figure>
 
-<h2 id="3-开发分支落后时，如何同步-master-分支。"><a href="#3-开发分支落后时，如何同步-master-分支。" class="headerlink" title="3. 开发分支落后时，如何同步 master 分支。"></a>3. 开发分支落后时，如何同步 master 分支。</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># 1. 获取master分支的最新变更。可以使用以下命令来更新您本地的master分支</span><br>git checkout master<br>git pull origin master<br><br><span class="hljs-comment"># 2. 切换回开发分支，并将master分支的变更合并到开发分支上：</span><br>git checkout feature/test<br>git merge master<br><br><span class="hljs-comment"># 3. 如果有冲突出现，您需要解决这些冲突后再提交变更。</span><br><br><span class="hljs-comment"># 4. 推送开发分支到远程仓库</span><br>git push origin feature/test<br></code></pre></td></tr></table></figure>
+<h2><span id="3-开发分支落后时如何同步-master-分支">3. 开发分支落后时，如何同步 master 分支。</span></h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># 1. 获取master分支的最新变更。可以使用以下命令来更新您本地的master分支</span><br>git checkout master<br>git pull origin master<br><br><span class="hljs-comment"># 2. 切换回开发分支，并将master分支的变更合并到开发分支上：</span><br>git checkout feature/test<br>git merge master<br><br><span class="hljs-comment"># 3. 如果有冲突出现，您需要解决这些冲突后再提交变更。</span><br><br><span class="hljs-comment"># 4. 推送开发分支到远程仓库</span><br>git push origin feature/test<br></code></pre></td></tr></table></figure>
 
-<h2 id="4-git-reset"><a href="#4-git-reset" class="headerlink" title="4. git reset"></a>4. git reset</h2><p>放弃所有更改并回到上一次提交的状态：</p>
+<h2><span id="4-git-reset">4. git reset</span></h2><p>放弃所有更改并回到上一次提交的状态：</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">git reset --hard HEAD^<br></code></pre></td></tr></table></figure>
 <div class="note note-warning">
             <p>这将删除所有的未提交更改，将HEAD指向父提交，并将工作区和暂存区恢复到上一次提交的状态。</p>
@@ -342,7 +342,7 @@
             <p>请注意，git reset 是一个潜在的危险操作，因为它会从版本历史中移除提交。在执行这些命令之前，请确保你理解这些操作的副作用，并且在对你的代码产生重大影响之前，最好进行备份或咨询团队中的其他成员。</p>
           </div>
 
-<h2 id="5-git-stash"><a href="#5-git-stash" class="headerlink" title="5. git stash"></a>5. git stash</h2><p><code>git stash</code> 是一个Git命令，用于将当前未提交的修改保存为一个临时的存储状态，以便你可以切换到其他分支或执行其他操作。</p>
+<h2><span id="5-git-stash">5. git stash</span></h2><p><code>git stash</code> 是一个Git命令，用于将当前未提交的修改保存为一个临时的存储状态，以便你可以切换到其他分支或执行其他操作。</p>
 <div class="note note-warning">
             <p>当你在进行代码开发时，可能会遇到以下情况之一：</p><p>你正在一个分支上进行开发，但突然需要切换到另一个分支上处理紧急修复或其他任务。<br>你正在进行一些尝试性的修改，但暂时不想提交它们。<br>在这些情况下，你可以使用 git stash 命令将当前的修改保存起来，以便稍后恢复。</p>
           </div>
