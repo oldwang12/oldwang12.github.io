@@ -549,6 +549,11 @@ crontab -e
 */1 * * * * ls
 ```
 
+## history输出时间
+```sh
+export HISTTIMEFORMAT='%F %T '
+```
+
 **查看日志**
 ```sh
 tail -f /var/spool/mail/root

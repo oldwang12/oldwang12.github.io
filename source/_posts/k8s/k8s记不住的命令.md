@@ -144,7 +144,22 @@ crictl inspect 容器ID | grep pid
 nsenter -t $PID -n
 ```
 
-### 12 更改grafana密码
+### 12. 更改grafana密码
 ```sh
 grafana-cli admin reset-admin-password <password>
 ```
+
+### 13. 生成 hub secret
+
+```sh
+kubectl create secret docker-registry <secret_name> \
+  --docker-server=<registry_url> \
+  --docker-username=<username> \
+  --docker-password=<password> \
+  --docker-email=<email>
+```
+
+k create secret docker-registry hub-aliyun \
+  --docker-server=registry.cn-hangzhou.aliyuncs.com \
+  --docker-username=w17691027323 \
+  --docker-password=wang970425
