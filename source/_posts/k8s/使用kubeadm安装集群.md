@@ -55,7 +55,11 @@ sudo tar zxvf crictl-$VERSION-linux-amd64.tar.gz -C /usr/local/bin
 rm -f crictl-$VERSION-linux-amd64.tar.gz
 ```
 
-**3.1 ctrctl 报错文件找不到**
+### 3.1 containerd 配置
+```sh
+crictl config runtime-endpoint unix:///var/run/containerd/containerd.sock
+```
+### 3.2 ctrctl 报错文件找不到
 * 不同的部署方式，文件路径可能不同。
 
 ```sh
@@ -63,7 +67,7 @@ rm -f crictl-$VERSION-linux-amd64.tar.gz
 crictl --runtime-endpoint /var/run/k3s/containerd/containerd.sock ps -a
 ```
 
-**3.2 查看 ctrctl 配置**
+### 3.3 查看 ctrctl 配置
 ```sh
 cat /etc/crictl.yaml
 ```
@@ -151,15 +155,20 @@ sysctl -p
 
 ### 7.1 master
 ```sh
-kubeadm init --v=5
+kubeadm init --v=5 --image-repository registry.cn-hangzhou.aliyuncs.com/google_containers --pod-network-cidr=10.244.0.0/16 --kubernetes-version=v1.28.2
 ```
-
 
 此时，正常情况下你应该看到master安装成功提示
 ```log
 kubeadm join 10.7.130.29:6443 --token kqi9ve.dvcyddrn9527rvnu \
 	--discovery-token-ca-cert-hash sha256:67c19abd79fhjkl1cc5a04e2192bf3bc335d41f2f4a76084adcc4cda3d48804
 ```
+
+将master设置为node
+```sh
+kubectl taint nodes --all node-role.kubernetes.io/control-plane-
+```
+
 ### 7.2 node
 ```sh
 kubeadm join 10.7.130.29:6443 --token kqi9ve.dvcyddrn9527rvnu \
@@ -168,7 +177,7 @@ kubeadm join 10.7.130.29:6443 --token kqi9ve.dvcyddrn9527rvnu \
 ### 7.3 参数说明
 ```sh
 # 指定版本
---kubernetes-version=v1.26.7
+--kubernetes-version=v1.28.2
 
 # 指定镜像源为阿里
 --image-repository registry.cn-hangzhou.aliyuncs.com/google_containers
