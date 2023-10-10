@@ -21,6 +21,7 @@ kubectl run my-pod --image=nginx:latest
 kubectl set image deployment/provider provider=provider:latest
 ```
 
+
 ## 3. scale
 ```sh
 kubectl scale deployment/provider --replicas=0
