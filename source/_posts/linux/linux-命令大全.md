@@ -17,7 +17,7 @@ sticky: 1000
 
 
 # 1. 文件操作
-## 文件权限
+## 1.1. 文件权限
 ```sh
 # 以数字形式输出文件权限，0644
 stat -c '%a' example.txt
@@ -35,22 +35,22 @@ ls -l example.txt
 # 在这个例子中，-rw-r--r-- 表示文件所有者有读、写权限，所属组和其他人只有读权限。
 ```
 
-## 解压、压缩
+## 1.2. 解压、压缩
 
-### 解压
+### 1.2.1. 解压
 ```sh
 tar -xzvf test.tar.gz
 ```
-### 压缩
+### 1.2.2. 压缩
 ```sh
 tar -czvf test.tar.gz README.md
 ```
 
-### 解压到指定文件夹
+### 1.2.3. 解压到指定文件夹
 ```sh
 tar -xzvf test.tar.gz -C /home/test
 ```
-### 列出压缩文件内容
+### 1.2.4. 列出压缩文件内容
 ```sh
 tar -tzvf test.tar.gz 
 ```
@@ -64,7 +64,7 @@ tar -tzvf test.tar.gz
 * -x 从备份文件中还原文件。
 {% endnote %}
 
-### 使用密码
+### 1.2.5. 使用密码
 
 ```sh
 # 将当前目录下的files文件夹打包压缩，密码为password
@@ -75,7 +75,7 @@ tar -czvf - files | openssl des3 -salt -k password  -iter 10000 -out files.tar.g
 openssl des3 -d -salt -k password -iter 10000 -in files.tar.gz | tar -xzf -
 ```
 
-### 分割文件
+### 1.2.6. 分割文件
 
 ```sh
 # 分割
@@ -85,21 +85,21 @@ split -b 1M file.tar.gz file_bakcup.
 cat file_backup* > file.tar.gz
 ```
 
-## 软、硬链接
+## 1.3. 软、硬链接
 
 删除源文件，硬链接没有影响，软链接不可用。
 
-### 软链接
+### 1.3.1. 软链接
 ```sh
 ln -s README.md README.soft.md
 ```
 
-### 硬链接
+### 1.3.2. 硬链接
 ```sh
 ln README.md README.hard.md
 ```
 
-## dd
+## 1.4. dd
 
 生成100M文件
 ```sh
@@ -112,9 +112,9 @@ dd if=/dev/zero of=file_100M bs=1M count=100
 dd if=/dev/zero of=100M bs=1M count=100
 ```
 
-## 内存、cpu、io
+## 1.5. 内存、cpu、io
 
-### 内存
+### 1.5.1. 内存
 
 1. 输入 `top` 命令，按下 `M` 键可以按照内存使用量进行排序。
 2. 查看内存使用最多的5个进程
@@ -123,13 +123,13 @@ dd if=/dev/zero of=100M bs=1M count=100
 ps aux --sort=-%mem | head -n 6
 ```
 
-#### 查看指定进程内存占用
+#### 1.5.1.1. 查看指定进程内存占用
 
 ```sh
 ps -o rss= -p <pid>
 ```
 
-### CPU
+### 1.5.2. CPU
 
 1. 输入 `top` 命令，按下 `P` 键可以按照内存使用量进行排序。
 2. 查看CPU使用最多的5个进程
@@ -138,7 +138,7 @@ ps -o rss= -p <pid>
 ps aux --sort=-%cpu | head -n 6
 ```
 
-### IO
+### 1.5.3. IO
 
 {% note warning %}
 请注意，`iotop` 和 `pidstat` 可能需要先安装，在终端输入以下命令可以安装它们：
@@ -151,17 +151,17 @@ yum -y install iotop
 # ubuntu
 apt-get install iotop sysstat
 ```
-#### iotop
+#### 1.5.3.1. iotop
 {% label primary @iotop %} 命令可以 {% label danger @实时 %} 显示系统中进程的磁盘IO使用情况。打开终端并输入 iotop 命令，然后按下O键可以按照IO使用量进行排序。按q可以退出iotop 命令
    
-#### pidstat
+#### 1.5.3.2. pidstat
 {% label success @pidstat %} 命令可以显示特定进程的IO使用情况。输入以下命令来查看IO使用最多的5个进程：
 
 ```sh
 pidstat -d | sort -nrk 2 | head -n 6
 ```
 
-#### iostat
+#### 1.5.3.3. iostat
 {% label primary @iostat %} 命令可以提供关于系统设备和分区的IO统计信息。输入以下命令来查看整个系统的IO情况：
 
 ```sh
@@ -196,12 +196,12 @@ svctm（Service Time）：每个 I/O 操作花费的平均时间。
 {% endnote %}
 
 
-## top
-### 前五行
+## 1.6. top
+### 1.6.1. 前五行
 
-![Alt text](top-01.png)
+![](/img/top-01.png)
 
-#### 1. 输出系统任务队列信息
+#### 1.6.1.1. 输出系统任务队列信息
 
 {% note warning %}
 
@@ -211,7 +211,7 @@ svctm（Service Time）：每个 I/O 操作花费的平均时间。
 **load average**: 0.10, 0.12, 0.09：系统负载，系统运行队列的平均利用率，可认为是可运行进程的平均数；三个数值分别为 1分钟、5分钟、15分钟前到现在的平均值；单核CPU中load average的值=1时表示满负荷状态，多核CPU中4代表4核满负荷状态。
 {% endnote %}
 
-#### 2. 任务进程信息
+#### 1.6.1.2. 任务进程信息
 
 {% note warning %}
 **total**：系统全部进程的数量
@@ -221,7 +221,7 @@ svctm（Service Time）：每个 I/O 操作花费的平均时间。
 **zombie**：僵尸进程数量
 {% endnote %}
 
-#### 3. CPU信息
+#### 1.6.1.3. CPU信息
 
 {% note warning %}
 **us**：用户空间占用CPU百分比
@@ -234,7 +234,7 @@ svctm（Service Time）：每个 I/O 操作花费的平均时间。
 **st**：虚拟机占用CPU百分比
 {% endnote %}
 
-#### 4. 物理内存信息
+#### 1.6.1.4. 物理内存信息
 
 {% note warning %}
 以下内存单位均为MB
@@ -249,7 +249,7 @@ svctm（Service Time）：每个 I/O 操作花费的平均时间。
 **buff/cache**：用于内核缓存的内存量
 {% endnote %}
 
-#### 5. 交互区内存信息
+#### 1.6.1.5. 交互区内存信息
 
 swap 分区通常被称为交换分区，这是一块特殊的硬盘空间，即当实际内存不够用的时候，操作系统会从内存中取出一部分暂时不用的数据，放在交换分区中，从而为当前运行的程序腾出足够的内存空间。
 
@@ -261,9 +261,11 @@ swap 分区通常被称为交换分区，这是一块特殊的硬盘空间，即
 {% endnote %}
 
 
-### 进程列表
+### 1.6.2. 进程列表
 
-![进程列表](top-02.png)
+![](/img/top-02.png)
+
+
 {% note warning %}
 **PID**：进程号
 **USER**：运行进程的用户
@@ -279,17 +281,17 @@ swap 分区通常被称为交换分区，这是一块特殊的硬盘空间，即
 **COMMAND**：命令名or命令行
 {% endnote %}
 
-### 使用方法
-#### 更换内存单位
+### 1.6.3. 使用方法
+#### 1.6.3.1. 更换内存单位
 {% note warning %}
 在 top 命令界面上，可以按下 e 键来进入设置界面，然后按下 E 键来切换内存单位为 GB。你可以在 top 的设置界面中选择其他显示选项，按需进行更改。
 
 在设置界面中，你也可以使用 W 命令将当前的设置保存为个人配置文件，以便下次启动 top 时自动应用这些设置。
 {% endnote %}
 
-## 磁盘
+## 1.7. 磁盘
 
-### du
+### 1.7.1. du
 {% note warning %}
 
 直接输入 du 没有加任何选项时，则 du 会分析当前所在目录里的子目录所占用的硬盘空间。
@@ -330,9 +332,9 @@ du -h $DIR --max-depth=1 | sort -h
 # sort -rh 从大到小排序
 ```
 
-#### 
+#### 1.7.1.1. 
 
-### df
+### 1.7.2. df
 
 显示系统中每个文件系统的磁盘使用情况
 
@@ -340,7 +342,7 @@ du -h $DIR --max-depth=1 | sort -h
 df -h
 ```
 
-### lsblk
+### 1.7.3. lsblk
 
 显示系统中所有的块设备，包括硬盘和分区。通常，系统盘的挂载点是根目录 /，而数据盘则可能挂载在其他目录上，如/home、/mnt等。
 
@@ -354,7 +356,7 @@ lsblk
 cat /etc/fstab
 ```
 
-### fdisk
+### 1.7.4. fdisk
 
 列出所有分区信息
 
@@ -362,7 +364,7 @@ cat /etc/fstab
 fdisk
 ```
 
-### mount
+### 1.7.5. mount
 
 {% note warning %}
 目的：向linux系统新增一块硬盘，并挂载到指定目录。
@@ -416,7 +418,7 @@ vim /etc/fstab
 /dev/vdb2   /mnt/partition2   ext4   defaults   0   0
 ```
 
-## 命令行快捷键
+## 1.8. 命令行快捷键
 {% note warning %}
 请注意，某些快捷键可能会因终端和操作系统的不同而有所差异。
 {% endnote %}
@@ -439,9 +441,9 @@ vim /etc/fstab
 
 # 2. 网络管理
 
-## 端口查看
+## 2.1. 端口查看
 
-### netstat
+### 2.1.1. netstat
 
 {% note success %}
 
@@ -466,17 +468,17 @@ netstat -nplt
 -a 查看全部协议(netstat -an)
 {% endnote %}
 
-### lsof
+### 2.1.2. lsof
 
 ```sh
 lsof -i :30001
 ```
 
-### telnet
+### 2.1.3. telnet
 ```sh
 telnet 127.0.0.1 30001
 ```
-## 路由
+## 2.2. 路由
 
 **查看默认路由表信息**
 ```sh
@@ -501,7 +503,7 @@ ip route get 8.8.8.8
 ```sh
 traceroute 8.8.8.8
 ```
-## 网速测试
+## 2.3. 网速测试
 
 **安装**
 ```sh
@@ -534,7 +536,7 @@ Upload: 34.54 Mbit/s
 下载网速为 1MB/s ，这里指的是网速每秒可以下载1M。
 {% endnote %}
 
-## 快速开启http服务
+## 2.4. 快速开启http服务
 
 这将监听本地 80 端口，响应 OK
 ```sh
@@ -544,7 +546,7 @@ echo -e 'HTTP/1.1 200 OK\r\n\r\nOK' | sudo socat - TCP-LISTEN:80
 # 3. 进程管理
 # 4. 系统管理
 
-## cronjob 定时任务
+## 4.1. cronjob 定时任务
 ```sh
 # crontab -e 命令以编辑当前用户的cron表。
 crontab -e
@@ -553,7 +555,7 @@ crontab -e
 */1 * * * * ls
 ```
 
-## history输出时间
+## 4.2. history输出时间
 ```sh
 export HISTTIMEFORMAT='%F %T '
 ```
@@ -564,7 +566,7 @@ tail -f /var/spool/mail/root
 ```
 # 5. 安全性
 
-## 更换密码
+## 5.1. 更换密码
 ```sh
 passwd
 ```

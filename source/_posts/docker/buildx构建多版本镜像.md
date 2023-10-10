@@ -20,7 +20,7 @@ categories: docker
 
 ## 1. 创建buildx
 
-### 1.1 查看当前buildx实例
+### 1.1. 查看当前buildx实例
 
 ```sh
 $ docker buildx ls
@@ -31,7 +31,7 @@ default * docker
 
 > 默认会有个实例叫default，default实例下有一个default的node，一个实例下可以有多个node,星号是默认使用的实例,node有很多种类型
 
-### 1.2 创建buildx
+### 1.2. 创建buildx
 
 ```shell
 docker buildx create --name all --node local --driver docker-container --platform linux/amd64,linux/arm64,linux/arm/v8 --use

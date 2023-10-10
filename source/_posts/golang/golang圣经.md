@@ -1,6 +1,6 @@
 ---
 layout: golang
-title: golang 看这一篇就够了
+title: golang 圣经
 date: 2023-07-29 13:20:35
 tags: golang
 categories: golang
@@ -8,14 +8,12 @@ categories: golang
 
 {% note primary %}
 
-日积月累便封神
+日积月累便封神。
 
 {% endnote %}
 
 <!-- more -->
  
-# 常用
-
 # 1. time 包
 
 {% note primary %}
@@ -26,7 +24,7 @@ categories: golang
 
 <!--more-->
 
-### 1.1 时间格式
+## 1.1. 时间格式
 
 ```go
 	timelocal, err := time.LoadLocation("Asia/Shanghai")
@@ -37,9 +35,9 @@ categories: golang
 	fmt.Println(time.Now().Local().Format("2006-01-02 15:04:05"))
 ```
 
-### 1.2 超时处理
+## 1.2. 超时处理
 
-#### 1.2.1. 使用select
+### 1.2.1. 使用select
   
 ```go
     c1 := make(chan string, 1)
@@ -56,7 +54,7 @@ categories: golang
     }
 ```
 
-####  1.2.2. 使用 time.Since
+###  1.2.2. 使用 time.Since
   
 ```go
 	startTime := time.Now()
@@ -68,9 +66,9 @@ categories: golang
         return fmt.Errorf("timeout")
     }
 ```
-###  1.3 定时器
+##  1.3. 定时器
 
-####  1.3.1. timer
+###  1.3.1. timer
   
 ```go
 func main() {
@@ -98,7 +96,7 @@ func main() {
 	fmt.Println("结束时间：", time.Now().Format("2006-01-02 15:04:05"))
 }
 ```
-####  1.3.2. ticker
+###  1.3.2. ticker
   
 ```go
 func main() {
@@ -117,7 +115,7 @@ func main() {
 }
 ```
 
-# 2 gin 跨域问题
+# 2. gin 跨域问题
 {% note warning %}
 
 解决跨域问题
@@ -224,10 +222,7 @@ done
 go get "k8s.io/kubernetes@v${VERSION}"
 ```
 
-
-# 面试
-
-## 2.1 结构体打印时，%v 和 %+v 的区别
+# 5. 结构体打印时，%v 和 %+v 的区别
 ```go
 func printStruct(){
 	people := People{
@@ -246,16 +241,16 @@ func printStruct(){
 
 <p id="2"></p>
  
-## 2.2 new 和 make的区别
+# 6. new 和 make的区别
 
 * new只用于分配内存，返回一个指向地址的指针。它为每个新类型分配一片内存，初始化为0且返回类型*T的内存地址，它相当于&T{}
 * make只可用于slice,map,channel的初始化,返回的是引用。
 
-## 2.3 什么是协程？
+# 7. 什么是协程？
 
 协程是用户态轻量级线程，它是线程调度的基本单位。通常在函数前加上go关键字就能实现并发。一个Goroutine会以一个很小的栈启动2KB或4KB，当遇到栈空间不足时，栈会自动伸缩， 因此可以轻易实现成千上万个goroutine同时启动。
 
-## 2.4 defer执行顺序
+# 8. defer执行顺序
 
 后进先出
 
@@ -303,7 +298,7 @@ func main() {
 这个例子中，返回值被修改了。对于有名返回值的函数，执行 return 语句时，并不会再创建临时变量保存，因此，defer 语句修改了 i，即对返回值产生了影响。
 
 
-## 2.5 如何判断 map 中是否包含某个 key ？
+# 9. 如何判断 map 中是否包含某个 key ？
 ```go
 var sample map[int]int
 if _, ok := sample[10]; ok {
@@ -311,7 +306,7 @@ if _, ok := sample[10]; ok {
 }
 ```
 
-## 2.6 如何获取一个结构体的所有tag？
+# 10. 如何获取一个结构体的所有tag？
 ```go
 package main
 
@@ -337,7 +332,7 @@ func main() {
 // Publications json:Publication,omitempty
 ```
 
-## 2.7 如何判断 2 个字符串切片（slice) 是相等的？
+# 11. 如何判断 2 个字符串切片（slice) 是相等的？
 
 ```go
 package main
@@ -355,13 +350,13 @@ func main() {
 }
 ```
 
-## 2.8 go里面的int和int32是同一个概念吗？
+# 12. go里面的int和int32是同一个概念吗？
 不是一个概念！千万不能混淆。go语言中的int的大小是和操作系统位数相关的，如果是32位操作系统，int类型的大小就是4字节。如果是64位操作系统，int类型的大小就是8个字节。除此之外uint也与操作系统有关。
 
 int8占1个字节，int16占2个字节，int32占4个字节，int64占8个字节。
 
 
-## 2.9 init() 函数
+# 13. init() 函数
 
 - init()函数是go初始化的一部分，由runtime初始化每个导入的包，初始化不是按照从上到下的导入顺序，而是按照解析的依赖关系，没有依赖的包最先初始化。
 - 每个包首先初始化包作用域的常量和变量（常量优先于变量），然后执行包的init()函数。同一个包，甚至是同一个源文件可以有多个init()函数。
@@ -370,7 +365,7 @@ int8占1个字节，int16占2个字节，int32占4个字节，int64占8个字节
 - 一个文件可以有多个init()函数！
 - 执行顺序：import –> const –> var –>init()–>main()
 
-## 2.10 2 个 nil 可能不相等吗？
+# 14. 2 个 nil 可能不相等吗？
 可能不等。interface在运行时绑定值，只有值为nil接口值才为nil，但是与指针的nil不相等。举个例子：
 
 ```go
@@ -382,3 +377,51 @@ if(p == i){
 ```
 两者并不相同。总结：<span style="color: green;">两个nil只有在类型相同时才相等。</span>
 
+# 15. copy vs 赋值
+
+**1. 注意**
+```go
+	slice1 := []int{1, 2, 3, 4, 5}
+	slice2 := []int{5, 4, 3}
+	copy(slice2, slice1) // 只会复制slice1的前3个元素到slice2中
+	copy(slice1, slice2) // 只会复制slice2的3个元素到slice1的前3个位置
+```
+
+**2. 区别**
+```go
+package  main
+
+import "fmt"
+
+func main() {
+	test1()
+	test2()
+}
+
+func test1() {
+	a := []int{1,2,3,4,5}
+	b := a  //等号赋值
+	fmt.Printf("b切片的值%v，a地址%p,b地址%p\n", b, a, b)
+	a[0] = 100
+	fmt.Printf("等号赋值当改变源值，新值也会改变 %v\n", b)
+}
+
+func test2() {
+	a := []int{1,2,3,4,5}
+	b := make([]int, len(a))
+	copy(b, a)
+	fmt.Printf("b切片的值%v，a地址%p,b地址%p\n", b, a, b)
+	a[0] = 100
+	fmt.Printf("copy赋值当改变源值，新值不会改变 %v\n", b)
+}
+```
+
+{% note warning %}
+
+**输出：**
+b切片的值`[1 2 3 4 5]`，a地址`0xc00008a030`, b地址 `0xc00008a030`
+等号赋值当改变源值，新值也会改变 `[100 2 3 4 5]`
+b切片的值`[1 2 3 4 5]`，a地址`0xc00008a060`,b地址`0xc00008a090`
+copy赋值当改变源值，新值不会改变 `[1 2 3 4 5]`
+
+{% endnote %}

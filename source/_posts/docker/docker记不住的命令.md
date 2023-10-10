@@ -15,7 +15,7 @@ categories: docker
 
 <!--more-->
 
-#### 启动一个容器
+#### 1. 启动一个容器
 
 ```yaml
 # -p: 8888为主机端口，3306为容器端口
@@ -23,55 +23,55 @@ categories: docker
 # 最后的 mysql 为镜像 
 docker run -itd --name mysql-test -p 8888:3306 -e MYSQL_ROOT_PASSWORD=123456 mysql
 ```
-#### 列出所有的容器 ID
+#### 2. 列出所有的容器 ID
 ```sh
 docker ps -aq
 ```
 
-#### 停止所有的容器
+#### 3. 停止所有的容器
 ```sh
 docker stop $(docker ps -aq)
 ```
 
-#### 删除所有的容器
+#### 4. 删除所有的容器
 ```sh
 docker rm $(docker ps -aq)
 ```
 
-#### 删除所有的镜像
+#### 5. 删除所有的镜像
 ```sh
 docker rmi $(docker images -q)
 ```
-#### 删除所有未使用的镜像
+#### 6. 删除所有未使用的镜像
 ```sh
  docker system prune -a
 ```
-#### 删除 none 相关镜像
+#### 7. 删除 none 相关镜像
 ```sh
 docker rmi $(docker images | grep none | awk '{print $3}')     
 ```
 
-#### 拉取指定版本镜像
+#### 8. 拉取指定版本镜像
 ```sh
 docker pull tickstep/aliyunpan-sync:v0.2.7 --platform=linux/arm/v7
 ```
 
-#### mac 清理镜像层
+#### 9. mac 清理镜像层
 ```sh
 rm ~/Library/Containers/com.docker.docker
 ```
-#### 复制文件
+#### 10. 复制文件
 
 ```sh
 docker cp mycontainer:/opt/file.txt /opt/local/
 docker cp /opt/local/file.txt mycontainer:/opt/
 ```
-#### 启动 x-ui
+#### 11. 启动 x-ui
 ```sh
 docker run -d --net=host --name x-ui -v /etc/x-ui:/etc/x-ui/ xxx/xxx/x-ui:latest
 ```
 
-#### 安装最新版 docker
+#### 12. 安装最新版 docker
 ```sh
 yum update -y
 ```
@@ -96,7 +96,7 @@ docker --version
 sudo docker info
 ```
 
-#### 查看容器资源占用
+#### 13. 查看容器资源占用
 ```sh
 # 持续监控
 docker stats

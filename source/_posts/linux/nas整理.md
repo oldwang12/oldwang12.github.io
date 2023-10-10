@@ -14,7 +14,7 @@ categories: linux
 
 <!-- more -->
 
-## 重命名
+## 1. 重命名
 ```sh
 #!/bin/bash
 
@@ -31,9 +31,9 @@ for file in *S01E[1-9].*; do
 done
 ```
 
-## 备份
+## 2. 备份
 
-### alist脚本
+### 2.1. alist脚本
 
 ```sh
 #!/bin/bash
@@ -103,7 +103,7 @@ sleep 10
 echo "done" > /root/tar_status.txt
 ```
 
-### 压缩
+### 2.2. 压缩
 ```go
 package main
 
@@ -329,7 +329,7 @@ func getTarfile(filepath string) string {
 }
 ```
 
-### 配置
+### 2.3. 配置
 
 ```yaml
 alist:

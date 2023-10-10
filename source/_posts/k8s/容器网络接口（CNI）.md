@@ -16,16 +16,16 @@ categories: k8s
 
 # 1. CNI交互逻辑
 ## 1.1 Pod IP地址分配机制
-![image](pod-allow-ip.png)
+![image](/img/cni/pod-allow-ip.png)
 ## 1.2 CRI插件与CNI插件的交互
-![cri-cni](cri-cni.png)
+![cri-cni](/img/cni/cri-cni.png)
 
 ## 1.3 CNI插件间的交互
-![cni](cni-plugins.png)
+![cni](/img/cni/cni-plugins.png)
 
 # 2. flannel 3种模式
 
-![flannel](flannel-modes.jpg)
+![flannel](/img/cni/flannel-modes.jpg)
 
 UDP、VXLAN模式基于三层网络，host-gateway需要在二层网络同一个交换机下才能实现。
 
@@ -35,11 +35,11 @@ VXLAN是Flannel默认和推荐的模式。当我们使用默认配置安装Flann
 
 ### 2.1.1 节点内通信
 
-![flannel-vxlan-1](flannel-vxlan-1.png)
+![flannel-vxlan-1](/img/cni/flannel-vxlan-1.png)
 
 ### 2.1.2 跨节点通信
 
-![flannel-vxlan-2](flannel-vxlan-2.png)
+![flannel-vxlan-2](/img/cni/flannel-vxlan-2.png)
 
 **大致过程:**
 - 发送端：在PodA中发起 ping 10.244.1.21 ，ICMP 报文经过 cni0 网桥后交由 flannel.1 设备处理。 flannel.1 设备是一个VXLAN类型的设备，负责VXLAN封包解包。 因此，在发送端，flannel.1 将原始L2报文封装成VXLAN UDP报文，然后从 eth0 发送。
@@ -73,7 +73,7 @@ VXLAN的封包是将二层以太网帧封装到四层UDP报文中的过程。
 ```
 有了上面的信息， flannel.1 就可以构造出内层的2层以太网帧：
 
-![flannel_packet_1.png](flannel-vxlan-3.png)
+![flannel_packet_1.png](/img/cni/flannel-vxlan-3.png)
 
 **外层VXLAN UDP报文**
 要将原始L2帧封装成VXLAN UDP报文， flannel.1 还需要填充源/目的IP地址。前面提到，VTEP是VXLAN隧道的起点或终点。因此，目的IP地址即为对端VTEP的IP地址，通过FDB表获取。在FDB表③中，dst字段表示的即为VXLAN隧道目的端点（对端VTEP）的IP地址，也就是VXLAN DUP报文的目的IP地址。FDB表也是由 flanneld 在每个节点上预设并负责维护的。
@@ -103,7 +103,7 @@ Flannel的VXLAN模式通过静态配置路由表，ARP表和FDB表的信息，�
 
 ## 2.2 host-gw模式
 
-![host-gw模式](flannel-host-gw-1.png)
+![host-gw模式](/img/cni/flannel-host-gw-1.png)
 
 在host-gw模式下，由于不涉及VXLAN的封包解包，不再需要`flannel.1`虚机网卡。 `flanneld` 负责为各节点设置路由 ，将对应节点Pod子网的下一跳地址指向对应的节点的IP，如图中`路由表①`所示。
 
@@ -137,13 +137,13 @@ IPIP模式是calico的默认网络架构，calico中用环境变量`CALICO_IPV4P
 
 #### 3.1.2 工作原理
 
-![ipip](calico-ipip-1.png)
+![ipip](/img/cni/calico-ipip-1.png)
 
 Calico使用的这个tunl0设备，是一个IP隧道（IP tunnel）设备
 
 在上面的例子中，IP包进入IP隧道设备之后，就会被Linux内核的IPIP驱动接管。IPIP驱动会将这个IP包直接封装在一个宿主机网络的IP包中，如下所示：
 
-![ipip](calico-ipip-2.png)
+![ipip](/img/cni/calico-ipip-2.png)
 
 ## 3.2 BGP 模式
 
@@ -155,7 +155,7 @@ Calico使用的这个tunl0设备，是一个IP隧道（IP tunnel）设备
 - BGP网络相比较IPIP网络，最大的不同之处就是没有了隧道设备 tunl0。前面介绍过`IPIP`网络pod之间的流量发送tunl0，然后tunl0发送对端设备。BGP网络中，pod之间的流量直接从网卡发送目的地，减少了`tunl0`这个环节。
 
 #### 3.2.2 工作原理
-![bgp](calico-bgp-1.png)
+![bgp](/img/cni/calico-bgp-1.png)
 
 # 参考文章
 https://ost.51cto.com/posts/15845

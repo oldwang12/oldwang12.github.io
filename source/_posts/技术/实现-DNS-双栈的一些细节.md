@@ -16,7 +16,7 @@ layout: dns
 * RFC6555: Happy Eyeballs: Success with Dual-Stack Hosts
 * RFC8305: Happy Eyeballs Version 2: Better Connectivity Using Concurrency
 
-## Why Happy Eyeballs ?
+## 1.1. Why Happy Eyeballs ?
 ```
 The name "happy eyeballs" derives from the term "eyeball" to describe endpoints which represent human Internet end-users, as opposed to servers.
 ```
@@ -727,7 +727,7 @@ server {
 
 原文链接： https://www.yuque.com/dogbrother-5valv/tzhl7q/rpuusg#tImdq
 
-# 参考文献
+# 7. 参考文献
 
 https://tools.ietf.org/html/rfc3484
 https://tools.ietf.org/html/rfc6724

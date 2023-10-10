@@ -15,7 +15,7 @@ categories: k8s
 <!-- more -->
 
 ## 图解k8s
-![master-worker](master-worker.png)
+![master-worker](/img/master-worker.png)
 ## 1. containerd
 **1.1 使用 tar 包安装**
 [下载地址](https://github.com/containerd/containerd/releases)

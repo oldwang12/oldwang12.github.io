@@ -1,20 +1,20 @@
-#### 本地上传
+#### 1. 本地上传
 
 ```sh
 make msg="xxx"                      
 ```
 
-#### 博客新建文件
+#### 2. 博客新建文件
 ```sh
 hexo new k8s pod网络
 ```
 
-#### 本地运行
+#### 3. 本地运行
 ```sh
 hexo s
 ```
 
-#### workflows
+#### 4. workflows
 
 cat docker-image.yml
 
