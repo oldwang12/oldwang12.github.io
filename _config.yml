@@ -104,4 +104,4 @@ remote_theme: fluid-dev/hexo-theme-fluid
 deploy:
   type: git
   repo: https://github.com/oldwang12/oldwang12.github.io
-  branch: fluid
+  branch: page
