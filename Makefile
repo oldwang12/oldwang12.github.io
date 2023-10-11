@@ -1,7 +1,5 @@
 .PHONY: push help
 
-#	zip -qr themes/pure.zip themes/pure
-
 push: ## 上传代码到 Github
 	hexo generate
 	hexo deploy
