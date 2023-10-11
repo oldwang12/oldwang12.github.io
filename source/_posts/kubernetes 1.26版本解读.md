@@ -22,7 +22,6 @@ tags:
 
 Kubernetes在1.21版本中弃用PodSecurityPolicy，在Kubernetes 1.25版本中彻底移除。
 
-
 ## 
 
 ```yaml
