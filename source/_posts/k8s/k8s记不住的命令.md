@@ -45,13 +45,13 @@ kubectl get node -l "node=kube-node"
 
 ## 6. cp
 
-### 6.1 拷贝pod数据到本地
+### 6.1. 6.1 拷贝pod数据到本地
 
 ```sh
 kubectl cp <some-namespace>/<some-pod>:/tmp/foo /tmp/foo
 ```
 
-### 6.2 拷贝本地数据到pod之中
+### 6.2. 6.2 拷贝本地数据到pod之中
 
 ```sh
 kubectl cp /tmp/foo <some-namespace>/<some-pod>:/tmp/foo
@@ -91,13 +91,13 @@ kubectl taint nodes <node-name> <taint-key>=<taint-value>:<taint-effect>
 
 
 ## 10. 探测
-### 10.1 livenessProbe: 存活探测
+### 10.1. 10.1 livenessProbe: 存活探测
 * **failureThreshold**: 表示连续失败探测的次数，认为容器已经死亡，默认为3次
 * **initialDelaySeconds**: 表示在容器启动后多少秒开始进行探测，默认值为10秒。
 * **periodSeconds**: 表示多长时间重试一次探测，默认值为10秒
 * **successThreshold**: 表示连续成功探测的次数，认为容器仍处于健康状态，默认为1次
 * **timeoutSeconds**: 表示探测请求的超时时间，默认为1秒。
-### 10.2 readinessProbe: 就绪探测
+### 10.2. 10.2 readinessProbe: 就绪探测
   
 ```yaml
 livenessProbe:
@@ -145,12 +145,12 @@ crictl inspect 容器ID | grep pid
 nsenter -t $PID -n
 ```
 
-### 12. 更改grafana密码
+### 11.4. 更改grafana密码
 ```sh
 grafana-cli admin reset-admin-password <password>
 ```
 
-### 13. 生成 hub secret
+### 11.5. 生成 hub secret
 
 ```sh
 kubectl create secret docker-registry <secret_name> \
@@ -164,3 +164,8 @@ k create secret docker-registry hub-aliyun \
   --docker-server=registry.cn-hangzhou.aliyuncs.com \
   --docker-username=w17691027323 \
   --docker-password=wang970425
+
+## 12. 默认集群svc域名
+```sh
+dig @172.17.0.2 kubernetes.default.svc.cluster.local
+```

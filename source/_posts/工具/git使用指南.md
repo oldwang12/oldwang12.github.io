@@ -8,14 +8,14 @@ categories: 工具
 
 {% note primary%}
 
-git 不仅仅是 pull 和 push。
+git 不仅仅是 pull 和 push 。
 
 {% endnote %}
 
 
 <!-- more -->
 
-## 1. 一键提交当前分支
+## 1. 一键提交当前分
 ```sh
 git add .;git commit -m "test";git push origin $(git symbolic-ref --short HEAD)
 ```
