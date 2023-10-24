@@ -56,22 +56,28 @@ docker rmi $(docker images | grep none | awk '{print $3}')
 docker pull tickstep/aliyunpan-sync:v0.2.7 --platform=linux/arm/v7
 ```
 
-#### 9. mac 清理镜像层
+#### 9. 看下具体的每层镜像大小
+
+```sh
+docker history --no-trunc 【镜像名】
+```
+
+#### 10. mac 清理镜像层
 ```sh
 rm ~/Library/Containers/com.docker.docker
 ```
-#### 10. 复制文件
+#### 11. 复制文件
 
 ```sh
 docker cp mycontainer:/opt/file.txt /opt/local/
 docker cp /opt/local/file.txt mycontainer:/opt/
 ```
-#### 11. 启动 x-ui
+#### 12. 启动 x-ui
 ```sh
 docker run -d --net=host --name x-ui -v /etc/x-ui:/etc/x-ui/ xxx/xxx/x-ui:latest
 ```
 
-#### 12. 安装最新版 docker
+#### 13. 安装最新版 docker
 ```sh
 yum update -y
 ```
@@ -96,7 +102,7 @@ docker --version
 sudo docker info
 ```
 
-#### 13. 查看容器资源占用
+#### 14. 查看容器资源占用
 ```sh
 # 持续监控
 docker stats
@@ -104,3 +110,4 @@ docker stats
 # 输出当前
 docker stats --no-stream
 ```
+
