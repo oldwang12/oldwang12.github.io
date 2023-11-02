@@ -15,7 +15,7 @@ categories: docker
 
 <!--more-->
 
-#### 1. 启动一个容器
+## 1. 启动一个容器
 
 ```yaml
 # -p: 8888为主机端口，3306为容器端口
@@ -23,61 +23,68 @@ categories: docker
 # 最后的 mysql 为镜像 
 docker run -itd --name mysql-test -p 8888:3306 -e MYSQL_ROOT_PASSWORD=123456 mysql
 ```
-#### 2. 列出所有的容器 ID
+## 2. 列出所有的容器 ID
 ```sh
 docker ps -aq
 ```
 
-#### 3. 停止所有的容器
+## 3. 停止所有的容器
 ```sh
 docker stop $(docker ps -aq)
 ```
 
-#### 4. 删除所有的容器
+## 4. 删除所有的容器
 ```sh
 docker rm $(docker ps -aq)
 ```
 
-#### 5. 删除所有的镜像
+## 5. 删除所有的镜像
 ```sh
 docker rmi $(docker images -q)
 ```
-#### 6. 删除所有未使用的镜像
+## 6. 删除所有未使用的镜像
 ```sh
- docker system prune -a
+docker system prune -a
 ```
-#### 7. 删除 none 相关镜像
+## 7. 删除 none 相关镜像
+
+**docker**
 ```sh
-docker rmi $(docker images | grep none | awk '{print $3}')     
+docker rmi $(docker images | grep none | awk '{print $3}')
 ```
 
-#### 8. 拉取指定版本镜像
+**containerd**
+```sh
+crictl rmi $(crictl images | grep none | awk '{print $3}')
+```
+
+## 8. 拉取指定版本镜像
 ```sh
 docker pull tickstep/aliyunpan-sync:v0.2.7 --platform=linux/arm/v7
 ```
 
-#### 9. 看下具体的每层镜像大小
+## 9. 看下具体的每层镜像大小
 
 ```sh
 docker history --no-trunc 【镜像名】
 ```
 
-#### 10. mac 清理镜像层
+## 10. mac 清理镜像层
 ```sh
 rm ~/Library/Containers/com.docker.docker
 ```
-#### 11. 复制文件
+## 11. 复制文件
 
 ```sh
 docker cp mycontainer:/opt/file.txt /opt/local/
 docker cp /opt/local/file.txt mycontainer:/opt/
 ```
-#### 12. 启动 x-ui
+## 12. 启动 x-ui
 ```sh
 docker run -d --net=host --name x-ui -v /etc/x-ui:/etc/x-ui/ xxx/xxx/x-ui:latest
 ```
 
-#### 13. 安装最新版 docker
+## 13. 安装最新版 docker
 ```sh
 yum update -y
 ```
@@ -102,7 +109,7 @@ docker --version
 sudo docker info
 ```
 
-#### 14. 查看容器资源占用
+## 14. 查看容器资源占用
 ```sh
 # 持续监控
 docker stats

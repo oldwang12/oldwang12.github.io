@@ -332,9 +332,25 @@ du -h $DIR --max-depth=1 | sort -h
 # sort -rh 从大到小排序
 ```
 
-#### 1.7.1.1. 
+### 1.7.2. ncdu
+如果尚未安装 ncdu 工具，可以使用包管理器进行安装。ncdu 提供了一个以交互方式浏览磁盘使用情况的界面，对于查看大型目录的使用情况非常有用。
 
-### 1.7.2. df
+安装 ncdu（如果尚未安装）：
+
+```sh
+# 使用 apt 包管理器（Debian/Ubuntu）安装
+sudo apt-get install ncdu
+
+# 使用 yum 包管理器（CentOS/RHEL）安装
+sudo yum install ncdu
+```
+
+运行 ncdu：
+
+```sh
+ncdu
+```
+### 1.7.3. df
 
 显示系统中每个文件系统的磁盘使用情况
 
@@ -342,7 +358,7 @@ du -h $DIR --max-depth=1 | sort -h
 df -h
 ```
 
-### 1.7.3. lsblk
+### 1.7.4. lsblk
 
 显示系统中所有的块设备，包括硬盘和分区。通常，系统盘的挂载点是根目录 /，而数据盘则可能挂载在其他目录上，如/home、/mnt等。
 
@@ -356,7 +372,7 @@ lsblk
 cat /etc/fstab
 ```
 
-### 1.7.4. fdisk
+### 1.7.5. fdisk
 
 列出所有分区信息
 
@@ -364,7 +380,7 @@ cat /etc/fstab
 fdisk
 ```
 
-### 1.7.5. mount
+### 1.7.6. mount
 
 {% note warning %}
 目的：向linux系统新增一块硬盘，并挂载到指定目录。

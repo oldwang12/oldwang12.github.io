@@ -64,14 +64,17 @@ kubectl api-versions
 
 ## 8. 回滚版本
 ```sh
+# 重启pod
+kubectl rollout restart deployment nginx
+
 # 查看历史版本
-kubectl rollout history deployment provider
+kubectl rollout history deployment nginx
 
 # 回滚到上一个版本
-kubectl rollout undo deployment provider
+kubectl rollout undo deployment nginx
 
 # 回滚到指定版本
-kubectl rollout undo deployment provider --to-revision=2
+kubectl rollout undo deployment nginx --to-revision=2
 ```
 
 ## 9. 污点
