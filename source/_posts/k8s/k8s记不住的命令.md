@@ -172,3 +172,33 @@ k create secret docker-registry hub-aliyun \
 ```sh
 dig @172.17.0.2 kubernetes.default.svc.cluster.local
 ```
+
+## 13. 设置pod时区
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx
+        volumeMounts:
+        - name: tz-config
+          mountPath: /etc/localtime
+          readOnly: true
+      volumes:
+      - name: tz-config
+        hostPath:
+          path: /etc/localtime
+```

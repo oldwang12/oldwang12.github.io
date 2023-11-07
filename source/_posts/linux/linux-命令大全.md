@@ -494,6 +494,7 @@ lsof -i :30001
 ```sh
 telnet 127.0.0.1 30001
 ```
+
 ## 2.2. 路由
 
 **查看默认路由表信息**
@@ -574,6 +575,13 @@ crontab -e
 ## 4.2. history输出时间
 ```sh
 export HISTTIMEFORMAT='%F %T '
+```
+
+## 4.3. 安装一些工具
+
+### 4.3.1. dig
+```sh
+yum -y install bind-utils
 ```
 
 **查看日志**
