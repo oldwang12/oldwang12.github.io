@@ -4,6 +4,19 @@
   
   
   <entry>
+    <title></title>
+    <link href="/2023/11/08/linux/%E9%94%99%E8%AF%AF%E9%9B%86%E5%90%88/"/>
+    <url>/2023/11/08/linux/%E9%94%99%E8%AF%AF%E9%9B%86%E5%90%88/</url>
+    
+    <content type="html"><![CDATA[<h4 id="shasum"><a href="#shasum" class="headerlink" title="shasum"></a>shasum</h4><p>背景: centos7 容器内,报错</p><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">shasum: <span class="hljs-built_in">command</span> not found<br></code></pre></td></tr></table></figure><p>解决：</p><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">yum install perl-Digest-SHA -y<br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>kubernetes 1.26版本解读</title>
     <link href="/2023/09/06/kubernetes%201.26%E7%89%88%E6%9C%AC%E8%A7%A3%E8%AF%BB/"/>
     <url>/2023/09/06/kubernetes%201.26%E7%89%88%E6%9C%AC%E8%A7%A3%E8%AF%BB/</url>
