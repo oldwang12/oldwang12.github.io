@@ -1,0 +1,83 @@
+# name: go-cqhttp
+
+# on:
+#   push:
+#     paths:
+#       # - .github/workflows/go-cqhttp.yml
+#       # - projects/go-cqhttp/**
+#       # - builds/Dockerfile.go-cqhttp
+#       # - builds/go-cqhttp.mk
+
+# jobs:
+#   # go-build-amd64:
+#   #   runs-on: ubuntu-latest
+
+#   #   steps:
+#   #     - name: Checkout repository
+#   #       uses: actions/checkout@v2
+
+#   #     - uses: actions/checkout@v3
+#   #     - uses: actions/setup-go@v4
+#   #       with:
+#   #         go-version: "1.20"
+
+#   #     - name: 编译 amd64 二进制
+#   #       run: |
+#   #         cd projects/go-cqhttp
+#   #         env GOOS=linux GOARCH=amd64 CGO_ENABLED=0 GOFLAGS=-mod=vendor go build -o go-cqhttp main.go
+#   #         chmod +x go-cqhttp
+#   #         cd -
+#   #         mv projects/go-cqhttp/go-cqhttp .
+#   #         make docker-build-amd64 -f builds/go-cqhttp.mk
+
+#   # go-build-armv7:
+#   #   runs-on: ubuntu-latest
+
+#   #   steps:
+#   #     - name: Checkout repository
+#   #       uses: actions/checkout@v2
+
+#   #     - uses: actions/checkout@v3
+#   #     - uses: actions/setup-go@v4
+#   #       with:
+#   #         go-version: "1.20"
+
+#   #     - name: 编译 arm v7 二进制
+#   #       run: |
+#   #         cd projects/go-cqhttp
+#   #         env GOOS=linux GOARCH=arm GOARM=7 CGO_ENABLED=0 GOFLAGS=-mod=vendor go build -o go-cqhttp main.go
+#   #         chmod +x go-cqhttp
+#   #         cd -
+#   #         mv projects/go-cqhttp/go-cqhttp .
+#   #         make docker-build-armv7 -f builds/go-cqhttp.mk
+
+#   go-build-armv8:
+#     runs-on: ubuntu-latest
+
+#     steps:
+#       - name: Checkout repository
+#         uses: actions/checkout@v2
+
+#       - uses: actions/checkout@v3
+#       - uses: actions/setup-go@v4
+#         with:
+#           go-version: "1.20"
+
+#       - name: 编译 arm v8 二进制
+#         run: |
+#           cd projects/go-cqhttp
+#           env GOOS=linux GOARCH=arm GOARM=7 CGO_ENABLED=0 GOFLAGS=-mod=vendor go build -o go-cqhttp main.go
+#           chmod +x go-cqhttp
+#           cd -
+#           mv projects/go-cqhttp/go-cqhttp .
+#           make docker-build-armv8 -f builds/go-cqhttp.mk
+
+#   manifest:
+#     needs: [go-build-amd64, go-build-armv8]
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Checkout repository
+#         uses: actions/checkout@v2
+
+#       - name: 使用 manifest 合并镜像并推送
+#         run: make manifest -f builds/go-cqhttp.mk

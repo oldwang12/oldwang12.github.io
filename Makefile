@@ -1,6 +1,8 @@
 .PHONY: push help
 
 push: ## 上传代码到 Github
+	docker buildx build --platform linux/arm -t registry.cn-hangzhou.aliyuncs.com/oldwang12/blog:latest -o type=registry .
+	docker push registry.cn-hangzhou.aliyuncs.com/oldwang12/blog:latest
 	hexo generate
 	hexo deploy
 	git add .

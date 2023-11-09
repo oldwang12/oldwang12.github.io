@@ -1,0 +1,23 @@
+name: Trigger on A repo push
+
+on:
+  push:
+    branches:
+      - main
+    # 可选：只有在A仓库的特定路径下的文件发生变化时触发工作流
+    paths:
+      - '*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out A repo
+        uses: actions/checkout@v2
+        with:
+          repository: oldwang12/oldwang12.github.io
+          ref: ${{ github.sha }}  # 使用触发事件的SHA值，即最新的提交
+
+      - name: Run B repository action
+        uses: owner/B-repo-action
