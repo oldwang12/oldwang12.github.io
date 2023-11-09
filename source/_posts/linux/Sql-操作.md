@@ -84,3 +84,10 @@ dropdb -U postgres postgres
 ```sh
 createdb  -U postgres postgres
 ```
+
+### 2.5. 新增apikey
+```sql
+INSERT INTO apikey (name, count, statu, used, valid)
+VALUES ('sk-xx', 0, 't', 'f', 't');
+INSERT 0 1
+```
