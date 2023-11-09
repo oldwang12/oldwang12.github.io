@@ -3,3 +3,4 @@ WORKDIR /root
 COPY . .
 EXPOSE 4000
 CMD ["hexo", "server"]
+
