@@ -24,7 +24,7 @@
 <meta property="og:description" content="sql整理             1. Mysql1.1. 删除数据库1drop database &lt;数据库名&gt;; 1.2. 创建表1CREATE TABLE table_name (column_name column_type) 1.3. 插入数据1INSERT INTO table_name ( field1, field2,...fieldN ) v">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-08-28T10:55:08.000Z">
-<meta property="article:modified_time" content="2023-10-10T09:41:12.540Z">
+<meta property="article:modified_time" content="2023-11-09T03:10:41.154Z">
 <meta property="article:author" content="oldwang12">
 <meta property="article:tag" content="sql">
 <meta name="twitter:card" content="summary_large_image">
@@ -247,7 +247,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          999 字
+          1.1k 字
         
       </span>
     
@@ -367,6 +367,7 @@
 
 <h3 id="2-4-新建数据库"><a href="#2-4-新建数据库" class="headerlink" title="2.4. 新建数据库"></a>2.4. 新建数据库</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">createdb  -U postgres postgres<br></code></pre></td></tr></table></figure>
 
+<h3 id="2-5-新增apikey"><a href="#2-5-新增apikey" class="headerlink" title="2.5. 新增apikey"></a>2.5. 新增apikey</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> apikey (name, count, statu, used, valid)<br><span class="hljs-keyword">VALUES</span> (<span class="hljs-string">&#x27;sk-xx&#x27;</span>, <span class="hljs-number">0</span>, <span class="hljs-string">&#x27;t&#x27;</span>, <span class="hljs-string">&#x27;f&#x27;</span>, <span class="hljs-string">&#x27;t&#x27;</span>);<br><span class="hljs-keyword">INSERT</span> <span class="hljs-number">0</span> <span class="hljs-number">1</span><br></code></pre></td></tr></table></figure>
                 
               </div>
             
@@ -430,7 +431,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>更新于</div>
-          <div>2023年10月10日</div>
+          <div>2023年11月9日</div>
         </div>
       
       
