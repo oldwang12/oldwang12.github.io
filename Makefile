@@ -8,11 +8,7 @@ push: ## 上传代码到 Github
 	git push origin master
 
 	echo "`date '+%Y/%m/%d %H:%M:%S'`" >> /Users/wangxiong/Desktop/github/projects/projects/blog/update.log
-
-	cd /Users/wangxiong/Desktop/github/projects
-	git add .
-	git commit -m "更新博客"
-	git push origin master
+	cd /Users/wangxiong/Desktop/github/projects && 	git add . && git commit -m "更新博客" && git push origin master
 
 local: ## 本地编译镜像并运行
 	docker build -t blog .
